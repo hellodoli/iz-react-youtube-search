@@ -1,0 +1,1 @@
+export const VIDEO_SLECTED = "@@songs/VIDEO_SLECTED";
