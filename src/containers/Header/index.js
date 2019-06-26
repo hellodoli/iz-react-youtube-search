@@ -6,17 +6,23 @@ import {
     HeaderWrappForSearch
 } from './styled';
 
+import { Container } from 'react-bulma-components';
+
 import Search from '../../components/Search';
 
 
 export const Header = (props) => {
     return(
         <HeaderWrapp>
-            <HeaderWrappInner>
-                <HeaderWrappForSearch>
-                    <Search onFormSubmit={props.onFormSubmit} />
-                </HeaderWrappForSearch>
-            </HeaderWrappInner>
+            <Container>
+                <HeaderWrappInner>
+
+                    <HeaderWrappForSearch>
+                        <Search onFormSubmit={props.onFormSubmit} />
+                    </HeaderWrappForSearch>
+
+                </HeaderWrappInner>
+            </Container>
         </HeaderWrapp>
     );
 }

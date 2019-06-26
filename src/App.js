@@ -4,6 +4,7 @@ import { Container, Columns } from 'react-bulma-components';
 
 import Header from './containers/Header';
 import VideoList from './components/Videos/VideosList';
+import VideoDetail from './components/Videos/VideoDetail';
 
 import Videos from './apis/videos';
 
@@ -22,7 +23,7 @@ class App extends Component {
             videosAPI: new Videos(),
             videos: [],
             isLoadingVideo: false,
-            isVideoSearchThumb: false
+            isVideoSearchThumb: true
         }
     }
 
@@ -57,6 +58,11 @@ class App extends Component {
 
                             <Columns.Column size={8}>
 
+                                <VideoDetail />
+
+                            </Columns.Column>
+
+                            <Columns.Column size={4}>
                                 {
                                     !this.state.isLoadingVideo
                                         ? 
@@ -67,11 +73,6 @@ class App extends Component {
                                         : <div>Loading...</div>
                                 
                                 }
-                                
-                            </Columns.Column>
-
-                            <Columns.Column size={4}>
-
                             </Columns.Column>
 
                         </Columns>

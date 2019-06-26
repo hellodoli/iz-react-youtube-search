@@ -1,6 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import {
+    VideoIframe,
+    VideoInfoWrapper,
+    VideoDes
+} from './styled';
+
 const VideoDetail = ({ selectedVideo }) => {
     
     if(!selectedVideo) {
@@ -12,9 +18,13 @@ const VideoDetail = ({ selectedVideo }) => {
     }
 
     return(
-        <div>
-            <iframe width="420" height="345" src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}>
-            </iframe>
+        <div id="video-wrapper">
+            <VideoIframe src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}></VideoIframe>
+
+            <VideoInfoWrapper>
+                <VideoDes>{selectedVideo.snippet.title}</VideoDes>
+            </VideoInfoWrapper>
+            
         </div>
     )
 }
