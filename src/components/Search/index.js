@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
-
+import { connect } from 'react-redux';
+import { changeLayout } from '../../actions/videos';
 import {
     SearchWrapp,
     SearchInput,
@@ -11,8 +12,10 @@ class Search extends Component {
     constructor() {
         super();
         this.state = {
+            preVal: '',
             val: ''
         }
+        this.inputSearch = React.createRef();
     }
 
     handleOnchange = (e) => {
@@ -21,10 +24,15 @@ class Search extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        if(this.state.val.trim() === "") {
+        const { preVal, val } = this.state;
+        if( val.trim() === "" ) {
             return;
-        }
-        this.props.onFormSubmit(this.state.val);
+        }else {
+            if(preVal === val) return;
+            this.setState({ preVal: val });
+            this.props.onFormSubmit(val);
+            this.props.changeLayout(0);
+        }        
     }
 
     render() {
@@ -32,6 +40,7 @@ class Search extends Component {
             <form onSubmit={this.onSubmit}>
                 <SearchWrapp>
                     <SearchInput 
+                        ref={this.inputSearch}
                         type="text"
                         value={this.state.val}
                         onChange={this.handleOnchange}
@@ -45,4 +54,7 @@ class Search extends Component {
     }
 }
 
-export default Search;
+export default connect(
+    null, 
+    { changeLayout }
+)(Search);

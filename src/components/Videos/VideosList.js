@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { selectVideo } from "../../actions/videos";
+import { 
+    selectVideo, 
+    changeLayout
+} from "../../actions/videos";
 
 import { 
     VideoThumbWrapp,
@@ -9,10 +12,14 @@ import {
     VideoThumbContent
 } from './styled';
 
-const VideoItem = ({ video, selectVideo, isVideoSearchThumb }) => (
+
+const VideoItem = ({ video, selectVideo, changeLayout, isVideoSearchThumb }) => (
     <VideoThumbWrapp
         isVideoSearchThumb={isVideoSearchThumb}
-        onClick={() => selectVideo(video)}
+        onClick={() => {
+            selectVideo(video);
+            changeLayout(1);
+        }}
     >
 
         <VideoThumbImage>
@@ -27,14 +34,16 @@ const VideoItem = ({ video, selectVideo, isVideoSearchThumb }) => (
     </VideoThumbWrapp>
 );
     
-const VideoList = ({ videos, selectVideo, isVideoSearchThumb }) => {
+const VideoList = ({ videos, selectVideo, changeLayout, isVideoSearchThumb }) => {
     
     return(
-        <div>
+        <div className="video-list-search">
             { videos.map(video =>
                 <VideoItem 
                     key={video.etag}
                     video={video}
+
+                    changeLayout={changeLayout}
                     selectVideo={selectVideo}
                     
                     isVideoSearchThumb={isVideoSearchThumb}
@@ -45,10 +54,16 @@ const VideoList = ({ videos, selectVideo, isVideoSearchThumb }) => {
 }
 
 const mapStateToProps = state => {
-    return { selectedVideo: state.videos.selectedVideosReducer }
+    return { 
+        selectedVideo: state.videos.selectedVideosReducer,
+        layout: state.videos.changeLayoutReducer
+    }
 }
 
 export default connect(
     mapStateToProps,
-    { selectVideo }
+    {
+        selectVideo, 
+        changeLayout
+    }
 )(VideoList);

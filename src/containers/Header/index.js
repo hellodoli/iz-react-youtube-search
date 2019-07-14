@@ -16,11 +16,9 @@ export const Header = (props) => {
         <HeaderWrapp>
             <Container>
                 <HeaderWrappInner>
-
                     <HeaderWrappForSearch>
                         <Search onFormSubmit={props.onFormSubmit} />
                     </HeaderWrappForSearch>
-
                 </HeaderWrappInner>
             </Container>
         </HeaderWrapp>

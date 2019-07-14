@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import { Container, Columns } from 'react-bulma-components';
 
 import Header from './containers/Header';
+import Filter from './components/Filter';
 import VideoList from './components/Videos/VideosList';
 import VideoDetail from './components/Videos/VideoDetail';
 
@@ -14,6 +15,15 @@ const MainWrapp = styled.main`
     margin-top: 60px;
     padding: 40px 0;
 `;
+
+const VideoListHasFilter = ({ isVideoSearchThumb, videos }) => {
+    return(
+        <div className="video-list-with-filter">
+            <Filter />
+            <VideoList isVideoSearchThumb={isVideoSearchThumb} videos={videos} />
+        </div>
+    )
+};
 
 class App extends Component {
 
@@ -45,7 +55,8 @@ class App extends Component {
 
     render() {
 
-        const { videos, isVideoSearchThumb } = this.state;
+        const { videos, isVideoSearchThumb, isLoadingVideo } = this.state;
+        const { layout } = this.props;
 
         return(
             <div>
@@ -58,20 +69,24 @@ class App extends Component {
 
                             <Columns.Column size={8}>
 
-                                <VideoDetail />
+                                { layout === 0
+                                    ? isLoadingVideo
+                                        ? <div>Loading...</div>
+                                        : videos.length > 0
+                                            ?   <VideoListHasFilter 
+                                                    isVideoSearchThumb={isVideoSearchThumb}
+                                                    videos={videos}
+                                                />
+                                            : <div>Pls search and choose one video ^^.</div>
+                                    : <VideoDetail />
+                                }
 
                             </Columns.Column>
 
                             <Columns.Column size={4}>
-                                {
-                                    !this.state.isLoadingVideo
-                                        ? 
-                                        <VideoList
-                                            isVideoSearchThumb={isVideoSearchThumb}
-                                            videos={videos}
-                                        />
-                                        : <div>Loading...</div>
-                                
+                                { layout === 1 
+                                    ? <VideoList isVideoSearchThumb={isVideoSearchThumb} videos={videos} />
+                                    : null
                                 }
                             </Columns.Column>
 
@@ -85,4 +100,8 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return { layout: state.videos.changeLayoutReducer }
+}
+
+export default connect(mapStateToProps)(App);

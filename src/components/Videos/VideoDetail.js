@@ -13,18 +13,17 @@ const VideoDetail = ({ selectedVideo }) => {
         return <div>Pls search and choose one video.</div>
     }
 
-    if(selectedVideo.channelId) {
+    if(selectedVideo.channelId || (selectedVideo.id.kind === "youtube#channel")) {
         return <div>Chanel: {selectedVideo.snippet.channelTitle}</div>
     }
 
     return(
-        <div id="video-wrapper">
+        <div id="videoFrame" className="video-frame">
             <VideoIframe src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}></VideoIframe>
 
             <VideoInfoWrapper>
                 <VideoDes>{selectedVideo.snippet.title}</VideoDes>
             </VideoInfoWrapper>
-            
         </div>
     )
 }
