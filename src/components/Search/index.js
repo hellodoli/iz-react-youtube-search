@@ -1,6 +1,9 @@
 import React,{ Component } from 'react';
 import { connect } from 'react-redux';
+
 import { changeLayout } from '../../actions/videos';
+import { changeValueSearch } from '../../actions/search';
+
 import {
     SearchWrapp,
     SearchInput,
@@ -11,38 +14,33 @@ class Search extends Component {
     
     constructor() {
         super();
-        this.state = {
-            preVal: '',
-            val: ''
-        }
         this.inputSearch = React.createRef();
     }
 
     handleOnchange = (e) => {
-        this.setState({ val: e.target.value });
+        this.props.changeValueSearch(e.target.value);// change value is global
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        const { preVal, val } = this.state;
-        if( val.trim() === "" ) {
+        const { searchValue } = this.props;
+        if( searchValue.trim() === "" ) {
             return;
         }else {
-            if(preVal === val) return;
-            this.setState({ preVal: val });
-            this.props.onFormSubmit(val);
+            this.props.onFormSubmit(searchValue);
             this.props.changeLayout(0);
-        }        
+        }
     }
 
     render() {
+        
         return(
             <form onSubmit={this.onSubmit}>
                 <SearchWrapp>
                     <SearchInput 
                         ref={this.inputSearch}
                         type="text"
-                        value={this.state.val}
+                        value={this.props.searchValue}
                         onChange={this.handleOnchange}
                     />
                     <SearchButton color="primary"> 
@@ -54,7 +52,16 @@ class Search extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        searchValue: state.search.changeValueSearchReducer
+    }
+}
+
 export default connect(
-    null, 
-    { changeLayout }
+    mapStateToProps, 
+    { 
+        changeLayout,
+        changeValueSearch
+    }
 )(Search);

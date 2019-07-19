@@ -16,7 +16,7 @@ class Videos {
                     q: search
                 }
             });
-            this.videos = res.data;    
+            this.videos = res.data;
         } catch (error) {
             console.log(error);
         }
@@ -31,7 +31,7 @@ class Videos {
                     ...filterParams
                 }
             });
-            this.videos = res.data;    
+            this.videos = res.data;
         } catch (error) {
             console.log(error);
         }

@@ -16,15 +16,6 @@ const MainWrapp = styled.main`
     padding: 40px 0;
 `;
 
-const VideoListHasFilter = ({ isVideoSearchThumb, videos }) => {
-    return(
-        <div className="video-list-with-filter">
-            <Filter />
-            <VideoList isVideoSearchThumb={isVideoSearchThumb} videos={videos} />
-        </div>
-    )
-};
-
 class App extends Component {
 
     constructor() {
@@ -49,8 +40,24 @@ class App extends Component {
         console.log(this.state.videos);
     }
 
+    filterVideo = async (search,params) => {
+        const { videosAPI } = this.state;
+        this.setState({ isLoadingVideo: true });
+        await videosAPI.customSearchVideo(search,params);
+
+        this.setState({
+            isLoadingVideo: false,
+            videos: videosAPI.videos.items
+        });
+        console.log(this.state.videos);
+    }
+
     onFormSubmit = (value) => {
         this.searchVideo(value);
+    }
+
+    onFilterVideo = (value,params) => {
+        this.filterVideo(value,params);
     }
 
     render() {
@@ -69,14 +76,16 @@ class App extends Component {
 
                             <Columns.Column size={8}>
 
+                                { (layout === 0 && videos.length > 0)
+                                    ? <Filter onFilterVideo={this.onFilterVideo} />
+                                    : null
+                                }
+                                
                                 { layout === 0
                                     ? isLoadingVideo
                                         ? <div>Loading...</div>
                                         : videos.length > 0
-                                            ?   <VideoListHasFilter 
-                                                    isVideoSearchThumb={isVideoSearchThumb}
-                                                    videos={videos}
-                                                />
+                                            ? <VideoList isVideoSearchThumb={isVideoSearchThumb} videos={videos} />
                                             : <div>Pls search and choose one video ^^.</div>
                                     : <VideoDetail />
                                 }

@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 
+export const FilterWrapper = styled.div`
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #0000001a;
+`;
+
 export const FilterButtonWrapp = styled.div`
     display: inline-flex;
-    margin-bottom: 2rem;
+    margin-bottom: 1.75rem;
 `;
 
 export const FilterSectInner = styled.div`
-    padding: .625rem 0;
+    padding-top: .625rem;
+    padding-bottom: 2rem;
 `;
 
 export const SectWrapp = styled.div`
@@ -24,6 +30,7 @@ export const SectTitle = styled.div`
 
 export const SectBody = styled.div`
     padding: .9375rem 0;
+
 `;
 
 export const SectItem = styled.div`
@@ -33,13 +40,32 @@ export const SectItem = styled.div`
         margin-bottom: .625rem;
     }
 
-    &.active {
-        & > .text{
-            font-weight: 700;
+    & > div{
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .close{
+        margin-left: .5rem;
+        background-color: #4a4a4a;
+        display: none;
+    }
+
+    &.ignore {
+        span{
+            font-weight: 300;
+            color: #b5b5b5;
         }
     }
 
-    & > .text{
-        cursor: pointer;
+    &.active {
+        span {
+            font-weight: 700;
+        }
+        .close{
+            display: block;
+        }
     }
+
 `;   
