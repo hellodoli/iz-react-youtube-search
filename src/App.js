@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Columns } from 'react-bulma-components';
 
@@ -24,7 +24,7 @@ class App extends Component {
             videosAPI: new Videos(),
             videos: [],
             isLoadingVideo: false,
-            isVideoSearchThumb: true
+            resetFilter: false
         }
     }
 
@@ -52,7 +52,12 @@ class App extends Component {
         console.log(this.state.videos);
     }
 
+    changeResetFilter = () => {
+        this.setState({ resetFilter: false });
+    }
+
     onFormSubmit = (value) => {
+        this.setState({ resetFilter: true });
         this.searchVideo(value);
     }
 
@@ -62,7 +67,7 @@ class App extends Component {
 
     render() {
 
-        const { videos, isVideoSearchThumb, isLoadingVideo } = this.state;
+        const { videos, isLoadingVideo, resetFilter } = this.state;
         const { layout } = this.props;
 
         return(
@@ -76,8 +81,12 @@ class App extends Component {
 
                             <Columns.Column size={8}>
 
-                                { (layout === 0 && videos.length > 0)
-                                    ? <Filter onFilterVideo={this.onFilterVideo} />
+                                { ( layout === 0 && videos.length > 0 )
+                                    ? <Filter 
+                                        changeResetFilter={this.changeResetFilter}
+                                        resetFilter={resetFilter}
+
+                                        onFilterVideo={this.onFilterVideo} />
                                     : null
                                 }
                                 
@@ -85,7 +94,7 @@ class App extends Component {
                                     ? isLoadingVideo
                                         ? <div>Loading...</div>
                                         : videos.length > 0
-                                            ? <VideoList isVideoSearchThumb={isVideoSearchThumb} videos={videos} />
+                                            ? <VideoList videos={videos} />
                                             : <div>Pls search and choose one video ^^.</div>
                                     : <VideoDetail />
                                 }
@@ -94,7 +103,7 @@ class App extends Component {
 
                             <Columns.Column size={4}>
                                 { layout === 1 
-                                    ? <VideoList isVideoSearchThumb={isVideoSearchThumb} videos={videos} />
+                                    ? <VideoList videos={videos} />
                                     : null
                                 }
                             </Columns.Column>

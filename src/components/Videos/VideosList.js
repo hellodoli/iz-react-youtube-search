@@ -9,32 +9,40 @@ import {
 import { 
     VideoThumbWrapp,
     VideoThumbImage,
-    VideoThumbContent
+    VideoThumbContent,
+    VideoThumbDes
 } from './styled';
 
+const ytIsChanel = 'youtube#channel';
 
-const VideoItem = ({ video, selectVideo, changeLayout, isVideoSearchThumb }) => (
-    <VideoThumbWrapp
-        isVideoSearchThumb={isVideoSearchThumb}
-        onClick={() => {
-            selectVideo(video);
-            changeLayout(1);
-        }}
-    >
-
-        <VideoThumbImage>
-            <img src={video.snippet.thumbnails.medium.url} alt={video.snippet.title} />
-        </VideoThumbImage>
+const VideoItem = ({ video, layout, selectVideo, changeLayout }) => {
+    const isChanel = video.id.kind === ytIsChanel ? true : false;
+    return (
+        <VideoThumbWrapp
+            layout={layout}
+            onClick={() => {
+                selectVideo(video);
+                changeLayout(1);
+            }}
+        >
         
-        <VideoThumbContent>
-            <h3>{ video.snippet.title }</h3>
-            <p>{ video.snippet.channelTitle }</p>
-        </VideoThumbContent>
-        
-    </VideoThumbWrapp>
-);
+            <VideoThumbImage className={isChanel && 'channel'}>
+                <img src={video.snippet.thumbnails.medium.url} alt={video.snippet.title} />
+            </VideoThumbImage>
+            
+            <VideoThumbContent layout={layout}>
+                <h3>{ video.snippet.title.replace(/&quot;/g, '\"') }</h3>
+                <p>{ video.snippet.channelTitle }</p>
+                { layout === 0 &&
+                    <VideoThumbDes>{ video.snippet.description }</VideoThumbDes>
+                }
+            </VideoThumbContent>
+            
+        </VideoThumbWrapp>
+    )
+};
     
-const VideoList = ({ videos, selectVideo, changeLayout, isVideoSearchThumb }) => {
+const VideoList = ({ videos, layout, selectVideo, changeLayout }) => {
     
     return(
         <div className="video-list-search">
@@ -42,11 +50,10 @@ const VideoList = ({ videos, selectVideo, changeLayout, isVideoSearchThumb }) =>
                 <VideoItem 
                     key={video.etag}
                     video={video}
+                    layout={layout}
 
                     changeLayout={changeLayout}
                     selectVideo={selectVideo}
-                    
-                    isVideoSearchThumb={isVideoSearchThumb}
                 />
             )}
         </div>

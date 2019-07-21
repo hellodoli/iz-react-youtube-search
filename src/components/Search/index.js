@@ -14,20 +14,24 @@ class Search extends Component {
     
     constructor() {
         super();
+        this.state = {
+            inputValue: ''
+        }
         this.inputSearch = React.createRef();
     }
 
     handleOnchange = (e) => {
-        this.props.changeValueSearch(e.target.value);// change value is global
+        this.setState({ inputValue: e.target.value });
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        const { searchValue } = this.props;
-        if( searchValue.trim() === "" ) {
+        const { inputValue } = this.state;
+        if( inputValue.trim() === "" ) {
             return;
         }else {
-            this.props.onFormSubmit(searchValue);
+            this.props.changeValueSearch(inputValue);
+            this.props.onFormSubmit(inputValue);
             this.props.changeLayout(0);
         }
     }
@@ -40,7 +44,7 @@ class Search extends Component {
                     <SearchInput 
                         ref={this.inputSearch}
                         type="text"
-                        value={this.props.searchValue}
+                        value={this.state.inputValue}
                         onChange={this.handleOnchange}
                     />
                     <SearchButton color="primary"> 

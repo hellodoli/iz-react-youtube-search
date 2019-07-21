@@ -2,7 +2,7 @@ import youtube, { KEY } from './youtube';
 
 const defaultParams = {
     part: 'snippet',
-    maxResults: 5,
+    maxResults: 10,
     key: KEY
 };
 
@@ -13,11 +13,13 @@ class Videos {
             const res = await youtube.get('/search',{
                 params: {
                     ...defaultParams,
+                    type: 'video',
                     q: search
                 }
             });
             this.videos = res.data;
         } catch (error) {
+            alert('Lỗi kết nối, có thể API đã đạt giới hạn request. Bật console lên xem lỗi(403).');
             console.log(error);
         }
     }
@@ -33,6 +35,7 @@ class Videos {
             });
             this.videos = res.data;
         } catch (error) {
+            alert('Lỗi kết nối, có thể API đã đạt giới hạn request. Bật console lên xem lỗi(403).');
             console.log(error);
         }
     }

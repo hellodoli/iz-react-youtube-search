@@ -47,7 +47,7 @@ export const SectItem = styled.div`
     }
 
     .close{
-        margin-left: .5rem;
+        margin-left: 1rem;
         background-color: #4a4a4a;
         display: none;
     }

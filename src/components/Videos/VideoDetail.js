@@ -13,8 +13,12 @@ const VideoDetail = ({ selectedVideo }) => {
         return <div>Pls search and choose one video.</div>
     }
 
-    if(selectedVideo.channelId || (selectedVideo.id.kind === "youtube#channel")) {
+    if(selectedVideo.id.kind === "youtube#channel" ) {
         return <div>Chanel: {selectedVideo.snippet.channelTitle}</div>
+    }
+
+    if(selectedVideo.id.kind === "youtube#playlist"){
+        return <div>Playlist: Chưa làm playlist ^^!!</div>
     }
 
     return(
@@ -22,7 +26,7 @@ const VideoDetail = ({ selectedVideo }) => {
             <VideoIframe src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}></VideoIframe>
 
             <VideoInfoWrapper>
-                <VideoDes>{selectedVideo.snippet.title}</VideoDes>
+                <VideoDes>{selectedVideo.snippet.title.replace(/&quot;/g, '\"')}</VideoDes>
             </VideoInfoWrapper>
         </div>
     )
