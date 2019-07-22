@@ -17,6 +17,7 @@ const ytIsChanel = 'youtube#channel';
 
 const VideoItem = ({ video, layout, selectVideo, changeLayout }) => {
     const isChanel = video.id.kind === ytIsChanel ? true : false;
+    const thumbnail = video.snippet.thumbnails;
     return (
         <VideoThumbWrapp
             layout={layout}
@@ -27,7 +28,7 @@ const VideoItem = ({ video, layout, selectVideo, changeLayout }) => {
         >
         
             <VideoThumbImage className={isChanel && 'channel'}>
-                <img src={video.snippet.thumbnails.medium.url} alt={video.snippet.title} />
+                <img src={thumbnail && thumbnail.medium.url} alt={video.snippet.title} />
             </VideoThumbImage>
             
             <VideoThumbContent layout={layout}>
@@ -46,7 +47,7 @@ const VideoList = ({ videos, layout, selectVideo, changeLayout }) => {
     
     return(
         <div className="video-list-search">
-            { videos.map(video =>
+            { videos.length > 0 && videos.map(video =>
                 <VideoItem 
                     key={video.etag}
                     video={video}

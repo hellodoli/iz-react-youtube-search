@@ -44,7 +44,7 @@ class App extends Component {
         const { videosAPI } = this.state;
         this.setState({ isLoadingVideo: true });
         await videosAPI.customSearchVideo(search,params);
-
+        
         this.setState({
             isLoadingVideo: false,
             videos: videosAPI.videos.items

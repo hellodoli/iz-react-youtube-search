@@ -46,6 +46,7 @@ class Filter extends Component {
                         {
                             showName: 'Last hour',
                             name: '',
+                            parent: {list: 1, index: 0},
                             isIgnore: false,
                             ignore: [
                                 { list: 1, items: [0,1,1] }
@@ -54,6 +55,7 @@ class Filter extends Component {
                         {
                             showName: 'Today',
                             name: '',
+                            parent: {list: 1, index: 0},
                             isIgnore: false,
                             ignore: [
                                 { list: 1, items: [0,1,1] }
@@ -62,6 +64,7 @@ class Filter extends Component {
                         {
                             showName: 'This week',
                             name: '',
+                            parent: {list: 1, index: 0},
                             isIgnore: false,
                             ignore: [
                                 { list: 1, items: [0,1,1] }
@@ -70,6 +73,7 @@ class Filter extends Component {
                         {
                             showName: 'This month',
                             name: '',
+                            parent: { list: 1, index: 0 },
                             isIgnore: false,
                             ignore: [
                                 { list: 1, items: [0,1,1] }
@@ -78,6 +82,7 @@ class Filter extends Component {
                         {
                             showName: 'This year',
                             name: '',
+                            parent: { list: 1, index: 0 },
                             isIgnore: false,
                             ignore: [
                                 { list: 1, items: [0,1,1] }
@@ -130,6 +135,7 @@ class Filter extends Component {
                             showName: 'Short(< 4 minutes)',
                             name: 'short',
                             isIgnore: false,
+                            parent: { list: 1, index: 0 },
                             ignore: [
                                 { list: 1, items: [0,1,1] }
                             ]
@@ -138,6 +144,7 @@ class Filter extends Component {
                             showName: 'Long(> 20 minutes)',
                             name: 'long',
                             isIgnore: false,
+                            parent: { list: 1, index: 0 },
                             ignore: [
                                 { list: 1, items: [0,1,1] }
                             ]
@@ -323,9 +330,9 @@ class Filter extends Component {
             });
 
             //close Filter
-            //this.filterButton.current.click();
+            this.filterButton.current.click();
             // call API filter videos
-            //this.props.onFilterVideo(this.props.searchValue, this.state.params);
+            this.props.onFilterVideo(this.props.searchValue, this.state.params);
             console.log(this.state.params);
         }
     }
@@ -336,9 +343,6 @@ class Filter extends Component {
 
         var tempFilterList = this.state.filterList.splice('');
 
-        // remove indexCurrent
-        tempFilterList[indexList].indexCurrent = -1;
-
         // back ignore
         var filterItem = filterItems[index];
 
@@ -346,53 +350,79 @@ class Filter extends Component {
         var paramProperty = tempFilterList[indexList].filter;
         var paramValue = filterItem.name;
         
-        
-        if(paramValue !== 'video') {
-            // remove params in Parent
-            if(tempParams[paramProperty] === paramValue ) {
-                delete tempParams[paramProperty];
-            }
+        if(tempParams[paramProperty] === paramValue) {
+            delete tempParams[paramProperty];
         }
 
         if( filterItem.children && filterItem.children.length > 0 ) {
 
+            var shouldTurnOffActiveParent = false;
             for (let i = 0; i < filterItem.children.length; i++) {
-                var list = filterItem.children[i].list;
-                var paramPropertyChild = tempFilterList[list].filter;
 
-                // remove params in Child
-                if(tempParams[paramPropertyChild] !== undefined) {
-                    delete tempParams[paramPropertyChild];
-                }
-
-                for (let j = 0; j < filterItem.children[i].items.length; j++) {
-                    var item = filterItem.children[i].items[j];
-                    if(item === 1) {
-                        if( tempFilterList[list].filterItems[j].isIgnore === true ) {
-                            // khi thằng con bị Ignore thì mới được phép trả lại Ignore.
-                            if( filterItem.ignore && filterItem.ignore.length > 0 ) {
-                                this.switchIgnore(tempFilterList,filterItem,false);
-                            }
-                        }
-                    } 
+                // tắt thằng cha => nếu thằng con đang active thì không cho tắt
+                const list = filterItem.children[i].list;
+                const indexChildrenActive = tempFilterList[list].indexCurrent;
+                if(filterItem.children[i].items[indexChildrenActive] === 1) {
+                    // check thằng active có phải con của list cha hay không
+                    // nếu phải thì không cho tắt
+                    shouldTurnOffActiveParent = true;
+                    break;
                 }
             }
+
+            if(!shouldTurnOffActiveParent) {
+                // được phép tắt active khi không có thằng con nào đang active
+                tempFilterList[indexList].indexCurrent = -1;
+            }
+
         }else {
-            // đây là thằng con. Khi tắt nó thì chắc chắn trả lại ignore
-            if( filterItem.ignore && filterItem.ignore.length > 0 ) {
-                this.switchIgnore(tempFilterList,filterItem,false);
+
+            if(filterItem.parent) {
+                var parent = tempFilterList[filterItem.parent.list].filterItems[filterItem.parent.index];
+
+                // đây là thằng con khi tắt nó thì chưa chắc chắn trả lại ignore
+                // => Đi đến thằng cha => kiểm tra nếu số thằng con active = 1 (chính nó) => trả ignore
+                
+                var activeChild = 0;
+                for (let i = 0; i < parent.children.length; i++) {
+                    const list = parent.children[i].list;
+                    const indexChildrenActive = tempFilterList[list].indexCurrent;
+                    if(parent.children[i].items[indexChildrenActive] === 1) {
+                        activeChild += 1;
+                    }
+                }
+
+                if(activeChild === 1) {
+                    if( filterItem.ignore && filterItem.ignore.length > 0 ) {
+                        this.switchIgnore(tempFilterList,filterItem,false);
+                    }
+                }
+            }else {
+                if( filterItem.ignore && filterItem.ignore.length > 0 ) {
+                    this.switchIgnore(tempFilterList,filterItem,false);
+                }
             }
+
+            // đây là thằng con. Chắc chắn được tắt active
+            tempFilterList[indexList].indexCurrent = -1;
         }
         
+        //trường hợp đặc biệt
+        if(paramProperty === 'type') {
+            // nếu tắt filter "type" => trả về filter "type" mặc định là "video"
+            tempParams[paramProperty] = 'video';
+            tempFilterList[indexList].indexCurrent = 0;
+        }
+            
         await this.setState({
             filterList: tempFilterList,
             params: tempParams
         });
 
         //close Filter
-        //this.filterButton.current.click();
+        this.filterButton.current.click();
         // call API filter videos
-        //this.props.onFilterVideo(this.props.searchValue, this.state.params);
+        this.props.onFilterVideo(this.props.searchValue, this.state.params);
         console.log(this.state.params);
     }
 
