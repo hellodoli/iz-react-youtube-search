@@ -7,6 +7,8 @@ import {
     VideoDes
 } from './styled';
 
+import { SkinContext } from '../../skin-context';
+
 const VideoDetail = ({ selectedVideo }) => {
     
     if(!selectedVideo) {
@@ -22,13 +24,17 @@ const VideoDetail = ({ selectedVideo }) => {
     }
 
     return(
-        <div id="videoFrame" className="video-frame">
-            <VideoIframe src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}></VideoIframe>
+        <SkinContext.Consumer>
+            { ({ theme }) =>
+                <div id="videoFrame" className="video-frame">
+                    <VideoIframe src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}></VideoIframe>
 
-            <VideoInfoWrapper>
-                <VideoDes>{selectedVideo.snippet.title.replace(/&quot;/g, '\"')}</VideoDes>
-            </VideoInfoWrapper>
-        </div>
+                    <VideoInfoWrapper>
+                        <VideoDes theme={theme}>{selectedVideo.snippet.title.replace(/&quot;/g, '\"')}</VideoDes>
+                    </VideoInfoWrapper>
+                </div>
+            }
+        </SkinContext.Consumer>
     )
 }
 

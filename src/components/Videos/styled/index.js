@@ -10,37 +10,60 @@ export const VideoThumbWrapp = styled.div `
 `;
 
 export const VideoThumbImage = styled.div `
-    width: 40%;
     display: inline-flex;
-    margin-right: 1.5rem;
-    &.channel{
-        justify-content: center;
-        img{
-            width: 136px;
-            height: 136px;
-            margin: 0 auto;
-            border-radius: 50%;
-        }
+    flex: none;
+    margin-right: 1rem;
+
+    ${ ({ layout }) =>
+        layout === 0
+            ? `
+                width: 246px;
+                height: 138px;
+                @media(max-width: 768px) { width: 40%; height: auto; }
+            `
+            : `
+                width: 40%;
+                height: auto;
+                @media(min-width: 769px) and (max-width: 1023px) {
+                    width: 246px;
+                    height: 138px;
+                }
+            `
     }
-    & img {
+
+    img {
         max-width: 100%;
         height: auto;
+        object-fit: cover;
+        object-position: center;
     }
+
+    ${ ({ isChanel }) => isChanel &&
+        `
+            justify-content: center;
+            img {
+                width: 136px;
+                height: 136px;
+                margin: 0 auto;
+                border-radius: 50%;
+            }
+    `}
 `;
+
 export const VideoThumbDes = styled.p`
     display: block;
-    padding-top: 8px;
-    margin-bottom: 8px;
+    padding-top: .5rem;
+    margin-bottom: .5rem;
     max-height: 4.875rem;
     overflow: hidden;
     text-transform: none;
 `;
 
 export const VideoThumbContent = styled.div `
-    width: 60%;
     display: flex;
     flex-direction: column;
-    
+    @media (max-width: 768px) { width: 60%; }
+        
     & h3 {
         display: -webkit-box;
         -webkit-box-orient: vertical;
@@ -54,14 +77,13 @@ export const VideoThumbContent = styled.div `
         font-weight: 500;
         line-height: ${ ({ layout }) => layout === 0 ? '1.5rem' : '1rem' };
         margin-bottom: .25rem;
-        color: #0a0a0a;
+        color: ${({ theme }) => theme.mainTitle};
     }
 
     & p {
         font-size: .8125rem;
         font-weight: 400;
         line-height: 1.125rem;
-        color: #606060;
     }
 `;
 
@@ -78,5 +100,5 @@ export const VideoDes = styled.h2`
     font-size: 1.125rem;
     font-weight: 500;
     line-height: 2.4rem;
-    color: rgb(13,13,13);
+    color: ${({ theme }) => theme.mainTitle };
 `;
