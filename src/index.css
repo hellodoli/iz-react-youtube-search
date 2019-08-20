@@ -4,7 +4,8 @@
     color: #fff;
 }
 
-.iz-root .button:hover {
+.iz-root .button:hover,
+.iz-root .button:focus {
     background-color: var(--color-primary-dark);
     border-color: transparent;
     color: #fff;

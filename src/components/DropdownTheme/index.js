@@ -1,10 +1,15 @@
 import React,{ Component } from 'react';
 
-import { Dropdown } from 'react-bulma-components';
-
 import { themesColor } from '../../skin-context';
 
-class DropdownTheme extends Component{
+import { Dropdown } from 'react-bulma-components';
+
+import { 
+    DropdownThemeWrapp
+} from './styled';
+
+
+class DropdownTheme extends Component {
 
     constructor(props) {
         super(props);
@@ -14,17 +19,30 @@ class DropdownTheme extends Component{
         }
     }
 
-    onChange = selected => {
-        this.setState({ selected });
+    onChange = async selected => { 
+        await this.setState({ selected });
+        const { dropdownList } = this.state;
+        for (let i = 0; i < dropdownList.length; i++) {
+            if(dropdownList[i].primaryLight === selected) {
+                this.props.changeThemeColor(dropdownList[i]);
+            }
+        }
     }
-
+    
     render() {
         return(
-            <Dropdown value={this.state.selected} onChange={this.onChange} {...this.props}>
-                { this.state.dropdownList.map(item =>
-                    <Dropdown.Item value={item.primaryLight}>{ item.primaryLight }</Dropdown.Item>
+            <DropdownThemeWrapp 
+                value={this.state.selected}
+                onChange={this.onChange}
+            >
+                { this.state.dropdownList.map(theme =>
+                    <Dropdown.Item
+                        key={theme.primaryLight}
+                        value={theme.primaryLight}
+                        style={{ background: theme.primaryLight }}
+                    />
                 )}
-            </Dropdown>
+            </DropdownThemeWrapp>
         )
     }
 }

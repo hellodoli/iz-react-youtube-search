@@ -434,7 +434,7 @@ class Filter extends Component {
             <FilterWrapper>
 
                 <FilterButton ref={this.filterButton}>
-                    <Button color="primary">Filter</Button>
+                    <Button>Filter</Button>
                 </FilterButton>
 
                 <div ref={this.collapseSection} className="collapse">

@@ -9,7 +9,7 @@ import {
 export const SpinnerCircle = ({ size, colorParent, colorChild }) => {
     return(
         <SpinnerContainer>
-            <Spinner size={size} colorParent={colorParent} colorChild={colorChild}>
+            <Spinner size={size}>
                 <SpinnerIRotate></SpinnerIRotate>
             </Spinner>
         </SpinnerContainer>

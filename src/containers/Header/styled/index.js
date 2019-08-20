@@ -23,7 +23,7 @@ export const HeaderWrappInner = styled.div`
     height: 100%;
 
     .btn-adjust {
-        margin-left: .5rem;
+        margin-right: .5rem;
         .icons{
             display: none;
         }
@@ -39,4 +39,10 @@ export const HeaderWrappForSearch = styled.div`
     @media(min-width: 1024px) {
         width: 60%;
     }
-`
+`;
+
+export const HeaderWrappThemeSwitch = styled.div`
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+`;

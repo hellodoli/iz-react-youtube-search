@@ -16,56 +16,7 @@ import { themes, themesColor, SkinContext } from "./skin-context";
 
 /* Some custom CSS */
 import './index.css';
-import styled from 'styled-components';
-
-const MainWrapp = styled.main`
-    min-height: calc(100vh - 56px);
-    margin-top: 56px;
-    padding: 2.5rem 0;
-
-    @media(max-width: 768px) {
-        padding: 1.25rem 0;
-    }
-`;
-
-const MainWrappContainer = styled.div`
-
-    ${ ({ theme }) => `
-        --color-background: ${theme.background};
-        --color-text: ${theme.text};
-        --color-header: ${theme.header};
-        --color-main-title: ${theme.mainTitle};
-    `}
-
-    ${ ({ themeColor }) => `
-        --color-primary-light: ${themeColor.primaryLight};
-        --color-primary-dark: ${themeColor.primaryDark};
-    	--color-focus: ${themeColor.primaryLight};
-    `}
-
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.5;
-    color: var(--color-text);
-    background: var(--color-background);
-    
-    .container{
-        padding: 0 15px;
-
-        @media screen and (min-width: 576px) and (max-width: 767px)  {
-            max-width: 540px;
-        }
-
-        @media screen and (min-width: 768px) and (max-width: 991px){
-            max-width: 720px;
-        }
-
-        @media screen and (min-width: 992px) and (max-width: 1023px){
-            max-width: 960px;
-        }
-    }
-`;
-/* Some custom CSS */
+import { MainWrapp, MainWrappContainer } from './styled';
 
 class App extends Component {
 
@@ -81,7 +32,8 @@ class App extends Component {
 
             theme: themes.light,
             themeColor: themesColor.default,
-            toggleTheme: this.toggleTheme
+            toggleTheme: this.toggleTheme,
+            changeThemeColor: this.changeThemeColor
         }
     }
 
@@ -90,11 +42,15 @@ class App extends Component {
 
     toggleTheme = () => {
         this.setState(prevState => ({
-            theme: 
+            theme:
                 prevState.theme === themes.light
                     ? themes.dark
                     : themes.light
         }));
+    }
+
+    changeThemeColor = themeColor => {
+        this.setState({ themeColor });
     }
 
     //--- Search Function
@@ -182,7 +138,7 @@ class App extends Component {
                 <SkinContext.Consumer>
                     { ({ theme, themeColor }) =>
 
-                        <MainWrappContainer 
+                        <MainWrappContainer
                             theme={theme} 
                             themeColor={themeColor}
                             className="iz-root"
