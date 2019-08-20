@@ -77,7 +77,7 @@ export const VideoThumbContent = styled.div `
         font-weight: 500;
         line-height: ${ ({ layout }) => layout === 0 ? '1.5rem' : '1rem' };
         margin-bottom: .25rem;
-        color: ${({ theme }) => theme.mainTitle};
+        color: var(--color-main-title);
     }
 
     & p {
@@ -90,6 +90,9 @@ export const VideoThumbContent = styled.div `
 export const VideoIframe = styled.iframe`
     width: 100%;
     height: 450px;
+    @media(max-width: 768px){
+        height: 350px;
+    }
 `;
 
 export const VideoInfoWrapper = styled.div`
@@ -100,5 +103,8 @@ export const VideoDes = styled.h2`
     font-size: 1.125rem;
     font-weight: 500;
     line-height: 2.4rem;
-    color: ${({ theme }) => theme.mainTitle };
+    color: var(--color-main-title);
+    @media(max-width: 768px){
+        font-size: 1.25rem;
+    }
 `;

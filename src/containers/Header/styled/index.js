@@ -5,7 +5,7 @@ export const HeaderWrapp = styled.div`
     height: 56px;
     top: 0;
     width: 100%;
-    background-color: ${({ theme }) => theme.header };
+    background-color: var(--color-header);
     box-shadow: 0px 4px 8px -3px rgba(17, 17, 17, .06);
     transform: translateY(0);
     transition: transform 0.3s ease;

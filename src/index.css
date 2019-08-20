@@ -1,0 +1,23 @@
+.iz-root .button {
+    background-color: var(--color-primary-light);
+    border-color: transparent;
+    color: #fff;
+}
+
+.iz-root .button:hover {
+    background-color: var(--color-primary-dark);
+    border-color: transparent;
+    color: #fff;
+}
+
+.iz-root .button.is-outlined {
+    background-color: transparent;
+    border-color: var(--color-primary-light);
+    color: var(--color-primary-light);
+}
+
+.iz-root .button.is-outlined:hover {
+    background-color: transparent;
+    border-color: var(--color-primary-light);
+    color: var(--color-primary-light);
+}

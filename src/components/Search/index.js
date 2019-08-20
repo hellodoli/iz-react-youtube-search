@@ -47,7 +47,7 @@ class Search extends Component {
                         value={this.state.inputValue}
                         onChange={this.handleOnchange}
                     />
-                    <SearchButton color="primary"> 
+                    <SearchButton>
                         <i className="fas fa-search"></i>
                     </SearchButton>
                 </SearchWrapp>

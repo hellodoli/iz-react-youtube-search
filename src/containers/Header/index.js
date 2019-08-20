@@ -6,17 +6,21 @@ import {
     HeaderWrappForSearch
 } from './styled';
 
-import { Container, Button } from 'react-bulma-components';
+import { 
+    Container, 
+    Button
+} from 'react-bulma-components';
 
 import Search from '../../components/Search';
+import DropdownTheme from '../../components/DropdownTheme';
 
-import { SkinContext } from '../../skin-context';
+import { SkinContext, themes } from '../../skin-context';
 
 export const Header = (props) => {
     return(
         <SkinContext.Consumer>
-            { ({ theme, toggleTheme }) => (
-                <HeaderWrapp theme={theme}>
+            { ({ theme, themeColor, toggleTheme }) => (
+                <HeaderWrapp>
                     <Container>
                         <HeaderWrappInner>
 
@@ -24,19 +28,18 @@ export const Header = (props) => {
                                 <Search onFormSubmit={props.onFormSubmit} />
                             </HeaderWrappForSearch>
 
-                            <Button className="btn-adjust" color="primary" outlined={true} onClick={toggleTheme}>
-
-                                <span className="text">Dark theme: {(theme.background === '#ffffff') ? 'OFF' : 'ON'}</span>
-
+                            <Button className="btn-adjust is-outlined" onClick={toggleTheme}>
+                                <span className="text">Dark theme: { theme.background ===  themes.light.background ? 'OFF' : 'ON' }</span>
                                 <span className="icons">
-                                    { theme.background === '#ffffff'
+                                    { theme.background === themes.light.background
                                         ? <i className="fas fa-sun"></i>
                                         : <i className="far fa-sun"></i>
                                     }
                                 </span>
-                                
                             </Button>
 
+                            <DropdownTheme list={themeColor} />
+                            
                         </HeaderWrappInner>
                     </Container>
                 </HeaderWrapp>

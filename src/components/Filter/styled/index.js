@@ -1,13 +1,19 @@
 import styled from 'styled-components';
 
 export const FilterWrapper = styled.div`
-    margin-bottom: 2rem;
     border-bottom: 1px solid #0000001a;
+    margin-bottom: 2rem;
+    @media(max-width: 768px) {
+        margin-bottom: 1rem;
+    }
 `;
 
 export const FilterButtonWrapp = styled.div`
     display: inline-flex;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.25rem;
+    @media(max-width: 768px) {
+        margin-bottom: .5rem;
+    }
 `;
 
 export const FilterSectInner = styled.div`

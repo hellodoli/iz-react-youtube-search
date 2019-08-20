@@ -7,7 +7,6 @@ import {
     VideoDes
 } from './styled';
 
-import { SkinContext } from '../../skin-context';
 
 const VideoDetail = ({ selectedVideo }) => {
     
@@ -23,18 +22,14 @@ const VideoDetail = ({ selectedVideo }) => {
         return <div>Playlist: Chưa làm playlist ^^!!</div>
     }
 
-    return(
-        <SkinContext.Consumer>
-            { ({ theme }) =>
-                <div id="videoFrame" className="video-frame">
-                    <VideoIframe src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}></VideoIframe>
+    return( 
+        <div id="videoFrame" className="video-frame">
+            <VideoIframe src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}></VideoIframe>
 
-                    <VideoInfoWrapper>
-                        <VideoDes theme={theme}>{selectedVideo.snippet.title.replace(/&quot;/g, '\"')}</VideoDes>
-                    </VideoInfoWrapper>
-                </div>
-            }
-        </SkinContext.Consumer>
+            <VideoInfoWrapper>
+                <VideoDes>{selectedVideo.snippet.title.replace(/&quot;/g, '\"')}</VideoDes>
+            </VideoInfoWrapper>
+        </div>
     )
 }
 

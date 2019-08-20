@@ -13,40 +13,33 @@ import {
     VideoThumbDes
 } from './styled';
 
-import { SkinContext } from '../../skin-context';
-
 const ytIsChanel = 'youtube#channel';
 
 const VideoItem = ({ video, layout, selectVideo, changeLayout }) => {
+
     const isChanel = video.id.kind === ytIsChanel ? true : false;
     const thumbnail = video.snippet.thumbnails;
 
     return (
-        <SkinContext.Consumer>
-            { ({ theme }) =>
-                <VideoThumbWrapp
-                    layout={layout}
-                    onClick={() => {
-                        selectVideo(video);
-                        changeLayout(1);
-                    }}
-                >
-                    
-                    <VideoThumbImage layout={layout} isChanel={isChanel}>
-                        <img src={thumbnail && thumbnail.medium.url} alt={video.snippet.title} />
-                    </VideoThumbImage>
-                    
-                    <VideoThumbContent layout={layout} theme={theme}>
-                        <h3>{ video.snippet.title.replace(/&quot;/g, '\"') }</h3>
-                        <p>{ video.snippet.channelTitle }</p>
-                        { layout === 0 &&
-                            <VideoThumbDes>{ video.snippet.description }</VideoThumbDes>
-                        }
-                    </VideoThumbContent>
-                    
-                </VideoThumbWrapp>
-            }
-        </SkinContext.Consumer>
+        <VideoThumbWrapp
+            layout={layout}
+            onClick={() => {
+                selectVideo(video);
+                changeLayout(1);
+            }}
+        >
+            
+            <VideoThumbImage layout={layout} isChanel={isChanel}>
+                <img src={thumbnail && thumbnail.medium.url} alt={video.snippet.title} />
+            </VideoThumbImage>
+            
+            <VideoThumbContent layout={layout}>
+                <h3>{ video.snippet.title.replace(/&quot;/g, '\"') }</h3>
+                <p>{ video.snippet.channelTitle }</p>
+                { layout === 0 && <VideoThumbDes>{ video.snippet.description }</VideoThumbDes> }
+            </VideoThumbContent>
+            
+        </VideoThumbWrapp>
     )
 };
     
@@ -54,7 +47,7 @@ const VideoList = ({ videos, layout, selectVideo, changeLayout }) => {
 
     return(
         <div className="video-list-search">
-            { videos.length > 0 && videos.map((video,index) =>
+            { videos.map((video,index) =>
                 <VideoItem 
                     key={index + 1}
                     video={video}
@@ -78,7 +71,7 @@ const mapStateToProps = state => {
 export default connect(
     mapStateToProps,
     {
-        selectVideo, 
+        selectVideo,
         changeLayout
     }
 )(VideoList);

@@ -11,28 +11,44 @@ import { SpinnerCircle } from './components/Loading';
 
 import Videos from './apis/videos';
 
-import { themes, SkinContext } from "./skin-context";
+// Theme Context
+import { themes, themesColor, SkinContext } from "./skin-context";
 
 /* Some custom CSS */
+import './index.css';
 import styled from 'styled-components';
 
 const MainWrapp = styled.main`
+    min-height: calc(100vh - 56px);
     margin-top: 56px;
-    padding: 40px 0;
+    padding: 2.5rem 0;
+
+    @media(max-width: 768px) {
+        padding: 1.25rem 0;
+    }
 `;
 
 const MainWrappContainer = styled.div`
 
-    ${ ({ theme }) =>
-        `
-            width: 100vw;
-            font-size: 16px;
-            font-weight: 400;
-            color: ${theme.text};
-            background: ${theme.background};
-            line-height: 1.5;
+    ${ ({ theme }) => `
+        --color-background: ${theme.background};
+        --color-text: ${theme.text};
+        --color-header: ${theme.header};
+        --color-main-title: ${theme.mainTitle};
     `}
 
+    ${ ({ themeColor }) => `
+        --color-primary-light: ${themeColor.primaryLight};
+        --color-primary-dark: ${themeColor.primaryDark};
+    	--color-focus: ${themeColor.primaryLight};
+    `}
+
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-background);
+    
     .container{
         padding: 0 15px;
 
@@ -49,6 +65,7 @@ const MainWrappContainer = styled.div`
         }
     }
 `;
+/* Some custom CSS */
 
 class App extends Component {
 
@@ -61,7 +78,9 @@ class App extends Component {
             isLoadingVideo: false,
             isLoadingMoreVideo: false,
             resetFilter: false,
-            theme: themes.main,
+
+            theme: themes.light,
+            themeColor: themesColor.default,
             toggleTheme: this.toggleTheme
         }
     }
@@ -72,9 +91,9 @@ class App extends Component {
     toggleTheme = () => {
         this.setState(prevState => ({
             theme: 
-                prevState.theme === themes.main
+                prevState.theme === themes.light
                     ? themes.dark
-                    : themes.main
+                    : themes.light
         }));
     }
 
@@ -124,7 +143,7 @@ class App extends Component {
             isLoadingVideo: false,
             videos: videosAPI.videos.items
         });
-        console.log(this.state.videos);
+        console.log(videosAPI.videos);
     }
 
     changeResetFilter = () => {
@@ -136,7 +155,7 @@ class App extends Component {
     }
 
     scrollLoadMoreVideoList = () => {
-        if(this.state.videos.length > 0) {
+        if(this.state.videos.length > 0 && !this.state.isLoadingVideo) {
             var windowHeight = window.innerHeight;
             var windowScrollHeight = document.documentElement.scrollHeight;
             var windowScrollTop = window.pageYOffset;
@@ -157,14 +176,17 @@ class App extends Component {
 
         const { videos, isLoadingVideo, isLoadingMoreVideo, resetFilter } = this.state;
         const { layout } = this.props;
-        let theme = this.context.theme;
-        console.log('theme: ',theme);
 
         return(
             <SkinContext.Provider value={this.state}>
                 <SkinContext.Consumer>
-                    { ({ theme }) =>
-                        <MainWrappContainer theme={theme}>
+                    { ({ theme, themeColor }) =>
+
+                        <MainWrappContainer 
+                            theme={theme} 
+                            themeColor={themeColor}
+                            className="iz-root"
+                        >
 
                             <Header onFormSubmit={this.onFormSubmit} />
 
@@ -178,8 +200,8 @@ class App extends Component {
                                             desktop= {{ size: 8 }}
                                         >
                                         
-                                            { ( layout === 0 && videos.length > 0 )
-                                                ? <Filter 
+                                            { layout === 0 && videos.length > 0
+                                                ? <Filter
                                                     changeResetFilter={this.changeResetFilter}
                                                     resetFilter={resetFilter}
                                                     onFilterVideo={this.onFilterVideo} />
@@ -195,8 +217,8 @@ class App extends Component {
                                                 : <VideoDetail />
                                             }
 
-                                            { (layout === 0 && isLoadingMoreVideo) && <SpinnerCircle size={30} /> }
-                                                
+                                            { layout === 0 && isLoadingMoreVideo ? <SpinnerCircle size={30} /> : null }
+
                                         </Columns.Column>
 
                                         <Columns.Column
@@ -205,7 +227,7 @@ class App extends Component {
                                             desktop= {{ size: 4 }}
                                         >
                                             { layout === 1 ? <VideoList videos={videos} /> : null }
-                                            { (layout === 1 && isLoadingMoreVideo) && <SpinnerCircle size={30} /> }
+                                            { layout === 1 && isLoadingMoreVideo ? <SpinnerCircle size={30} /> : null }
                                         </Columns.Column>
 
                                     </Columns>
@@ -214,7 +236,7 @@ class App extends Component {
 
                         </MainWrappContainer>
                     }
-                </SkinContext.Consumer>                         
+                </SkinContext.Consumer>
             </SkinContext.Provider>
         );
     }
