@@ -14,20 +14,21 @@ import DropdownTheme from '../../components/DropdownTheme';
 
 import { SkinContext, themes } from '../../skin-context';
 
-export const Header = (props) => {
-    return(
-        <SkinContext.Consumer>
-            { ({ theme, toggleTheme, changeThemeColor }) => (
-                <HeaderWrapp>
-                    <Container>
-                        <HeaderWrappInner>
+import PropTypes from 'prop-types';
 
-                            <HeaderWrappForSearch>
-                                <Search onFormSubmit={props.onFormSubmit} />
-                            </HeaderWrappForSearch>
+const Header = (props) => {
+    return( 
+        <HeaderWrapp>
+            <Container>
+                <HeaderWrappInner>
 
+                    <HeaderWrappForSearch>
+                        <Search onFormSubmit={props.onFormSubmit} />
+                    </HeaderWrappForSearch>
+
+                    <SkinContext.Consumer>
+                        { ({ theme, toggleTheme, changeThemeColor }) => (
                             <HeaderWrappThemeSwitch>
-                            
                                 <Button className="btn-adjust is-outlined" onClick={toggleTheme}>
                                     <span className="text">Dark theme: { theme.background ===  themes.light.background ? 'OFF' : 'ON' }</span>
                                     <span className="icons">
@@ -37,17 +38,19 @@ export const Header = (props) => {
                                         }
                                     </span>
                                 </Button>
-
                                 <DropdownTheme changeThemeColor={changeThemeColor} />
-
                             </HeaderWrappThemeSwitch>
-
-                        </HeaderWrappInner>
-                    </Container>
-                </HeaderWrapp>
-            )}
-        </SkinContext.Consumer>
+                        )}
+                    </SkinContext.Consumer>
+                    
+                </HeaderWrappInner>
+            </Container>
+        </HeaderWrapp>
     );
+}
+
+Header.propTypes = {
+    onFormSubmit: PropTypes.func.isRequired
 }
 
 export default Header;
