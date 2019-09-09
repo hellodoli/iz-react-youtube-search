@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Container, Columns } from 'react-bulma-components';
 
 import Header from './containers/Header';
+
+// Components
 import Filter from './components/Filter';
 import VideoList from './components/Videos/VideosList';
 import VideoDetail from './components/Videos/VideoDetail';
