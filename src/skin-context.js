@@ -1,40 +1,27 @@
 import React from 'react';
 
+/* Skin themes */
 export const themesColor = {
     default: {
-        primaryLight: '#00d1b2',
-        primaryDark: '#00c4a7',
-        focus: 'rgba(0, 209, 178, .2)'
-    },
-    green: {
-        primaryLight: 'hsl(160, 79%, 46%)',
-        primaryDark: 'hsl(160, 79%, 16%)',
-        focus: 'rgba(0, 209, 178, .2)'
-    },
-    blue: {
-        primaryLight: 'hsl(200, 79%, 46%)',
-        primaryDark: 'hsl(200, 79%, 16%)',
-        focus: 'rgba(25, 210, 148, 0.2)'
-    },
-    pink: {
-        primaryLight: '#F7A1C4',
-        primaryDark: '#CB84A1',
-        focus: 'rgba(247, 161, 196, 0.2)'
+        primaryLight: '#ee3364',
+        primaryDark: '#c4103f',
+        secondary: '#00bec5',
     }
 }
 
+/* Light/Dark themes */
 export const themes = {
     light: {
-        background: '#ffffff',
-        mainTitle: '#0a0a0a',
+        header: '#ffffff',
         text: '#606060',
-        header: '#ffffff'
+        mainTitle: '#0a0a0a',
+        background: '#ffffff',
     },
     dark: {
-        background: '#121212',
-        mainTitle: '#ffffff',
+        header: '#272727',
         text: '#aaaaaa',
-        header: '#272727'
+        mainTitle: '#ffffff',
+        background: '#121212',
     }
 }
 

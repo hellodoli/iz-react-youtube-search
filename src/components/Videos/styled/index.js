@@ -1,14 +1,6 @@
 import styled from 'styled-components';
 
-export const VideoThumbWrapp = styled.div `
-    display: flex;
-    justify-content: flex-start;
-    cursor: pointer;
-    & + & {
-        margin-top: ${ props => ( props.layout === 1 ) ? '.5rem' : '1rem' }
-    }
-`;
-
+/* Video List */
 export const VideoThumbImage = styled.div `
     display: inline-flex;
     flex: none;
@@ -87,6 +79,16 @@ export const VideoThumbContent = styled.div `
     }
 `;
 
+export const VideoThumbWrapp = styled.div `
+    display: flex;
+    justify-content: flex-start;
+    cursor: pointer;
+    & + & {
+        margin-top: ${ props => ( props.layout === 1 ) ? '.5rem' : '1rem' }
+    }
+`;
+
+/* Video Detail */
 export const VideoIframe = styled.iframe`
     width: 100%;
     height: 450px;

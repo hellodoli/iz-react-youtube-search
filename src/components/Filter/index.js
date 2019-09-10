@@ -38,7 +38,7 @@ class Filter extends Component {
     static getDerivedStateFromProps(props,state) {
 
         if(props.resetFilter) {
-
+    
             const defaultList = [
                 {
                     filter: 'publishedAfter',
@@ -229,7 +229,6 @@ class Filter extends Component {
 
         // check ignore
         if( filterItem.isIgnore === false ) {
-            
             var tempFilterList = this.state.filterList.splice('');
 
             // active class
@@ -334,6 +333,8 @@ class Filter extends Component {
             // call API filter videos
             this.props.onFilterVideo(this.props.searchValue, this.state.params);
             console.log(this.state.params);
+        }else{
+            console.log('come here');
         }
     }
 

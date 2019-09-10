@@ -18,12 +18,12 @@ const VideoDetail = ({ selectedVideo }) => {
         return <div>Chanel: {selectedVideo.snippet.channelTitle}</div>
     }
 
-    if(selectedVideo.id.kind === "youtube#playlist"){
+    if(selectedVideo.id.kind === "youtube#playlist") {
         return <div>Playlist: Chưa làm playlist ^^!!</div>
     }
 
     return( 
-        <div id="videoFrame" className="video-frame">
+        <div id="videoFrame">
             <VideoIframe src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}></VideoIframe>
 
             <VideoInfoWrapper>

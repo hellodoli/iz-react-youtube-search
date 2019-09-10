@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { ThemeProvider } from 'styled-components';
 import { Container, Columns } from 'react-bulma-components';
 
-import Header from './containers/Header';
-
 // Components
+import Header from './containers/Header';
 import Filter from './components/Filter';
 import VideoList from './components/Videos/VideosList';
 import VideoDetail from './components/Videos/VideoDetail';
@@ -17,7 +17,7 @@ import Videos from './apis/videos';
 import { themes, themesColor, SkinContext } from "./skin-context";
 
 /* Some custom CSS */
-import './index.css';
+import GlobalStyle from './styled/GlobalStyle';
 import { MainWrapp, MainWrappContainer } from './styled';
 
 class App extends Component {
@@ -132,20 +132,29 @@ class App extends Component {
 
     render() {
 
-        const { videos, isLoadingVideo, isLoadingMoreVideo, resetFilter } = this.state;
-        const { layout } = this.props;
+        const { 
+            videos, 
+            isLoadingVideo,
+            isLoadingMoreVideo, 
+            resetFilter,
 
+            theme,
+            themeColor,
+        } = this.state;
+
+        const { layout } = this.props;
+        
         return(
             <SkinContext.Provider value={this.state}>
-                <SkinContext.Consumer>
-                    { ({ theme, themeColor }) =>
+                <ThemeProvider theme={theme} themeColor={themeColor}>
+                    <React.Fragment>
+                        
+                        {/* Global CSS */}
+                        <GlobalStyle theme={theme} themeColor={themeColor} />
 
-                        <MainWrappContainer
-                            theme={theme} 
-                            themeColor={themeColor}
-                            className="iz-root"
-                        >
-
+                        {/* Main HTML */}
+                        <MainWrappContainer className="iz-root">
+                            
                             <Header onFormSubmit={this.onFormSubmit} />
 
                             <MainWrapp>
@@ -157,7 +166,7 @@ class App extends Component {
                                             tablet= {{ size: 12 }}
                                             desktop= {{ size: 8 }}
                                         >
-                                        
+                                            
                                             { layout === 0 && videos.length > 0
                                                 ? <Filter
                                                     changeResetFilter={this.changeResetFilter}
@@ -193,8 +202,9 @@ class App extends Component {
                             </MainWrapp>
 
                         </MainWrappContainer>
-                    }
-                </SkinContext.Consumer>
+
+                    </React.Fragment>
+                </ThemeProvider>
             </SkinContext.Provider>
         );
     }

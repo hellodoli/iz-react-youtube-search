@@ -12,13 +12,12 @@ const spinnerCircle = keyframes`
 `;
 
 export const Spinner = styled.div`
-
     display: block;
     font-size: ${props => props.size ? `${props.size}px` : '20px'};
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    box-shadow: inset 0 0 0 .1em var(--color-focus);
+    box-shadow: inset 0 0 0 .1em var(--color-secondary);
 `;
 
 export const SpinnerIRotate = styled.i`

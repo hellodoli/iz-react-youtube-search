@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { 
-    selectVideo, 
+    selectVideo,
     changeLayout
 } from "../../actions/videos";
 
@@ -14,9 +14,11 @@ import {
 } from './styled';
 
 const ytIsChanel = 'youtube#channel';
+const ytIsPlaylist = 'youtube#playlist';
 
 const VideoItem = ({ video, layout, selectVideo, changeLayout }) => {
 
+    const isPlaylist = video.id.kind === ytIsPlaylist ? true : false;
     const isChanel = video.id.kind === ytIsChanel ? true : false;
     const thumbnail = video.snippet.thumbnails;
 
@@ -29,8 +31,12 @@ const VideoItem = ({ video, layout, selectVideo, changeLayout }) => {
             }}
         >
             
-            <VideoThumbImage layout={layout} isChanel={isChanel}>
+            <VideoThumbImage layout={layout} isChanel={isChanel} isPlaylist={isPlaylist}>
                 <img src={thumbnail && thumbnail.medium.url} alt={video.snippet.title} />
+                { isPlaylist
+                    ? <h1>This is Playlist</h1>
+                    : null
+                }
             </VideoThumbImage>
             
             <VideoThumbContent layout={layout}>
@@ -46,7 +52,7 @@ const VideoItem = ({ video, layout, selectVideo, changeLayout }) => {
 const VideoList = ({ videos, layout, selectVideo, changeLayout }) => {
 
     return(
-        <div className="video-list-search">
+        <div className="iz-video-list-search">
             { videos.map((video,index) =>
                 <VideoItem 
                     key={index + 1}

@@ -12,22 +12,6 @@ export const MainWrapp = styled.main`
 
 export const MainWrappContainer = styled.div`
 
-    ${ ({ theme }) => `
-        --color-background: ${theme.background};
-        --color-text: ${theme.text};
-        --color-header: ${theme.header};
-        --color-main-title: ${theme.mainTitle};
-    `}
-
-    ${ ({ themeColor }) => `
-        --color-primary-light: ${themeColor.primaryLight};
-        --color-primary-dark: ${themeColor.primaryDark};
-    	--color-focus: ${themeColor.focus};
-    `}
-
-    color: var(--color-text);
-    background: var(--color-background);
-    
     .container{
         padding: 0 15px;
 

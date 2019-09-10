@@ -17,7 +17,8 @@
     color: var(--color-primary-light);
 }
 
-.iz-root .button.is-outlined:hover {
+.iz-root .button.is-outlined:hover,
+.iz-root .button.is-outlined:focus {
     background-color: transparent;
     border-color: var(--color-primary-light);
     color: var(--color-primary-light);
