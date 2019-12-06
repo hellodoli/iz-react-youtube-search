@@ -69,8 +69,8 @@ const VideoList = ({ videos, layout, selectVideo, changeLayout }) => {
 
 const mapStateToProps = state => {
     return { 
-        selectedVideo: state.videos.selectedVideosReducer,
-        layout: state.videos.changeLayoutReducer
+        selectedVideo: state.videosReducer.selectedVideo,
+        layout: state.videosReducer.changeLayout
     }
 }
 

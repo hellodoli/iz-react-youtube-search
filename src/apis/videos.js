@@ -42,6 +42,7 @@ class Videos {
                 }
             });
             this.videos = res.data;
+            console.log(this.videos);
         } catch (error) {
             alert('Lỗi kết nối, có thể API đã đạt giới hạn request. Bật console lên xem lỗi(403).');
             console.log(error);

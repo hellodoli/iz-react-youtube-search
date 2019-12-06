@@ -20,201 +20,194 @@ import { themes, themesColor, SkinContext } from "./skin-context";
 import GlobalStyle from './styled/GlobalStyle';
 import { MainWrapp, MainWrappContainer } from './styled';
 
+import { fecthVideos, fetchFilterVideos } from './actions/videos';
+
 class App extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            videosAPI: new Videos(),
-            videos: [],
-            nextPageToken: '',
-            isLoadingVideo: false,
-            isLoadingMoreVideo: false,
-            resetFilter: false,
+	constructor() {
+		super();
+		this.state = {
+			videosAPI: new Videos(),
+			videos: [],
+			isLoadingVideo: false,
+			isLoadingMoreVideo: false,
+			resetFilter: false,
 
-            theme: themes.light,
-            themeColor: themesColor.default,
-            toggleTheme: this.toggleTheme,
-            changeThemeColor: this.changeThemeColor
-        }
-    }
+			theme: themes.dark,
+			themeColor: themesColor.default,
+			toggleTheme: this.toggleTheme,
+			changeThemeColor: this.changeThemeColor
+		}
+	}
 
-    //--- skin Context
-    static contextType = SkinContext;
+	// --- skin Context
+	static contextType = SkinContext;
 
-    toggleTheme = () => {
-        this.setState(prevState => ({
-            theme:
-                prevState.theme === themes.light
-                    ? themes.dark
-                    : themes.light
-        }));
-    }
+	toggleTheme = () => {
+		this.setState(prevState => ({
+			theme:
+				prevState.theme === themes.light
+					? themes.dark
+					: themes.light
+		}));
+	}
 
-    changeThemeColor = themeColor => {
-        this.setState({ themeColor });
-    }
+	changeThemeColor = themeColor => {
+		this.setState({ themeColor });
+	}
 
-    //--- Search Function
-    searchVideo = async (search) => {
-        const { videosAPI } = this.state;
-        this.setState({ isLoadingVideo: true });
-        await videosAPI.searchVideo(search);
+	// --- Search Function
+	searchVideo = async (search) => {
+		this.setState({ isLoadingVideo: true });
+		await this.props.fecthVideos(search);
+		this.setState({ isLoadingVideo: false });
 
-        this.setState({
-            isLoadingVideo: false,
-            videos: videosAPI.videos.items,
-            nextPageToken: videosAPI.videos.nextPageToken
-        });
+		console.log('items: ', this.props.videos);
+		console.log('nextPageToken: ', this.props.nextPageToken);
+	}
 
-        console.log('items: ', this.state.videos);
-        console.log('nextPageToken: ', this.state.nextPageToken);
-    }
+	loadMoreVideo = async () => {
+		this.setState({ isLoadingMoreVideo: true });
+		await this.props.fecthVideos(this.props.search, this.props.nextPageToken);
+		this.setState({ isLoadingMoreVideo: false });
+	}
 
-    loadMoreVideo = async () => {
-        const { videosAPI, nextPageToken } = this.state;
-        this.setState({ isLoadingMoreVideo: true });
-        const search = this.props.search; // search value
-        await videosAPI.searchVideo(search,nextPageToken);
-        var videoLoadMore = videosAPI.videos.items;
-        this.setState({
-            isLoadingMoreVideo: false,
-            nextPageToken: videosAPI.videos.nextPageToken,
-            videos: [...this.state.videos, ...videoLoadMore]
-        });
-        console.log('videoLoadMore: ', videoLoadMore);
-        console.log('nextPageToken: ', this.state.nextPageToken);
-    }
+	onFormSubmit = (value) => {
+		this.setState({ resetFilter: true });
+		this.searchVideo(value);
+	}
 
-    onFormSubmit = (value) => {
-        this.setState({ resetFilter: true });
-        this.searchVideo(value);
-    }
+	// --- Filter Function
+	filterVideo = async (search, params) => {
+		// const { videosAPI } = this.state;
+		this.setState({ isLoadingVideo: true });
+		// await videosAPI.customSearchVideo(search,params);
+		await this.props.fetchFilterVideos(search, params);
+		this.setState({
+			isLoadingVideo: false,
+			// videos: videosAPI.videos.items
+		});
+	}
 
-    //--- Filter Function
-    filterVideo = async (search,params) => {
-        const { videosAPI } = this.state;
-        this.setState({ isLoadingVideo: true });
-        await videosAPI.customSearchVideo(search,params);
-        
-        this.setState({
-            isLoadingVideo: false,
-            videos: videosAPI.videos.items
-        });
-        console.log(videosAPI.videos);
-    }
+	changeResetFilter = () => {
+		this.setState({ resetFilter: false });
+	}
 
-    changeResetFilter = () => {
-        this.setState({ resetFilter: false });
-    }
+	onFilterVideo = (value,params) => {
+		this.filterVideo(value,params);
+	}
 
-    onFilterVideo = (value,params) => {
-        this.filterVideo(value,params);
-    }
+	scrollLoadMoreVideoList = () => {
+		if(this.props.videos.length > 0 && !this.state.isLoadingVideo) {
+			const windowHeight = window.innerHeight;
+			const windowScrollHeight = document.documentElement.scrollHeight;
+			const windowScrollTop = window.pageYOffset;
+			const set = windowHeight + windowScrollTop;
+			if(set >= windowScrollHeight) {
+				this.loadMoreVideo();
+			}
+		}
+	}
 
-    scrollLoadMoreVideoList = () => {
-        if(this.state.videos.length > 0 && !this.state.isLoadingVideo) {
-            var windowHeight = window.innerHeight;
-            var windowScrollHeight = document.documentElement.scrollHeight;
-            var windowScrollTop = window.pageYOffset;
-            var set = windowHeight + windowScrollTop;
-            if(set >= windowScrollHeight) this.loadMoreVideo();
-        }
-    }
+	componentDidMount() {
+		window.addEventListener('scroll', this.scrollLoadMoreVideoList);
+	}
 
-    componentDidMount() {
-        window.addEventListener('scroll', this.scrollLoadMoreVideoList);
-    }
+	componentWillUnmount() {
+		window.removeEventListener('scroll',this.scrollLoadMoreVideoList);
+	}
 
-    componentWillUnmount() {
-        window.removeEventListener('scroll',this.scrollLoadMoreVideoList);
-    }
+	/* render layout function */
+	renderVideoLayoutLeft = () => {
+		const { isLoadingVideo } = this.state;
+		const { layout, videos } = this.props;
+		if (layout === 0) {
+			if (isLoadingVideo) {
+				return <SpinnerCircle size={40} />;
+			}
+			if (videos && videos.length > 0) {
+				return (
+					<div>
+						{/* 
+							<Filter
+								changeResetFilter={this.changeResetFilter}
+								resetFilter={this.state.resetFilter}
+								onFilterVideo={this.onFilterVideo}
+							/>
+						*/}
+						<VideoList videos={videos} />
+					</div>
+				);
+			}
+			return <div>Pls search and choose one video ^^.</div>; // default or not found video.
+		}
+		return <VideoDetail />;
+	}
 
-    render() {
+	renderVideoLayoutRight = () => {
+		const { layout, videos } = this.props;
+		if (layout === 1) {
+			return <VideoList videos={videos} />;
+		}
+		return null;
+	}
 
-        const { 
-            videos, 
-            isLoadingVideo,
-            isLoadingMoreVideo, 
-            resetFilter,
+	render () {
+		const {
+			isLoadingMoreVideo,
+			theme,
+			themeColor
+		} = this.state;
+		const { layout } = this.props;
+		return (
+			<SkinContext.Provider value={this.state}>
+				<ThemeProvider theme={theme} themeColor={themeColor}>
+					<React.Fragment>
+						{/* Global CSS */}
+						<GlobalStyle theme={theme} themeColor={themeColor} />
+						{/* Main HTML */}
+						<MainWrappContainer className="iz-root">
+							<Header onFormSubmit={this.onFormSubmit} />
+							<MainWrapp>
+								<Container>
+									<Columns>
+										<Columns.Column mobile= {{ size: 12 }} tablet= {{ size: 12 }} desktop= {{ size: 8 }}>
+											{ layout === 0 && this.props.videos.length > 0
+													? <Filter
+															changeResetFilter={this.changeResetFilter}
+															resetFilter={this.state.resetFilter}
+															onFilterVideo={this.onFilterVideo}
+														/>
+													: null
+                      }
+											{/* render VideoDetail, VideoList (left) */}
+											{ this.renderVideoLayoutLeft() }
+											{/* render LoadingMoreVideo */}
+											{ layout === 0 && isLoadingMoreVideo ? <SpinnerCircle size={30} /> : null }
+										</Columns.Column>
 
-            theme,
-            themeColor,
-        } = this.state;
-
-        const { layout } = this.props;
-        
-        return(
-            <SkinContext.Provider value={this.state}>
-                <ThemeProvider theme={theme} themeColor={themeColor}>
-                    <React.Fragment>
-                        
-                        {/* Global CSS */}
-                        <GlobalStyle theme={theme} themeColor={themeColor} />
-
-                        {/* Main HTML */}
-                        <MainWrappContainer className="iz-root">
-                            
-                            <Header onFormSubmit={this.onFormSubmit} />
-
-                            <MainWrapp>
-                                <Container>
-                                    <Columns>
-
-                                        <Columns.Column
-                                            mobile= {{ size: 12 }}
-                                            tablet= {{ size: 12 }}
-                                            desktop= {{ size: 8 }}
-                                        >
-                                            
-                                            { layout === 0 && videos.length > 0
-                                                ? <Filter
-                                                    changeResetFilter={this.changeResetFilter}
-                                                    resetFilter={resetFilter}
-                                                    onFilterVideo={this.onFilterVideo} />
-                                                : null
-                                            }
-                                            
-                                            { layout === 0
-                                                ? isLoadingVideo
-                                                    ? <SpinnerCircle size={40} />
-                                                    : videos.length > 0
-                                                        ? <VideoList videos={videos} />
-                                                        : <div>Pls search and choose one video ^^.</div>
-                                                : <VideoDetail />
-                                            }
-
-                                            { layout === 0 && isLoadingMoreVideo ? <SpinnerCircle size={30} /> : null }
-
-                                        </Columns.Column>
-
-                                        <Columns.Column
-                                            mobile= {{ size: 12 }}
-                                            tablet= {{ size: 12 }}
-                                            desktop= {{ size: 4 }}
-                                        >
-                                            { layout === 1 ? <VideoList videos={videos} /> : null }
-                                            { layout === 1 && isLoadingMoreVideo ? <SpinnerCircle size={30} /> : null }
-                                        </Columns.Column>
-
-                                    </Columns>
-                                </Container>
-                            </MainWrapp>
-
-                        </MainWrappContainer>
-
-                    </React.Fragment>
-                </ThemeProvider>
-            </SkinContext.Provider>
-        );
-    }
+										<Columns.Column mobile= {{ size: 12 }} tablet= {{ size: 12 }} desktop= {{ size: 4 }}>
+											{/* render VideoList (right) */}
+											{ this.renderVideoLayoutRight() }
+											{/* render LoadingMoreVideo */}
+											{ layout === 1 && isLoadingMoreVideo ? <SpinnerCircle size={30} /> : null }
+										</Columns.Column>
+									</Columns>
+								</Container>
+							</MainWrapp>
+						</MainWrappContainer>
+					</React.Fragment>
+				</ThemeProvider>
+			</SkinContext.Provider>
+		);
+	}
 }
 
-const mapStateToProps = state => {
-    return { 
-        layout: state.videos.changeLayoutReducer,
-        search: state.search.changeValueSearchReducer
-    }
-}
+const mapStateToProps = state => ({
+	layout: state.videosReducer.changeLayout,
+	search: state.search.changeValueSearchReducer,
+	videos: Object.values(state.videosReducer.videos[1]),
+	nextPageToken: state.videosReducer.videos[0]
+});
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, { fecthVideos, fetchFilterVideos })(App);
