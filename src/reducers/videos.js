@@ -1,16 +1,17 @@
 import { combineReducers } from 'redux';
 import { 
-  VIDEO_SLECTED,
+  VIDEO_SELECTED,
   VIDEO_LAYOUT,
   FETCH_VIDEOS,
   FETCH_MORE_VIDEOS,
-  FETCH_FILTER_VIDEOS
+  FETCH_FILTER_VIDEOS,
+  CHANGE_FILTER_PARAMS
 } from '../constants/videos';
 import { mapKeysYoutubeVideo } from '../helper';
 
 const selectedVideo= (state = null, action) => {
   switch (action.type) {
-    case VIDEO_SLECTED:
+    case VIDEO_SELECTED:
       return action.payload;
     default:
       return state;
@@ -39,10 +40,20 @@ const videos = (state = [null, {}], action) => {
   }
 }
 
+const filterParams = (state = { 'type': 'video' }, action) => {
+  switch (action.type) {
+    case CHANGE_FILTER_PARAMS:
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 const videosReducer = combineReducers({
   selectedVideo,
   changeLayout,
-  videos
+  videos,
+  filterParams
 });
 
 export default videosReducer;

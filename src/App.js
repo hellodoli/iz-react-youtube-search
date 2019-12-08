@@ -11,8 +11,6 @@ import VideoList from './components/Videos/VideosList';
 import VideoDetail from './components/Videos/VideoDetail';
 import { SpinnerCircle } from './components/Loading';
 
-import Videos from './apis/videos';
-
 // Theme Context
 import { themes, themesColor, SkinContext } from "./skin-context";
 
@@ -20,15 +18,18 @@ import { themes, themesColor, SkinContext } from "./skin-context";
 import GlobalStyle from './styled/GlobalStyle';
 import { MainWrapp, MainWrappContainer } from './styled';
 
-import { fecthVideos, fetchFilterVideos } from './actions/videos';
+import { 
+	fecthVideos,
+	fetchFilterVideos,
+	fetchMoreVideos,
+	changeFilterParams
+} from './actions/videos';
 
 class App extends Component {
 
 	constructor() {
 		super();
 		this.state = {
-			videosAPI: new Videos(),
-			videos: [],
 			isLoadingVideo: false,
 			isLoadingMoreVideo: false,
 			resetFilter: false,
@@ -56,45 +57,11 @@ class App extends Component {
 		this.setState({ themeColor });
 	}
 
-	// --- Search Function
-	searchVideo = async (search) => {
-		this.setState({ isLoadingVideo: true });
-		await this.props.fecthVideos(search);
-		this.setState({ isLoadingVideo: false });
-
-		console.log('items: ', this.props.videos);
-		console.log('nextPageToken: ', this.props.nextPageToken);
-	}
-
+	// --- Load more Videos when scrolling
 	loadMoreVideo = async () => {
 		this.setState({ isLoadingMoreVideo: true });
-		await this.props.fecthVideos(this.props.search, this.props.nextPageToken);
+		await this.props.fetchMoreVideos(this.props.search, this.props.nextPageToken, this.props.filterParams);
 		this.setState({ isLoadingMoreVideo: false });
-	}
-
-	onFormSubmit = (value) => {
-		this.setState({ resetFilter: true });
-		this.searchVideo(value);
-	}
-
-	// --- Filter Function
-	filterVideo = async (search, params) => {
-		// const { videosAPI } = this.state;
-		this.setState({ isLoadingVideo: true });
-		// await videosAPI.customSearchVideo(search,params);
-		await this.props.fetchFilterVideos(search, params);
-		this.setState({
-			isLoadingVideo: false,
-			// videos: videosAPI.videos.items
-		});
-	}
-
-	changeResetFilter = () => {
-		this.setState({ resetFilter: false });
-	}
-
-	onFilterVideo = (value,params) => {
-		this.filterVideo(value,params);
 	}
 
 	scrollLoadMoreVideoList = () => {
@@ -109,6 +76,33 @@ class App extends Component {
 		}
 	}
 
+	// --- Search Function
+	searchVideo = async (search) => {
+		this.setState({ isLoadingVideo: true });
+		await this.props.fecthVideos(search);
+		this.setState({ isLoadingVideo: false });
+
+		console.log('items: ', this.props.videos);
+		console.log('nextPageToken: ', this.props.nextPageToken);
+	}
+
+	onFormSubmit = (value) => {
+		this.setState({ resetFilter: true });
+		this.props.changeFilterParams({ 'type': 'video' });
+		this.searchVideo(value);
+	}
+
+	// --- Filter Function
+	changeResetFilter = () => {
+		this.setState({ resetFilter: false });
+	}
+
+	onFilterVideo = async (search, params) => {
+		this.setState({ isLoadingVideo: true });
+		await this.props.fetchFilterVideos(search, params);
+		this.setState({ isLoadingVideo: false });
+	}
+
 	componentDidMount() {
 		window.addEventListener('scroll', this.scrollLoadMoreVideoList);
 	}
@@ -118,6 +112,19 @@ class App extends Component {
 	}
 
 	/* render layout function */
+	renderFilter = () => {
+		if (this.props.layout === 0 && this.props.videos.length > 0) {
+			return (
+				<Filter
+					changeResetFilter={this.changeResetFilter}
+					resetFilter={this.state.resetFilter}
+					onFilterVideo={this.onFilterVideo}
+				/>
+			);
+		}
+		return null;
+	}
+
 	renderVideoLayoutLeft = () => {
 		const { isLoadingVideo } = this.state;
 		const { layout, videos } = this.props;
@@ -128,13 +135,6 @@ class App extends Component {
 			if (videos && videos.length > 0) {
 				return (
 					<div>
-						{/* 
-							<Filter
-								changeResetFilter={this.changeResetFilter}
-								resetFilter={this.state.resetFilter}
-								onFilterVideo={this.onFilterVideo}
-							/>
-						*/}
 						<VideoList videos={videos} />
 					</div>
 				);
@@ -172,16 +172,12 @@ class App extends Component {
 								<Container>
 									<Columns>
 										<Columns.Column mobile= {{ size: 12 }} tablet= {{ size: 12 }} desktop= {{ size: 8 }}>
-											{ layout === 0 && this.props.videos.length > 0
-													? <Filter
-															changeResetFilter={this.changeResetFilter}
-															resetFilter={this.state.resetFilter}
-															onFilterVideo={this.onFilterVideo}
-														/>
-													: null
-                      }
+											{/* render Filter */}
+											{ this.renderFilter() }
+                      
 											{/* render VideoDetail, VideoList (left) */}
 											{ this.renderVideoLayoutLeft() }
+
 											{/* render LoadingMoreVideo */}
 											{ layout === 0 && isLoadingMoreVideo ? <SpinnerCircle size={30} /> : null }
 										</Columns.Column>
@@ -189,6 +185,7 @@ class App extends Component {
 										<Columns.Column mobile= {{ size: 12 }} tablet= {{ size: 12 }} desktop= {{ size: 4 }}>
 											{/* render VideoList (right) */}
 											{ this.renderVideoLayoutRight() }
+
 											{/* render LoadingMoreVideo */}
 											{ layout === 1 && isLoadingMoreVideo ? <SpinnerCircle size={30} /> : null }
 										</Columns.Column>
@@ -207,7 +204,15 @@ const mapStateToProps = state => ({
 	layout: state.videosReducer.changeLayout,
 	search: state.search.changeValueSearchReducer,
 	videos: Object.values(state.videosReducer.videos[1]),
-	nextPageToken: state.videosReducer.videos[0]
+	nextPageToken: state.videosReducer.videos[0],
+	filterParams: state.videosReducer.filterParams
 });
 
-export default connect(mapStateToProps, { fecthVideos, fetchFilterVideos })(App);
+export default connect(mapStateToProps, 
+	{ 
+		fecthVideos,
+		fetchFilterVideos,
+		fetchMoreVideos,
+		changeFilterParams
+	}
+)(App);

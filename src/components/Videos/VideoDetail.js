@@ -34,7 +34,7 @@ const VideoDetail = ({ selectedVideo }) => {
 }
 
 const mapStateToProps = state => {
-    return { selectedVideo: state.videos.selectedVideo }
+    return { selectedVideo: state.videosReducer.selectedVideo }
 }
 
 export default connect(mapStateToProps)(VideoDetail);
