@@ -1,19 +1,16 @@
 import React from 'react';
-
-import { Container, Button } from 'react-bulma-components';
-    
+import { Container } from 'react-bulma-components';
 import { 
-    HeaderWrapp,
-    HeaderWrappInner,
-    HeaderWrappForSearch,
-    HeaderWrappThemeSwitch
+	HeaderWrapp,
+	HeaderWrappInner,
+	HeaderWrappForSearch,
+	HeaderWrappThemeSwitch
 } from './styled';
-
+import { IZButton } from '../../styled/Buttons';
 import Search from '../../components/Search';
 import DropdownTheme from '../../components/DropdownTheme';
 
 import { SkinContext, themes } from '../../skin-context';
-
 import PropTypes from 'prop-types';
 
 const Header = (props) => {
@@ -28,7 +25,7 @@ const Header = (props) => {
 						<SkinContext.Consumer>
 							{ ({ theme, toggleTheme, changeThemeColor }) => (
 								<HeaderWrappThemeSwitch>
-									<Button className="btn-adjust is-outlined" onClick={toggleTheme}>
+									<IZButton color="secondary" isOutlined={true} className="btn-adjust" onClick={toggleTheme}>
 										<span className="text">Dark theme: { theme.background ===  themes.light.background ? 'OFF' : 'ON' }</span>
 										<span className="icons">
 											{ theme.background === themes.light.background
@@ -36,7 +33,7 @@ const Header = (props) => {
 													: <i className="far fa-sun"></i>
 											}
 										</span>
-									</Button>
+									</IZButton>{' '}
 									<DropdownTheme changeThemeColor={changeThemeColor} />
 								</HeaderWrappThemeSwitch>
 							)}

@@ -34,7 +34,7 @@ export const SpinnerIRotate = styled.i`
         width: 1em;
         height: 1em;
         border-radius: 50%;
-        box-shadow: inset 0 0 0 .1em var(--color-primary-light);
+        box-shadow: inset 0 0 0 .1em var(--color-primary);
         animation: ${spinnerCircle} 1s ease-in-out infinite;
     }
 `;
