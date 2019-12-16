@@ -45,34 +45,6 @@ const GlobalStyle = createGlobalStyle`
 		padding: 0;
 		margin: 0;
 	}
-
-	/* Custom Bulma Framework */
-	/* Button */
-	/* .iz-root .button {
-		background-color: var(--color-primary-light);
-		border-color: transparent;
-		color: #fff;
-	}
-
-	.iz-root .button:hover,
-	.iz-root .button:focus {
-		background-color: var(--color-primary-dark);
-		border-color: transparent;
-		color: #fff;
-	}
-
-	.iz-root .button.is-outlined {
-		background-color: transparent;
-		border-color: var(--color-primary-light);
-		color: var(--color-primary-light);
-	}
-
-	.iz-root .button.is-outlined:hover,
-	.iz-root .button.is-outlined:focus {
-		background-color: transparent;
-		border-color: var(--color-primary-light);
-		color: var(--color-primary-light);
-	} */
 `;
 
 export default GlobalStyle;

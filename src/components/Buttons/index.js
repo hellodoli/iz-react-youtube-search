@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Button } from 'react-bulma-components';
 
-export const IZButton = styled(Button)`
+// style from button.button
+export const IZButton = styled.button.attrs(() => ({ className: 'button' }))`
   /* #fff: default color text as button normal - đa số trường hợp màu là đúng */
   ${ ({ color = 'primary', isOutlined = false }) => `
     border-color: ${ isOutlined ? `var(--color-${color})` : 'transparent' };

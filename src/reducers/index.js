@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import videosReducer from './videos';
-import search from './search';
+import searchReducer from './search';
+import oauthReducer from './oauth';
 
 const rootReducer = combineReducers({
   videosReducer,
-  search
+  searchReducer,
+  oauthReducer
 });
 
 export default rootReducer;

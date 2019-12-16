@@ -1,6 +1,7 @@
 import React,{ Component } from 'react';
 import { connect } from 'react-redux';
 import { changeFilterParams } from '../../actions/videos';
+import { IZButton } from '../Buttons';
 import { Columns, Button } from 'react-bulma-components';
 import { 
   FilterWrapper,
@@ -430,7 +431,7 @@ class Filter extends Component {
     return(
       <FilterWrapper>
         <FilterButton ref={this.filterButton}>
-          <Button>Filter</Button>
+          <IZButton>Filter</IZButton>
         </FilterButton>
 
         <div ref={this.collapseSection} className="collapse">
@@ -455,7 +456,7 @@ class Filter extends Component {
                                       { item.showName }
                                     </span>
                                     { isActive === 'active' &&
-                                        <Button 
+                                        <Button
                                           remove={true}
                                           size="small"
                                           className="close"
@@ -479,7 +480,7 @@ class Filter extends Component {
 }
 
 const mapStateToProps = state => ({
-  searchValue: state.search.changeValueSearchReducer,
+  searchValue: state.searchReducer.changeValue,
   filterParams: state.videosReducer.filterParams
 });
 

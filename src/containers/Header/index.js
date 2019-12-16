@@ -1,47 +1,60 @@
 import React from 'react';
 import { Container } from 'react-bulma-components';
-import { 
+import {
 	HeaderWrapp,
 	HeaderWrappInner,
 	HeaderWrappForSearch,
 	HeaderWrappThemeSwitch
 } from './styled';
-import { IZButton } from '../../styled/Buttons';
+import { IZButton } from '../../components/Buttons';
 import Search from '../../components/Search';
 import DropdownTheme from '../../components/DropdownTheme';
+import OAuth from '../../components/OAuth';
 
 import { SkinContext, themes } from '../../skin-context';
 import PropTypes from 'prop-types';
 
 const Header = (props) => {
-    return( 
-			<HeaderWrapp>
-				<Container>
-					<HeaderWrappInner>
-						<HeaderWrappForSearch>
-							<Search onFormSubmit={props.onFormSubmit} />
-						</HeaderWrappForSearch>
+	return ( 
+		<HeaderWrapp>
+			<Container>
+				<HeaderWrappInner>
+					<HeaderWrappForSearch>
+						<Search onFormSubmit={props.onFormSubmit} />
+					</HeaderWrappForSearch>
 
-						<SkinContext.Consumer>
-							{ ({ theme, toggleTheme, changeThemeColor }) => (
-								<HeaderWrappThemeSwitch>
-									<IZButton color="secondary" isOutlined={true} className="btn-adjust" onClick={toggleTheme}>
+					<SkinContext.Consumer>
+						{({ theme, themeColor, toggleTheme, changeThemeColor }) => (
+							<HeaderWrappThemeSwitch>
+								<div className="item">
+									<IZButton
+										className="btn-adjust"
+										color="secondary"
+										isOutlined={true} 
+										onClick={toggleTheme}
+									>
 										<span className="text">Dark theme: { theme.background ===  themes.light.background ? 'OFF' : 'ON' }</span>
 										<span className="icons">
 											{ theme.background === themes.light.background
-													? <i className="fas fa-sun"></i>
-													: <i className="far fa-sun"></i>
+													? <i className="fas fa-lightbulb"></i>
+													: <i className="far fa-lightbulb"></i>
 											}
 										</span>
-									</IZButton>{' '}
-									<DropdownTheme changeThemeColor={changeThemeColor} />
-								</HeaderWrappThemeSwitch>
-							)}
-						</SkinContext.Consumer>
-					</HeaderWrappInner>
-				</Container>
-			</HeaderWrapp>
-    );
+									</IZButton>
+								</div>
+								<div className="item">
+									<DropdownTheme changeThemeColor={changeThemeColor} themeColor={themeColor} />
+								</div>
+								<div className="item">
+									<OAuth />
+								</div>
+							</HeaderWrappThemeSwitch>
+						)}
+					</SkinContext.Consumer>
+				</HeaderWrappInner>
+			</Container>
+		</HeaderWrapp>
+	);
 }
 
 Header.propTypes = {

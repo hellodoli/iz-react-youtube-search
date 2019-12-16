@@ -5,67 +5,63 @@ import { changeLayout } from '../../actions/videos';
 import { changeValueSearch } from '../../actions/search';
 
 import {
-    SearchWrapp,
-    SearchInput,
-    SearchButton
+  SearchWrapp,
+  SearchInput,
+  SearchButton
 } from './styled';
 
 class Search extends Component {
-    
-    constructor() {
-        super();
-        this.state = {
-            inputValue: ''
-        }
-        this.inputSearch = React.createRef();
+  constructor() {
+    super();
+    this.state = {
+      inputValue: ''
     }
+    this.inputSearch = React.createRef();
+  }
 
-    handleOnchange = (e) => {
-        this.setState({ inputValue: e.target.value });
-    }
+  handleOnchange = (e) => {
+    this.setState({ inputValue: e.target.value });
+  }
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        const { inputValue } = this.state;
-        if( inputValue.trim() === "" ) {
-            return;
-        }else {
-            this.props.changeValueSearch(inputValue);
-            this.props.onFormSubmit(inputValue);
-            this.props.changeLayout(0);
-        }
+  onSubmit = (e) => {
+    e.preventDefault();
+    const { inputValue } = this.state;
+    if (inputValue.trim() === "") {
+        return;
+    } else {
+      this.props.changeValueSearch(inputValue);
+      this.props.onFormSubmit(inputValue);
+      this.props.changeLayout(0);
     }
+  }
 
-    render() {
-        
-        return(
-            <form onSubmit={this.onSubmit}>
-                <SearchWrapp>
-                    <SearchInput 
-                        ref={this.inputSearch}
-                        type="text"
-                        value={this.state.inputValue}
-                        onChange={this.handleOnchange}
-                    />
-                    <SearchButton>
-                        <i className="fas fa-search"></i>
-                    </SearchButton>
-                </SearchWrapp>
-            </form>
-        );
-    }
+  render () {
+    return (
+      <form onSubmit={this.onSubmit}>
+        <SearchWrapp>
+          <SearchInput 
+            ref={this.inputSearch}
+            type="text"
+            value={this.state.inputValue}
+            onChange={this.handleOnchange}
+          />
+          <SearchButton>
+            <i className="fas fa-search"></i>
+          </SearchButton>
+        </SearchWrapp>
+      </form>
+    );
+  }
 }
 
-const mapStateToProps = state => {
-    return {
-        searchValue: state.search.changeValueSearchReducer
-    }
-}
+const mapStateToProps = state => ({
+  searchValue: state.searchReducer.changeValue
+});
 
 export default connect(
-    mapStateToProps, 
-    { 
-        changeLayout,
-        changeValueSearch
-    }
+  mapStateToProps,
+  {
+    changeLayout,
+    changeValueSearch
+  }
 )(Search);

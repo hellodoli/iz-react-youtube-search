@@ -10,6 +10,7 @@ import Filter from './components/Filter';
 import VideoList from './components/Videos/VideosList';
 import VideoDetail from './components/Videos/VideoDetail';
 import { SpinnerCircle } from './components/Loading';
+import Comments from './components/Comments';
 
 // Theme Context
 import { themes, themesColor, SkinContext } from "./skin-context";
@@ -141,7 +142,12 @@ class App extends Component {
 			}
 			return <div>Pls search and choose one video ^^.</div>; // default or not found video.
 		}
-		return <VideoDetail />;
+		return (
+			<React.Fragment>
+				<VideoDetail />
+				<Comments />
+			</React.Fragment>
+		);
 	}
 
 	renderVideoLayoutRight = () => {
@@ -202,13 +208,14 @@ class App extends Component {
 
 const mapStateToProps = state => ({
 	layout: state.videosReducer.changeLayout,
-	search: state.search.changeValueSearchReducer,
+	search: state.searchReducer.changeValue,
 	videos: Object.values(state.videosReducer.videos[1]),
 	nextPageToken: state.videosReducer.videos[0],
-	filterParams: state.videosReducer.filterParams
+	filterParams: state.videosReducer.filterParams,
+	selectedVideo: state.videosReducer.selectedVideo
 });
 
-export default connect(mapStateToProps, 
+export default connect(mapStateToProps,
 	{ 
 		fecthVideos,
 		fetchFilterVideos,
