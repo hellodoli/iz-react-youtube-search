@@ -60,7 +60,7 @@ export function checkLastDate(m,y) {
   return lastDay;
 }
 
-export const mapKeysYoutubeVideo = (data) => {
+export function mapKeysYoutubeVideo (data) {
   const newData = {};
   if (typeof data === 'object' && data.length !== undefined) {
     let isKeyExist = false;
@@ -101,28 +101,36 @@ export function convertTime (time) {
     
   interval = Math.floor(seconds / aYear);
   if (interval > 1) {
-    return `${interval} year ${token}`;
+    return `${interval} years ${token}`;
   }
   
   interval = Math.floor(seconds / aMonth);
   if (interval > 1) {
-    return `${interval} month ${token}`;
+    return `${interval} months ${token}`;
   }
   
   interval = Math.floor(seconds / aDay);
   if (interval > 1) {
-    return `${interval} day ${token}`;
+    return `${interval} days ${token}`;
   }
   
   interval = Math.floor(seconds / aHour);
   if (interval > 1) {
-    return `${interval} hour ${token}`;
+    return `${interval} hours ${token}`;
   }
   
   interval = Math.floor(seconds / aMinute);
   if (interval > 1) {
-    return `${interval} minute ${token}`;
+    return `${interval} minutes ${token}`;
   }
     
   return `${Math.floor(seconds)} second ${token}`;
+}
+
+export function converNumberLike (number) {
+  if (number > 1000) {
+    number = number / 1000;
+    return number.toFixed(1) + 'K';
+  }
+  return number;
 }

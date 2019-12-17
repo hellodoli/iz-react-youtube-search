@@ -21,6 +21,28 @@ export const CommentMediaWrapper = styled(Media)`
   }
 `
 
+export const CommentMetaWrapper = styled.div`
+  font-size: .8125rem;
+
+  & > div {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  & > div:not(:last-child) {
+    margin-right: 1rem;
+  }
+
+  i {
+    padding: .25rem;
+    margin-right: .5rem;
+    cursor: pointer;
+    &:hover {
+      color: var(--color-main-title);
+    }
+  }
+`
+
 export const RepliesButton = styled.div`
   font-size: .875rem;
   font-weight: 700;

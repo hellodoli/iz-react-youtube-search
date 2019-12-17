@@ -5,13 +5,19 @@ import {
   CommentText,
   CommentAuthorName,
   CommentPublish,
-  RepliesButton
+  CommentMetaWrapper,
+  RepliesButton,
 } from './styled';
-import { convertTime } from '../../helper';
+import { convertTime, converNumberLike } from '../../helper';
 
 
 export default ({ comment, replyCount = null, children }) => {
-  const { authorProfileImageUrl, authorDisplayName, publishedAt, textDisplay } = comment; // main comment
+  const {
+    authorProfileImageUrl, authorDisplayName,
+    publishedAt,
+    textDisplay,
+    likeCount
+  } = comment; // main comment
   const [isOpen, setIsOpen] = useState(false);
 
   // toggle Collapse
@@ -33,17 +39,27 @@ export default ({ comment, replyCount = null, children }) => {
             <CommentPublish>{ convertTime(publishedAt) }</CommentPublish>
           </div>
           <CommentText dangerouslySetInnerHTML={{ __html: textDisplay }}></CommentText>
+          <CommentMetaWrapper>
+            <div>
+              <i className="fas fa-thumbs-up"></i>
+              <span>{ converNumberLike(likeCount) }</span>
+            </div>
+            <div>
+              <i className="fas fa-thumbs-down"></i>
+              <span></span>
+            </div>
+          </CommentMetaWrapper>
         </Content>
-        
+
         {/* Replies comments */}
         {(children && children.length > 0)
             ?
-            <div>
+            <div className="iz-video-comments-replies">
               <RepliesButton onClick={collapseRepliesSection} isOpen={isOpen}>
                 <span>{ isOpen ? `Hide replies` : `View ${replyCount} replies` }</span>
                 <i className="fas fa-chevron-down"></i>
               </RepliesButton>
-              { isOpen && <div className="iz-video-comments-replies">{ children }</div> }
+              { isOpen && <div>{ children }</div> }
             </div>
             : null
         }
