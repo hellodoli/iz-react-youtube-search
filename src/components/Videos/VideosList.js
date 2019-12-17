@@ -20,7 +20,6 @@ const VideoItem = ({ video, layout, selectVideo, changeLayout }) => {
   const isPlaylist = video.id.kind === ytIsPlaylist ? true : false;
   const isChanel = video.id.kind === ytIsChanel ? true : false;
   const thumbnail = video.snippet.thumbnails;
-
   return (
     <VideoThumbWrapp
       layout={layout}
@@ -38,7 +37,7 @@ const VideoItem = ({ video, layout, selectVideo, changeLayout }) => {
       </VideoThumbImage>
 
       <VideoThumbContent layout={layout}>
-        <h3>{ video.snippet.title.replace(/&quot;/g, '\"') }</h3>
+        <h3 dangerouslySetInnerHTML={{ __html: video.snippet.title }}></h3>
         <p>{ video.snippet.channelTitle }</p>
         { layout === 0 && <VideoThumbDes>{ video.snippet.description }</VideoThumbDes> }
       </VideoThumbContent>
@@ -63,12 +62,10 @@ const VideoList = ({ videos, layout, selectVideo, changeLayout }) => {
   );
 }
 
-const mapStateToProps = state => {
-  return { 
-    selectedVideo: state.videosReducer.selectedVideo,
-    layout: state.videosReducer.changeLayout
-  }
-}
+const mapStateToProps = state => ({
+  selectedVideo: state.videosReducer.selectedVideo,
+  layout: state.videosReducer.changeLayout
+});
 
 export default connect(
   mapStateToProps,

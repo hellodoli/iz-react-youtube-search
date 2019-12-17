@@ -7,9 +7,11 @@ class Comments extends Component {
 
   constructor () {
     super();
+    this.collapseRepliesButton = React.createRef();
+    this.repliesSection = React.createRef();
     this.state = {
       commentsAPI: new CommentsAPI(),
-      comments: []
+      comments: [],
     }
   }
 
@@ -28,14 +30,32 @@ class Comments extends Component {
     this.getCommentsByVideoId(videoId);
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    if (this.props.selectedVideo.id.videoId !== nextProps.selectedVideo.id.videoId) {
+      this.getCommentsByVideoId(nextProps.selectedVideo.id.videoId);
+    }
+    return true;
+  }
+
   render () {
     const { comments } = this.state;
-    console.log(comments);
+    console.log('comments: ', comments);
     return (
-      <div className="iz-comments-video">
-        {comments && comments.length > 0 && comments.map(comment =>
-          <CommentItem key={comment.id} comment={comment.snippet.topLevelComment.snippet} />
-        )}
+      <div className="iz-video-comments" style={{ marginTop: '2rem' }}>
+        {comments.length > 0 && comments.map(comment => {
+          const repliesComments = comment.replies ? comment.replies.comments : [];
+          return (
+            <CommentItem
+              key={comment.id}
+              comment={comment.snippet.topLevelComment.snippet}
+              replyCount={comment.snippet.totalReplyCount}
+            >
+              { repliesComments.length > 0 && repliesComments.map(comment =>
+                <CommentItem key={comment.id} comment={comment.snippet} />
+              )}
+            </CommentItem>
+          );
+        })}
       </div>
     );
   }

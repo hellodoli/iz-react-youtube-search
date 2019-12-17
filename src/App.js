@@ -181,7 +181,7 @@ class App extends Component {
 											{/* render Filter */}
 											{ this.renderFilter() }
                       
-											{/* render VideoDetail, VideoList (left) */}
+											{/* render VideoDetail, Comments, VideoList (left) */}
 											{ this.renderVideoLayoutLeft() }
 
 											{/* render LoadingMoreVideo */}

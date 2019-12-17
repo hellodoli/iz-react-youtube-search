@@ -5,6 +5,7 @@ class Comments {
     try {
       var params = { 
         ...defaultParams,
+        part: 'snippet,replies',
         order: 'relevance',
         videoId
       };

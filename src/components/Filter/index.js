@@ -25,7 +25,6 @@ class Filter extends Component {
     this.collapseSection = React.createRef();
     this.state = {
       prevParams: {},
-      // params: { type: 'video' },
       filterList: []
     }
   }
@@ -186,16 +185,14 @@ class Filter extends Component {
   componentDidMount() {
     const filterButton = this.filterButton.current;
     const collapseSection = this.collapseSection.current;
-    let height = '';
-    filterButton.addEventListener('click', () => { h.collapse(collapseSection, height) });
+    filterButton.addEventListener('click', () => { h.collapse(collapseSection) });
   }
 
   componentWillUnmount() {
     const filterButton = this.filterButton.current;
     const collapseSection = this.collapseSection.current;
-    let height = '';
     if (filterButton) {
-      filterButton.removeEventListener('click', () => { h.collapse(collapseSection, height) });
+      filterButton.removeEventListener('click', () => { h.collapse(collapseSection) });
     }
   }
 

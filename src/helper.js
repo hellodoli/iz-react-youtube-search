@@ -1,10 +1,10 @@
 import './helper.css';
 
-export const collapse = (collapseSection, height) => {
+export const collapse = (collapseSection) => {
   if (collapseSection) {
     if (collapseSection.classList.contains('show')) {
       // collapse
-      height = collapseSection.offsetHeight;
+      const height = collapseSection.offsetHeight;
       collapseSection.style.height = height + 'px';
       collapseSection.classList.add('collapsing');
         
@@ -20,7 +20,7 @@ export const collapse = (collapseSection, height) => {
     } else {
       // expand
       collapseSection.style.display = "block";
-      height = collapseSection.offsetHeight;
+      const height = collapseSection.offsetHeight;
       collapseSection.classList.add('collapsing');
 
       window.setTimeout(() => {
@@ -82,4 +82,47 @@ export const mapKeysYoutubeVideo = (data) => {
     }
   }
   return newData;
+}
+
+// convert string time format to time with '... y ago'
+export function convertTime (time) {
+  const token = 'ago';
+  const aYear = 365*24*60*60; // 31536000 second
+  const aMonth = 30*24*60*60; // 2592000 second
+  const aDay = 24*60*60; // 86400 second
+  const aHour = 60*60; // 3600 second
+  const aMinute = 60; // 60 second
+        
+  var interval = '';
+  var stringTime = time.replace('T', ' ').replace('Z',''); // time is format 'YYYY-MM-DD T HH:MM:SSZ'
+  var targetDate = new Date(stringTime); // target Date
+    
+  var seconds = Math.floor((new Date() - targetDate) / 1000);
+    
+  interval = Math.floor(seconds / aYear);
+  if (interval > 1) {
+    return `${interval} year ${token}`;
+  }
+  
+  interval = Math.floor(seconds / aMonth);
+  if (interval > 1) {
+    return `${interval} month ${token}`;
+  }
+  
+  interval = Math.floor(seconds / aDay);
+  if (interval > 1) {
+    return `${interval} day ${token}`;
+  }
+  
+  interval = Math.floor(seconds / aHour);
+  if (interval > 1) {
+    return `${interval} hour ${token}`;
+  }
+  
+  interval = Math.floor(seconds / aMinute);
+  if (interval > 1) {
+    return `${interval} minute ${token}`;
+  }
+    
+  return `${Math.floor(seconds)} second ${token}`;
 }
