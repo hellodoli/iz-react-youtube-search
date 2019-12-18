@@ -62,3 +62,6 @@ export const RepliesButton = styled.div`
     }
   }
 `
+export const CommentWriterWrapper = styled.div`
+  margin-bottom: 3rem;
+`

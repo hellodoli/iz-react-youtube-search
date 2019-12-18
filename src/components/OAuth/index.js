@@ -5,10 +5,16 @@ import { signIn, signOut } from '../../actions/oauth';
 import { connect } from 'react-redux';
 
 import { IZButton } from '../Buttons';
-
 import UserInfo from './UserInfo';
 
 class OAuth extends Component {
+
+  constructor () {
+    super();
+    this.state = {
+
+    }
+  }
 
   componentDidMount () {
     window.gapi.load('client:auth2', () => {
@@ -20,14 +26,20 @@ class OAuth extends Component {
           this.auth = window.gapi.auth2.getAuthInstance();
           this.onAuthChange(this.auth.isSignedIn.get());
           this.auth.isSignedIn.listen(this.onAuthChange);
-          // console.log(this.auth.currentUser.get().getBasicProfile()) // user
+          console.log('user login: ', this.auth.isSignedIn.get());
         });
     });
   }
 
   onAuthChange = (isSignedIn) => {
     if (isSignedIn) {
-      this.props.signIn(this.auth.currentUser.get().getId());
+      const user = this.auth.currentUser.get();
+      const userInfo = {
+        id: user.getId(),
+        profile: user.getBasicProfile(),
+        authResponse: user.getAuthResponse()
+      };
+      this.props.signIn(userInfo);
     } else {
       this.props.signOut();
     }
@@ -37,17 +49,24 @@ class OAuth extends Component {
     if (this.props.isSignedIn) {
       this.auth.signOut();
     } else {
-      this.auth.signIn();
+      this.auth
+        .signIn({ scope: "https://www.googleapis.com/auth/youtube.force-ssl" })
+        .then((res) => {
+          console.log('Sign-in successful');
+          console.log(res);
+        });
     }
   }
 
   renderUserInfo = () => {
-    if (this.props.isSignedIn) {
-      return <UserInfo />;
+    const { isSignedIn } = this.props;
+    if (isSignedIn) {
+      return <UserInfo profile={this.props.userProfile} singInOrSignOut={this.singInOrSignOut} />;
     } else {
-      return (
-        <IZButton color="secondary" onClick={this.singInOrSignOut}>Login</IZButton>
-      );
+      if (isSignedIn === null) {
+        return null;
+      }
+      return <IZButton color="secondary" onClick={this.singInOrSignOut}>Login</IZButton>;
     }
   }
 
@@ -62,7 +81,8 @@ class OAuth extends Component {
 
 const mapstateToProps = state => ({
   isSignedIn: state.oauthReducer.isSignedIn,
-  userId: state.oauthReducer.userId
+  userId: state.oauthReducer.userId,
+  userProfile: state.oauthReducer.profile
 });
 
 export default connect(mapstateToProps, {

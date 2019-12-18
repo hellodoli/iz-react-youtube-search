@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Media, Content } from 'react-bulma-components';
 import {
   CommentMediaWrapper,
@@ -11,7 +11,7 @@ import {
 import { convertTime, converNumberLike } from '../../helper';
 
 
-export default ({ comment, replyCount = null, children }) => {
+const CommentItem = ({ comment, replyCount = null, children }) => {
   const {
     authorProfileImageUrl, authorDisplayName,
     publishedAt,
@@ -67,3 +67,5 @@ export default ({ comment, replyCount = null, children }) => {
     </CommentMediaWrapper>
   );
 }
+
+export default CommentItem;
