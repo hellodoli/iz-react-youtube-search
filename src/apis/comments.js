@@ -16,36 +16,27 @@ class Comments {
     }
   }
 
-  async postNewComment (videoId, commentText, authResponse) {
+  async postNewComment (video, textOriginal, authResponse) {
     try {
       var params = {
         snippet: {
-          videoId,
+          videoId: video.id.videoId,
           topLevelComment: {
             snippet: {
-              textOriginal: commentText
+              textOriginal
             }
-          }
+          },
+          channelId: video.snippet.channelId,
         }
       };
-      // ?part=${defaultParams.part}&key=${defaultParams.key}
-      const response = await youtube.post(`/commentThreads?part=${defaultParams.part}&key=${defaultParams.key}`,
-        {
-          'resource': {
-            'snippet': {
-              'videoId': videoId,
-              'topLevelComment': {
-                'snippet': {
-                  'textOriginal': commentText
-                }
-              }
-            }
-          }
-        },
+      const response = await youtube.post(
+        `/commentThreads?part=${defaultParams.part}&key=${defaultParams.key}`,
+        params,
         {
           headers: {
+            'Authorization': `${authResponse.token_type} ${authResponse.access_token}`,
             'Accept': 'application/json',
-            'Authorization': `${authResponse.token_type} ${authResponse.access_token}`
+            'Content-Type': 'application/json'
           }
         }
       );

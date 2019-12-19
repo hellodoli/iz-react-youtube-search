@@ -43,7 +43,7 @@ class Comments extends Component {
     return (
       <div className="iz-video-comments" style={{ marginTop: '2rem' }}>
         <CommentWriter
-          videoId={selectedVideo.id.videoId}
+          selectedVideo={selectedVideo}
           userProfile={userProfile}
           authResponse={authResponse}
         />

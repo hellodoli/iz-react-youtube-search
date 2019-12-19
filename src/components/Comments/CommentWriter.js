@@ -29,13 +29,37 @@ class CommentWriter extends Component {
   }
 
   postNewComment = async () => {
-    const { commentAPI } = this.state;
-    await commentAPI.postNewComment(this.props.videoId, this.state.textInput, this.props.authResponse);
+    const { commentAPI, textInput } = this.state;
+    const { selectedVideo, authResponse } = this.props;
+    await commentAPI.postNewComment(selectedVideo, textInput, authResponse);
+  }
+
+  testPostComment = () => {
+    return window.gapi.client.youtube.commentThreads.insert({
+      "part": "snippet",
+      "resource": {
+        "snippet": {
+          "channelId": "UCQnw0PycCRlSsT8fQlTDyBA",
+          "videoId": "v1iiCTN1cCM",
+          "topLevelComment": {
+            "snippet": {
+              "textOriginal": "good song ^^"
+            }
+          }
+        }
+      }
+    })
+    .then(function(response) {
+      // Handle the results here (response.result has the parsed body).
+      console.log("Response", response);
+    },
+    function(err) { console.error("Execute error", err); });
   }
 
   submitComment = (e) => {
     e.preventDefault();
     this.postNewComment();
+    // this.testPostComment();
   }
 
   render () {

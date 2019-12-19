@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-
 import { signIn, signOut } from '../../actions/oauth';
-
+import { defaultParams } from '../../apis/youtube';
 import { connect } from 'react-redux';
-
 import { IZButton } from '../Buttons';
 import UserInfo from './UserInfo';
 
@@ -20,7 +18,7 @@ class OAuth extends Component {
     window.gapi.load('client:auth2', () => {
       window.gapi.auth2.init({
         client_id: '272935394212-0tpk33a8gigesb0mojmj0eci5oiut43b.apps.googleusercontent.com',
-        scope: 'email'
+        scope: 'email https://www.googleapis.com/auth/youtube.force-ssl'
       })
         .then(() => {
           this.auth = window.gapi.auth2.getAuthInstance();
@@ -45,15 +43,25 @@ class OAuth extends Component {
     }
   }
 
+  loadClient = () => {
+    window.gapi.client.setApiKey(defaultParams.key);
+    return window.gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
+              .then(() => { console.log("GAPI client loaded for API"); },
+                    (err) => { console.error("Error loading GAPI client for API", err); });
+  }
+
   singInOrSignOut = () => {
     if (this.props.isSignedIn) {
       this.auth.signOut();
     } else {
       this.auth
-        .signIn({ scope: "https://www.googleapis.com/auth/youtube.force-ssl" })
+        .signIn()
         .then((res) => {
           console.log('Sign-in successful');
           console.log(res);
+        })
+        .then(() => {
+          this.loadClient(); // load Client
         });
     }
   }
