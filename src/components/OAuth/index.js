@@ -6,18 +6,10 @@ import { IZButton } from '../Buttons';
 import UserInfo from './UserInfo';
 
 class OAuth extends Component {
-
-  constructor () {
-    super();
-    this.state = {
-
-    }
-  }
-
   componentDidMount () {
     window.gapi.load('client:auth2', () => {
       window.gapi.auth2.init({
-        client_id: '272935394212-0tpk33a8gigesb0mojmj0eci5oiut43b.apps.googleusercontent.com',
+        client_id: '189353813847-3eqgpnmplgfjhh1l2ju6tppuptu5r42p.apps.googleusercontent.com',
         scope: 'email https://www.googleapis.com/auth/youtube.force-ssl'
       })
         .then(() => {
@@ -61,7 +53,7 @@ class OAuth extends Component {
           console.log(res);
         })
         .then(() => {
-          this.loadClient(); // load Client
+          // this.loadClient(); // load Client
         });
     }
   }

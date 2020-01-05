@@ -5,18 +5,18 @@ import CommentItem from './CommentItem';
 import CommentWriter from './CommentWriter';
 
 class Comments extends Component {
-
   constructor () {
     super();
     this.state = {
       commentsAPI: new CommentsAPI(),
       comments: [],
+      isLoadingPostComment: false
     }
   }
 
   getCommentsByVideoId = async (videoId) => {
     const { commentsAPI } = this.state;
-    await commentsAPI.getCommentsByVideoId(videoId);
+    await commentsAPI.getCommentsByVideoId(videoId, this.props.authResponse);
     if (commentsAPI.comments.items.length > 0) {
       this.setState({ comments: commentsAPI.comments.items });
     } else {
@@ -38,15 +38,21 @@ class Comments extends Component {
 
   render () {
     const { comments } = this.state;
-    const { userProfile, authResponse, selectedVideo } = this.props;
+    const { userProfile, authResponse, isSignedIn, selectedVideo } = this.props;
     console.log('comments: ', comments);
     return (
       <div className="iz-video-comments" style={{ marginTop: '2rem' }}>
-        <CommentWriter
-          selectedVideo={selectedVideo}
-          userProfile={userProfile}
-          authResponse={authResponse}
-        />
+        { isSignedIn
+          ? <CommentWriter
+              selectedVideo={selectedVideo}
+              userProfile={userProfile}
+              authResponse={authResponse}
+
+              getCommentsByVideoId={this.getCommentsByVideoId}
+            />
+          : null
+        }
+        
         <div>
           {comments.length > 0 && comments.map(comment => {
             const repliesComments = comment.replies ? comment.replies.comments : [];
@@ -70,6 +76,7 @@ class Comments extends Component {
 
 const mapStateToProps = state => ({
   selectedVideo: state.videosReducer.selectedVideo,
+  isSignedIn: state.oauthReducer.isSignedIn,
   userProfile: state.oauthReducer.profile,
   authResponse: state.oauthReducer.authResponse
 });

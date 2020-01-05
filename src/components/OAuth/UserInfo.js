@@ -33,7 +33,7 @@ const UserInfo = ({ profile, singInOrSignOut }) => {
   return (
     <UserInfoWrapper>
       <ImageUserWrapper onClick={() => { setIsOpen(!isOpen) }}>
-        <img src={imageAvataSrc} className="is-rounded" />
+        <img src={imageAvataSrc} className="is-rounded" alt="" />
       </ImageUserWrapper>
       
       { isOpen && <UserBoard singInOrSignOut={singInOrSignOut} /> }

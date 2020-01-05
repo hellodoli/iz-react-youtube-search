@@ -29,7 +29,7 @@ const CommentItem = ({ comment, replyCount = null, children }) => {
     <CommentMediaWrapper>
       <Media.Item position="left">
         <figure className="image is-48x48">
-          <img src={authorProfileImageUrl} className="is-rounded" />
+          <img src={authorProfileImageUrl} alt="" className="is-rounded" />
         </figure>
       </Media.Item>
       <Media.Item position="center">

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const ImageUserWrapper = styled.a.attrs(() => ({ 
   className: 'image',
-  href: 'javascript:void(0)'
+  href: 'javascript:void(0)',
 }))`
   height: 36px;
   width: 36px;
@@ -32,7 +32,7 @@ export const UserInfoBoard = styled.div`
 `
 
 export const UserInfoItem = styled.a.attrs(() => ({ 
-  href: 'javascript:void(0)'
+  href: 'javascript:void(0)',
 }))`
   padding-left: 1rem;
   padding-right: 2.25rem;

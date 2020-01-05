@@ -17,7 +17,9 @@ export const IZButton = styled.button.attrs(({ isDisabled }) => ({
     color:
       ${ isOutlined
           ? `var(--color-${color})`
-          : '#fff' // default color text as button normal - đa số trường hợp màu là đúng
+          : color === 'transparent'
+            ? 'currentColor'
+            : '#fff' // default color text as button normal - đa số trường hợp màu là đúng
       };
   `}
 
@@ -46,7 +48,11 @@ export const IZButton = styled.button.attrs(({ isDisabled }) => ({
               ? 'var(--color-primary)' // secondary color hover is primary color
               : 'transparent' // transparent color hover is transparent
       };
-      color: #fff;
+      color: ${
+        color === 'transparent'
+          ? 'currentColor'
+          : '#fff'
+      };
     `}
   }
 `;

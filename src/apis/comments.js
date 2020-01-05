@@ -1,7 +1,7 @@
 import youtube, { defaultParams } from './youtube';
 
 class Comments {
-  async getCommentsByVideoId (videoId) {
+  async getCommentsByVideoId (videoId, authResponse) {
     try {
       var params = { 
         ...defaultParams,
@@ -9,7 +9,21 @@ class Comments {
         order: 'relevance',
         videoId
       };
-      const response = await youtube.get('/commentThreads', { params });
+
+      let headers = {};
+      if (Object.values(authResponse).length > 0) {
+        headers = {
+          'Authorization': `${authResponse.token_type} ${authResponse.access_token}`,
+          'Accept': 'application/json',
+        };
+      }
+      
+      const response = await youtube.get('/commentThreads',
+        {
+          params,
+          headers
+        }
+      );
       this.comments = response.data;
     } catch (error) {
       console.log(error);
