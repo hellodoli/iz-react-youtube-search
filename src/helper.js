@@ -1,5 +1,9 @@
 import './helper.css';
 
+export const ytIsChanel = 'youtube#channel';
+export const ytIsPlaylist = 'youtube#playlist';
+export const ytIsVideo = 'youtube#video';
+
 export const collapse = (collapseSection) => {
   if (collapseSection) {
     if (collapseSection.classList.contains('show')) {
@@ -67,7 +71,7 @@ export function mapKeysYoutubeVideo (data) {
     let key = '';
     if (data[0].id) {
       for (const k in data[0].id) {
-        if (k === 'videoId' || k === 'channelId') { // other id should come here
+        if (k === 'videoId' || k === 'channelId' || k === 'playlistId') { // other id should come here
           key = k;
           isKeyExist = true;
           break;

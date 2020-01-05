@@ -40,15 +40,11 @@ export const SectBody = styled.div`
 
 export const SectItem = styled.div`
   display: flex;
+  align-items: center;
+  cursor: pointer;
 
   &:not(:last-child) {
     margin-bottom: .625rem;
-  }
-
-  & > div {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
   }
 
   .close {
@@ -57,19 +53,20 @@ export const SectItem = styled.div`
     display: none;
   }
 
-  &.ignore {
-    span{
-      font-weight: 300;
-      color: #b5b5b5;
-    }
-  }
-
-  &.active {
+  /* Ignore */
+  ${ ({ isIgnore }) => isIgnore &&`
     span {
-      font-weight: 700;
+      font-weight: 300;
+      color: ${ ({ theme, themes }) => (theme.background === themes.light.background)
+          ? `#b5b5b5`
+          : `#171717`
+      }
     }
-    .close {
-      display: block;
-    }
-  }
+  `};
+
+  /* Active */
+  ${ ({ isActive }) => isActive &&`
+    span { font-weight: 700; }
+    .close { display: block; }
+  `};
 `;

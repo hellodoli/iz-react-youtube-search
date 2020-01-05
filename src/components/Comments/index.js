@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
+import { ytIsVideo } from '../../helper';
+
 import CommentsAPI from '../../apis/comments';
 import CommentItem from './CommentItem';
 import CommentWriter from './CommentWriter';
@@ -10,7 +13,6 @@ class Comments extends Component {
     this.state = {
       commentsAPI: new CommentsAPI(),
       comments: [],
-      isLoadingPostComment: false
     }
   }
 
@@ -25,8 +27,10 @@ class Comments extends Component {
   }
 
   componentDidMount () {
-    const { videoId } = this.props.selectedVideo.id;
-    this.getCommentsByVideoId(videoId);
+    const { kind, videoId } = this.props.selectedVideo.id;
+    if (kind === ytIsVideo) {
+      this.getCommentsByVideoId(videoId);
+    }
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -42,19 +46,19 @@ class Comments extends Component {
     console.log('comments: ', comments);
     return (
       <div className="iz-video-comments" style={{ marginTop: '2rem' }}>
-        { isSignedIn
-          ? <CommentWriter
-              selectedVideo={selectedVideo}
-              userProfile={userProfile}
-              authResponse={authResponse}
+        { (isSignedIn && (selectedVideo.id.kind === ytIsVideo))
+            ? <CommentWriter
+                selectedVideo={selectedVideo}
+                userProfile={userProfile}
+                authResponse={authResponse}
 
-              getCommentsByVideoId={this.getCommentsByVideoId}
-            />
-          : null
+                getCommentsByVideoId={this.getCommentsByVideoId}
+              />
+            : null
         }
         
         <div>
-          {comments.length > 0 && comments.map(comment => {
+          { comments.length > 0 && comments.map(comment => {
             const repliesComments = comment.replies ? comment.replies.comments : [];
             return (
               <CommentItem

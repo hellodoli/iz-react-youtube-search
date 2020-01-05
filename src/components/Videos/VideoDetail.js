@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { ytIsChanel, ytIsPlaylist } from '../../helper';
+
 import {
   VideoFrameWrapper,
   VideoIframe,
@@ -10,22 +12,22 @@ import {
 
 
 const VideoDetail = ({ selectedVideo }) => {
-  if(!selectedVideo) {
+  if (!selectedVideo) {
     return <div>Pls search and choose one video.</div>
   }
 
-  if(selectedVideo.id.kind === "youtube#channel" ) {
+  if (selectedVideo.id.kind === ytIsChanel) {
     return <div>Chanel: {selectedVideo.snippet.channelTitle}</div>
   }
 
-  if(selectedVideo.id.kind === "youtube#playlist") {
+  if (selectedVideo.id.kind === ytIsPlaylist) {
     return <div>Playlist: Chưa làm playlist ^^!!</div>
   }
 
   return (
     <div className="iz-video-show">
       <VideoFrameWrapper>
-        <VideoIframe src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}></VideoIframe>  
+        <VideoIframe src={`https://www.youtube.com/embed/${selectedVideo.id.videoId}`}></VideoIframe>
       </VideoFrameWrapper>
       
       <VideoInfoWrapper>

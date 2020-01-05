@@ -13,6 +13,7 @@ import {
   SectItem
 } from './styled';
 import * as h from '../../helper';
+import { SkinContext, themes } from '../../skin-context';
 
 const FilterButton = React.forwardRef((props, ref) => (
   <FilterButtonWrapp ref={ref}>{props.children}</FilterButtonWrapp>
@@ -424,7 +425,7 @@ class Filter extends Component {
 
   render() {
     const { filterList } = this.state;
-    // const sizeFilterCol = parseInt((12 / this.state.filterList.length), 10);
+    const { theme } = this.context;
     return(
       <FilterWrapper>
         <FilterButton ref={this.filterButton}>
@@ -440,27 +441,31 @@ class Filter extends Component {
                       <SectTitle>{ filter.filterName }</SectTitle>
                         <SectBody> 
                           { filter.filterItems.map((item, index) => {
-                              const isActive = (filter.indexCurrent === index) ? 'active' : '';
-                              const isIgnore = (item.isIgnore === true) ? 'ignore' : '';
-                              const SectItemClassName = `${isActive} ${isIgnore}`;
+                              const isActive = (filter.indexCurrent === index) ? true : false;
+                              const isIgnore = (item.isIgnore === true) ? true : false;
+                              // const SectItemClassName = `${isActive} ${isIgnore}`;
                               return (
-                                <SectItem key={index + 1} className= {SectItemClassName}>
-                                  <div>
-                                    <span
-                                      className='text'
-                                      onClick={() => this.clickFilter(item, filter.indexList, index)}
-                                    >
-                                      { item.showName }
-                                    </span>
-                                    { isActive === 'active' &&
-                                        <Button
-                                          remove={true}
-                                          size="small"
-                                          className="close"
-                                          onClick={() => this.removeFilter(item, filter.indexList)}
-                                        ></Button>
-                                    }
-                                  </div>
+                                <SectItem
+                                  key={index + 1}
+                                  theme={theme}
+                                  themes={themes}
+                                  isIgnore={isIgnore}
+                                  isActive={isActive}
+                                >
+                                  <span
+                                    className='text'
+                                    onClick={() => this.clickFilter(item, filter.indexList, index)}
+                                  >
+                                    { item.showName }
+                                  </span>
+                                  { isActive &&
+                                      <Button
+                                        remove={true}
+                                        size="small"
+                                        className="close"
+                                        onClick={() => this.removeFilter(item, filter.indexList)}
+                                      ></Button>
+                                  }
                                 </SectItem>
                               );
                           })}
@@ -475,6 +480,8 @@ class Filter extends Component {
     );
   }
 }
+
+Filter.contextType = SkinContext;
 
 const mapStateToProps = state => ({
   searchValue: state.searchReducer.changeValue,

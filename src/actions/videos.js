@@ -58,7 +58,10 @@ export const fetchFilterVideos = (search, filterParams) => async (dispatch) => {
     const response = await youtube.get('/search', { params });
     dispatch({
       type: FETCH_FILTER_VIDEOS,
-      payload: response.data
+      payload: 
+        response.data.items.length > 0
+          ? response.data
+          : []
     });
   } catch (error) {
     console.log(error);
