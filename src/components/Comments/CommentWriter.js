@@ -1,34 +1,27 @@
-import React, { Component } from 'react';
-import commentAPI from '../../apis/comments';
+import React, { Component } from "react";
+import commentAPI from "../../apis/comments";
 
-import {
-  Media,
-  Form,
-  Level
-} from 'react-bulma-components';
+import { Media, Form, Level } from "react-bulma-components";
 
-import { IZButton } from '../Buttons';
-import { SpinnerCircle } from '../Loading';
+import { IZButton } from "../Buttons";
+import { SpinnerCircle } from "../Loading";
 
-import {
-  CommentWriterWrapper,
-  CommentMediaWrapper
-} from './styled';
+import { CommentWriterWrapper, CommentMediaWrapper } from "./styled";
 
 class CommentWriterMain extends Component {
-  constructor () {
+  constructor() {
     super();
     this.state = {
-      textInput: '',
+      textInput: "",
       commentAPI: new commentAPI(),
       postComment: null,
       isOpenButtons: false
     };
   }
 
-  changeTextInput = (e) => {
+  changeTextInput = e => {
     this.setState({ textInput: e.target.value });
-  }
+  };
 
   postNewComment = async () => {
     const { commentAPI, textInput } = this.state;
@@ -38,60 +31,67 @@ class CommentWriterMain extends Component {
     await this.props.getCommentsByVideoId(selectedVideo.id.videoId);
     this.props.endLoading();
     this.setState({ isOpenButtons: false });
-  }
+  };
 
   // just test post Comment
   testPostComment = () => {
-    return window.gapi.client.youtube.commentThreads.insert({
-      "part": "snippet",
-      "resource": {
-        "snippet": {
-          "channelId": "UCQnw0PycCRlSsT8fQlTDyBA",
-          "videoId": "v1iiCTN1cCM",
-          "topLevelComment": {
-            "snippet": {
-              "textOriginal": "good song ^^"
+    return window.gapi.client.youtube.commentThreads
+      .insert({
+        part: "snippet",
+        resource: {
+          snippet: {
+            channelId: "UCQnw0PycCRlSsT8fQlTDyBA",
+            videoId: "v1iiCTN1cCM",
+            topLevelComment: {
+              snippet: {
+                textOriginal: "good song ^^"
+              }
             }
           }
         }
-      }
-    })
-    .then(function(response) {
-      // Handle the results here (response.result has the parsed body).
-      console.log("Response", response);
-    },
-    function(err) { console.error("Execute error", err); });
-  }
+      })
+      .then(
+        function(response) {
+          // Handle the results here (response.result has the parsed body).
+          console.log("Response", response);
+        },
+        function(err) {
+          console.error("Execute error", err);
+        }
+      );
+  };
 
-  submitComment = (e) => {
+  submitComment = e => {
     e.preventDefault();
-    console.log('your comment start submit');
+    console.log("your comment start submit");
     this.postNewComment();
-  }
+  };
 
   showButtonsComment = () => {
     if (!this.state.isOpenButtons) {
       this.setState({ isOpenButtons: true });
     }
-  }
+  };
 
   hideButtonsComment = () => {
     this.setState({ isOpenButtons: false });
-  }
+  };
 
-  render () {
+  render() {
     const {
-      userProfile: {
-        Paa: imageAvataSrc
-      }
+      userProfile: { Paa: imageAvataSrc }
     } = this.props;
     const { textInput, isOpenButtons } = this.state;
-    
+
     return (
       <CommentMediaWrapper>
         <Media.Item position="left">
           <figure className="image is-48x48">
-            <img src={imageAvataSrc} className="is-rounded" alt="google-avatar" />
+            <img
+              src={imageAvataSrc}
+              className="is-rounded"
+              alt="google-avatar"
+            />
           </figure>
         </Media.Item>
 
@@ -111,18 +111,20 @@ class CommentWriterMain extends Component {
 
             <Level>
               <Level.Side align="left"></Level.Side>
-              { isOpenButtons && (
+              {isOpenButtons && (
                 <Level.Side align="right">
                   <Level.Item>
-                    <IZButton 
+                    <IZButton
                       color="transparent"
                       onClick={this.hideButtonsComment}
-                    >Cancel</IZButton>
+                    >
+                      Cancel
+                    </IZButton>
                   </Level.Item>
                   <Level.Item>
                     <IZButton
                       color="primary"
-                      isDisabled={textInput.trim() === '' ? true : false}
+                      isDisabled={textInput.trim() === "" ? true : false}
                     >
                       Submit
                     </IZButton>
@@ -140,7 +142,7 @@ class CommentWriterMain extends Component {
 class CommentWriter extends Component {
   _isMounted = false;
 
-  constructor () {
+  constructor() {
     super();
     this.state = {
       isLoading: false
@@ -152,30 +154,31 @@ class CommentWriter extends Component {
     if (this._isMounted) {
       this.setState({ isLoading: true });
     }
-  }
+  };
 
   endLoading = () => {
     this._isMounted = true;
     if (this._isMounted) {
       this.setState({ isLoading: false });
     }
-  }
+  };
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this._isMounted = false;
   }
 
-  render () {
+  render() {
     return (
       <CommentWriterWrapper>
-        { this.state.isLoading
-            ? <SpinnerCircle size={30} />
-            : <CommentWriterMain
-                startLoading ={this.startLoading}
-                endLoading={this.endLoading}
-                {...this.props}
-              />
-        }
+        {this.state.isLoading ? (
+          <SpinnerCircle size={30} />
+        ) : (
+          <CommentWriterMain
+            startLoading={this.startLoading}
+            endLoading={this.endLoading}
+            {...this.props}
+          />
+        )}
       </CommentWriterWrapper>
     );
   }

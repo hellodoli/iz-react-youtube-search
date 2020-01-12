@@ -1,36 +1,34 @@
-import youtube, { defaultParams } from './youtube';
+import youtube, { defaultParams } from "./youtube";
 
 class Comments {
-  async getCommentsByVideoId (videoId, authResponse) {
+  async getCommentsByVideoId(videoId, authResponse) {
     try {
-      var params = { 
+      var params = {
         ...defaultParams,
-        part: 'snippet,replies',
-        order: 'relevance',
+        part: "snippet,replies",
+        order: "relevance",
         videoId
       };
 
       let headers = {};
       if (Object.values(authResponse).length > 0) {
         headers = {
-          'Authorization': `${authResponse.token_type} ${authResponse.access_token}`,
-          'Accept': 'application/json',
+          Authorization: `${authResponse.token_type} ${authResponse.access_token}`,
+          Accept: "application/json"
         };
       }
-      
-      const response = await youtube.get('/commentThreads',
-        {
-          params,
-          headers
-        }
-      );
+
+      const response = await youtube.get("/commentThreads", {
+        params,
+        headers
+      });
       this.comments = response.data;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async postNewComment (video, textOriginal, authResponse) {
+  async postNewComment(video, textOriginal, authResponse) {
     try {
       var params = {
         snippet: {
@@ -40,7 +38,7 @@ class Comments {
               textOriginal
             }
           },
-          channelId: video.snippet.channelId,
+          channelId: video.snippet.channelId
         }
       };
       const response = await youtube.post(
@@ -48,9 +46,9 @@ class Comments {
         params,
         {
           headers: {
-            'Authorization': `${authResponse.token_type} ${authResponse.access_token}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            Authorization: `${authResponse.token_type} ${authResponse.access_token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json"
           }
         }
       );

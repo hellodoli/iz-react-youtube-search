@@ -1,18 +1,18 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 	@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
 	@import url('https://fonts.googleapis.com/css?family=Muli:400,600,700&display=swap');
 
 	:root {
-		${ ({ theme }) => `
+		${({ theme }) => `
 			--color-header: ${theme.header};
 			--color-background: ${theme.background};
 			--color-main-title: ${theme.mainTitle};
 			--color-text: ${theme.text};
 		`}
 
-		${ ({ themeColor }) => `
+		${({ themeColor }) => `
 			--color-primary: ${themeColor.primaryLight};
 			--color-primary-dark: ${themeColor.primaryDark};
 			--color-secondary: ${themeColor.secondary};

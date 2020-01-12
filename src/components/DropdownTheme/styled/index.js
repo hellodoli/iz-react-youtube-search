@@ -1,22 +1,22 @@
-import styled from 'styled-components';
-import { Dropdown } from 'react-bulma-components';
+import styled from "styled-components";
+import { Dropdown } from "react-bulma-components";
 
 export const DropdownThemeWrapp = styled(Dropdown)`
   .dropdown-trigger {
     .button {
       border-color: transparent;
-      background-color: ${ props => props.value };
-      border-radius: .25rem;
-      &:hover, 
+      background-color: ${props => props.value};
+      border-radius: 0.25rem;
+      &:hover,
       &:focus {
-        background-color: ${ props => props.value };
+        background-color: ${props => props.value};
       }
     }
   }
 
   .dropdown-menu {
     left: auto;
-    right: -.5rem;
+    right: -0.5rem;
   }
 
   .dropdown-content {
@@ -28,7 +28,7 @@ export const DropdownThemeWrapp = styled(Dropdown)`
     display: inline-block;
     width: 2rem;
     height: 2rem;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
     cursor: pointer;
   }
 `;

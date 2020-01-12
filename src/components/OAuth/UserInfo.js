@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   UserInfoWrapper,
   ImageUserWrapper,
   UserInfoContent,
   UserInfoBoard,
   UserInfoItem
-} from './styled';
+} from "./styled";
 
 const UserBoard = ({ singInOrSignOut }) => (
   <UserInfoContent>
     {/* Header */}
     <div>
-      <UserInfoBoard>
-        
-      </UserInfoBoard>
+      <UserInfoBoard></UserInfoBoard>
     </div>
     {/* Body */}
     <div>
@@ -26,19 +24,21 @@ const UserBoard = ({ singInOrSignOut }) => (
 );
 
 const UserInfo = ({ profile, singInOrSignOut }) => {
-  const {
-    Paa: imageAvataSrc
-  } = profile;
+  const { Paa: imageAvataSrc } = profile;
   const [isOpen, setIsOpen] = useState(false); // state
   return (
     <UserInfoWrapper>
-      <ImageUserWrapper onClick={() => { setIsOpen(!isOpen) }}>
+      <ImageUserWrapper
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+      >
         <img src={imageAvataSrc} className="is-rounded" alt="" />
       </ImageUserWrapper>
-      
-      { isOpen && <UserBoard singInOrSignOut={singInOrSignOut} /> }
+
+      {isOpen && <UserBoard singInOrSignOut={singInOrSignOut} />}
     </UserInfoWrapper>
   );
-}
+};
 
 export default UserInfo;

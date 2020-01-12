@@ -1,15 +1,13 @@
-import { 
+import {
   VIDEO_SELECTED,
   VIDEO_LAYOUT,
-
   FETCH_VIDEOS,
   FETCH_MORE_VIDEOS,
   FETCH_FILTER_VIDEOS,
-
   CHANGE_FILTER_PARAMS
-} from '../constants/videos';
+} from "../constants/videos";
 
-import youtube, { defaultParams } from '../apis/youtube';
+import youtube, { defaultParams } from "../apis/youtube";
 
 export const selectVideo = video => ({
   type: VIDEO_SELECTED,
@@ -21,33 +19,30 @@ export const changeLayout = status => ({
   layout: status
 });
 
-export const changeFilterParams = (newFilterParams) => ({
+export const changeFilterParams = newFilterParams => ({
   type: CHANGE_FILTER_PARAMS,
   payload: newFilterParams
 });
 
-export const fecthVideos = (search) => async (dispatch) => {
+export const fecthVideos = search => async dispatch => {
   try {
     const params = {
       ...defaultParams,
       q: search,
-      type: 'video'
+      type: "video"
     };
 
-    const response = await youtube.get('/search', { params });
+    const response = await youtube.get("/search", { params });
     dispatch({
       type: FETCH_VIDEOS,
-      payload:
-        response.data.items.length > 0
-          ? response.data
-          : []
+      payload: response.data.items.length > 0 ? response.data : []
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const fetchFilterVideos = (search, filterParams) => async (dispatch) => {
+export const fetchFilterVideos = (search, filterParams) => async dispatch => {
   try {
     const params = {
       ...defaultParams,
@@ -55,24 +50,25 @@ export const fetchFilterVideos = (search, filterParams) => async (dispatch) => {
       ...filterParams
     };
 
-    const response = await youtube.get('/search', { params });
+    const response = await youtube.get("/search", { params });
     dispatch({
       type: FETCH_FILTER_VIDEOS,
-      payload: 
-        response.data.items.length > 0
-          ? response.data
-          : []
+      payload: response.data.items.length > 0 ? response.data : []
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const fetchMoreVideos = (search, nextPageToken, filterParams = null) => async (dispatch) => {
+export const fetchMoreVideos = (
+  search,
+  nextPageToken,
+  filterParams = null
+) => async dispatch => {
   try {
     let params = {
       ...defaultParams,
-      type: 'video',
+      type: "video",
       q: search,
       pageToken: nextPageToken
     };
@@ -80,18 +76,15 @@ export const fetchMoreVideos = (search, nextPageToken, filterParams = null) => a
     if (filterParams !== null) {
       params = {
         ...params,
-        ...filterParams,
-      }
+        ...filterParams
+      };
     }
-    
-    const response = await youtube.get('/search', { params });
+
+    const response = await youtube.get("/search", { params });
 
     dispatch({
       type: FETCH_MORE_VIDEOS,
-      payload: 
-        response.data.items.length > 0
-          ? response.data
-          : []
+      payload: response.data.items.length > 0 ? response.data : []
     });
   } catch (error) {
     console.log(error);

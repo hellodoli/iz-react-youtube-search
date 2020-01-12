@@ -1,12 +1,11 @@
-import styled from 'styled-components';
-
+import styled from "styled-components";
 
 export const MainWrapp = styled.main`
   min-height: calc(100vh - 56px);
   margin-top: 56px;
   padding: 2.5rem 0;
 
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     padding: 1.25rem 0;
   }
 `;

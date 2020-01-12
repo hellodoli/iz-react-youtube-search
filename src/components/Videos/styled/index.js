@@ -1,26 +1,26 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 /* Video List */
-export const VideoThumbImage = styled.div `
+export const VideoThumbImage = styled.div`
   display: inline-flex;
   flex: none;
   margin-right: 1rem;
 
-  ${ ({ layout }) => layout === 0
-    ? `
+  ${({ layout }) =>
+    layout === 0
+      ? `
       width: 246px;
       height: 138px;
       @media (max-width: 768px) { width: 40%; height: auto; }
     `
-    : `
+      : `
       width: 40%;
       height: auto;
       @media (min-width: 769px) and (max-width: 1023px) {
         width: 246px;
         height: 138px;
       }
-    `
-  }
+    `}
 
   img {
     max-width: 100%;
@@ -29,7 +29,9 @@ export const VideoThumbImage = styled.div `
     object-position: center;
   }
 
-  ${ ({ isChanel }) => isChanel &&`
+  ${({ isChanel }) =>
+    isChanel &&
+    `
     justify-content: center;
     img {
       width: 136px;
@@ -42,18 +44,20 @@ export const VideoThumbImage = styled.div `
 
 export const VideoThumbDes = styled.p`
   display: block;
-  padding-top: .5rem;
-  margin-bottom: .5rem;
+  padding-top: 0.5rem;
+  margin-bottom: 0.5rem;
   max-height: 4.875rem;
   overflow: hidden;
   text-transform: none;
 `;
 
-export const VideoThumbContent = styled.div `
+export const VideoThumbContent = styled.div`
   display: flex;
   flex-direction: column;
-  @media (max-width: 768px) { width: 60%; }
-        
+  @media (max-width: 768px) {
+    width: 60%;
+  }
+
   & h3 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -62,27 +66,27 @@ export const VideoThumbContent = styled.div `
     text-overflow: ellipsis;
     white-space: normal;
     max-height: 3.2rem;
-    
-    font-size: ${ ({ layout }) => layout === 0 ? '1.125rem' : '0.875rem' };
+
+    font-size: ${({ layout }) => (layout === 0 ? "1.125rem" : "0.875rem")};
     font-weight: 500;
-    line-height: ${ ({ layout }) => layout === 0 ? '1.5rem' : '1rem' };
-    margin-bottom: .25rem;
+    line-height: ${({ layout }) => (layout === 0 ? "1.5rem" : "1rem")};
+    margin-bottom: 0.25rem;
     color: var(--color-main-title);
   }
 
   & p {
-    font-size: .8125rem;
+    font-size: 0.8125rem;
     font-weight: 400;
     line-height: 1.125rem;
   }
 `;
 
-export const VideoThumbWrapp = styled.div `
+export const VideoThumbWrapp = styled.div`
   display: flex;
   justify-content: flex-start;
   cursor: pointer;
   & + & {
-    margin-top: ${ props => ( props.layout === 1 ) ? '.5rem' : '1rem' }
+    margin-top: ${props => (props.layout === 1 ? ".5rem" : "1rem")};
   }
 `;
 
@@ -94,7 +98,7 @@ export const VideoFrameWrapper = styled.div`
 `;
 
 export const VideoIframe = styled.iframe`
-  position:  absolute;
+  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
@@ -112,7 +116,7 @@ export const VideoDes = styled.h2`
   font-weight: 500;
   line-height: 2.4rem;
   color: var(--color-main-title);
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     font-size: 1.25rem;
   }
 `;

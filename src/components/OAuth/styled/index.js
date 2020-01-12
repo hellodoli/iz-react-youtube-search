@@ -1,16 +1,16 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const ImageUserWrapper = styled.a.attrs(() => ({ 
-  className: 'image',
-  href: 'javascript:void(0)',
+export const ImageUserWrapper = styled.a.attrs(() => ({
+  className: "image",
+  href: "javascript:void(0)"
 }))`
   height: 36px;
   width: 36px;
-`
+`;
 
 export const UserInfoWrapper = styled.div`
   position: relative;
-`
+`;
 
 export const UserInfoContent = styled.div`
   position: absolute;
@@ -22,17 +22,17 @@ export const UserInfoContent = styled.div`
   border-top: none;
   background: #282828;
   box-shadow: none;
-`
+`;
 
 export const UserInfoBoard = styled.div`
-  padding: .5rem 0;
+  padding: 0.5rem 0;
   &:not(:last-child) {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-`
+`;
 
-export const UserInfoItem = styled.a.attrs(() => ({ 
-  href: 'javascript:void(0)',
+export const UserInfoItem = styled.a.attrs(() => ({
+  href: "javascript:void(0)"
 }))`
   padding-left: 1rem;
   padding-right: 2.25rem;
@@ -45,4 +45,4 @@ export const UserInfoItem = styled.a.attrs(() => ({
     color: var(--color-main-title);
     background-color: red;
   }
-`
+`;

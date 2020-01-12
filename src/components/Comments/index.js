@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { ytIsVideo } from '../../helper';
+import { ytIsVideo } from "../../helper";
 
-import CommentsAPI from '../../apis/comments';
-import CommentItem from './CommentItem';
-import CommentWriter from './CommentWriter';
+import CommentsAPI from "../../apis/comments";
+import CommentItem from "./CommentItem";
+import CommentWriter from "./CommentWriter";
 
 class Comments extends Component {
-  constructor () {
+  constructor() {
     super();
     this.state = {
       commentsAPI: new CommentsAPI(),
-      comments: [],
-    }
+      comments: []
+    };
   }
 
-  getCommentsByVideoId = async (videoId) => {
+  getCommentsByVideoId = async videoId => {
     const { commentsAPI } = this.state;
     await commentsAPI.getCommentsByVideoId(videoId, this.props.authResponse);
     if (commentsAPI.comments.items.length > 0) {
@@ -24,54 +24,58 @@ class Comments extends Component {
     } else {
       this.setState({ comments: [] });
     }
-  }
+  };
 
-  componentDidMount () {
+  componentDidMount() {
     const { kind, videoId } = this.props.selectedVideo.id;
     if (kind === ytIsVideo) {
       this.getCommentsByVideoId(videoId);
     }
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    if (this.props.selectedVideo.id.videoId !== nextProps.selectedVideo.id.videoId) {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      this.props.selectedVideo.id.videoId !== nextProps.selectedVideo.id.videoId
+    ) {
       this.getCommentsByVideoId(nextProps.selectedVideo.id.videoId);
     }
     return true;
   }
 
-  render () {
+  render() {
     const { comments } = this.state;
     const { userProfile, authResponse, isSignedIn, selectedVideo } = this.props;
-    console.log('comments: ', comments);
+    console.log("comments: ", comments);
     return (
-      <div className="iz-video-comments" style={{ marginTop: '2rem' }}>
-        { (isSignedIn && (selectedVideo.id.kind === ytIsVideo))
-            ? <CommentWriter
-                selectedVideo={selectedVideo}
-                userProfile={userProfile}
-                authResponse={authResponse}
+      <div className="iz-video-comments" style={{ marginTop: "2rem" }}>
+        {isSignedIn && selectedVideo.id.kind === ytIsVideo ? (
+          <CommentWriter
+            selectedVideo={selectedVideo}
+            userProfile={userProfile}
+            authResponse={authResponse}
+            getCommentsByVideoId={this.getCommentsByVideoId}
+          />
+        ) : null}
 
-                getCommentsByVideoId={this.getCommentsByVideoId}
-              />
-            : null
-        }
-        
         <div>
-          { comments.length > 0 && comments.map(comment => {
-            const repliesComments = comment.replies ? comment.replies.comments : [];
-            return (
-              <CommentItem
-                key={comment.id}
-                comment={comment.snippet.topLevelComment.snippet}
-                replyCount={comment.snippet.totalReplyCount}
-              >
-                { repliesComments.length > 0 && repliesComments.map(comment =>
-                  <CommentItem key={comment.id} comment={comment.snippet} />
-                )}
-              </CommentItem>
-            );
-          })}
+          {comments.length > 0 &&
+            comments.map(comment => {
+              const repliesComments = comment.replies
+                ? comment.replies.comments
+                : [];
+              return (
+                <CommentItem
+                  key={comment.id}
+                  comment={comment.snippet.topLevelComment.snippet}
+                  replyCount={comment.snippet.totalReplyCount}
+                >
+                  {repliesComments.length > 0 &&
+                    repliesComments.map(comment => (
+                      <CommentItem key={comment.id} comment={comment.snippet} />
+                    ))}
+                </CommentItem>
+              );
+            })}
         </div>
       </div>
     );

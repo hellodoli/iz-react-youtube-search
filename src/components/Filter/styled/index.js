@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const FilterWrapper = styled.div`
   border-bottom: 1px solid #0000001a;
   margin-bottom: 2rem;
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     margin-bottom: 1rem;
   }
 `;
@@ -11,31 +11,29 @@ export const FilterWrapper = styled.div`
 export const FilterButtonWrapp = styled.div`
   display: inline-flex;
   margin-bottom: 1.25rem;
-  @media(max-width: 768px) {
-    margin-bottom: .5rem;
+  @media (max-width: 768px) {
+    margin-bottom: 0.5rem;
   }
 `;
 
 export const FilterSectInner = styled.div`
-  padding-top: .625rem;
+  padding-top: 0.625rem;
   padding-bottom: 2rem;
 `;
 
-export const SectWrapp = styled.div`
-
-`;
+export const SectWrapp = styled.div``;
 
 export const SectTitle = styled.div`
   font-size: 1.3rem;
   font-weight: 500;
-  letter-spacing: .007px;
+  letter-spacing: 0.007px;
   text-transform: uppercase;
-  padding-bottom: .9375rem;
+  padding-bottom: 0.9375rem;
   border-bottom: 1px solid #0000001a;
 `;
 
 export const SectBody = styled.div`
-  padding: .9375rem 0;
+  padding: 0.9375rem 0;
 `;
 
 export const SectItem = styled.div`
@@ -44,7 +42,7 @@ export const SectItem = styled.div`
   cursor: pointer;
 
   &:not(:last-child) {
-    margin-bottom: .625rem;
+    margin-bottom: 0.625rem;
   }
 
   .close {
@@ -54,18 +52,20 @@ export const SectItem = styled.div`
   }
 
   /* Ignore */
-  ${ ({ isIgnore }) => isIgnore &&`
+  ${({ isIgnore }) =>
+    isIgnore &&
+    `
     span {
       font-weight: 300;
-      color: ${ ({ theme, themes }) => (theme.background === themes.light.background)
-          ? `#b5b5b5`
-          : `#171717`
-      }
+      color: ${({ theme, themes }) =>
+        theme.background === themes.light.background ? `#b5b5b5` : `#171717`}
     }
   `};
 
   /* Active */
-  ${ ({ isActive }) => isActive &&`
+  ${({ isActive }) =>
+    isActive &&
+    `
     span { font-weight: 700; }
     .close { display: block; }
   `};

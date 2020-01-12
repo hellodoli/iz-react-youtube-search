@@ -1,8 +1,6 @@
-import { 
-  SEARCH_VALUE
-} from '../constants/search';
+import { SEARCH_VALUE } from "../constants/search";
 
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
 const changeValue = (value = "", action) => {
   switch (action.type) {
@@ -11,7 +9,7 @@ const changeValue = (value = "", action) => {
     default:
       return value;
   }
-}
+};
 
 const searchReducer = combineReducers({
   changeValue

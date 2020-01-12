@@ -1,9 +1,9 @@
-import React,{ Component } from 'react';
-import { connect } from 'react-redux';
-import { changeFilterParams } from '../../actions/videos';
-import { IZButton } from '../Buttons';
-import { Columns, Button } from 'react-bulma-components';
-import { 
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { changeFilterParams } from "../../actions/videos";
+import { IZButton } from "../Buttons";
+import { Columns, Button } from "react-bulma-components";
+import {
   FilterWrapper,
   FilterButtonWrapp,
   FilterSectInner,
@@ -11,9 +11,9 @@ import {
   SectTitle,
   SectBody,
   SectItem
-} from './styled';
-import * as h from '../../helper';
-import { SkinContext, themes } from '../../skin-context';
+} from "./styled";
+import * as h from "../../helper";
+import { SkinContext, themes } from "../../skin-context";
 
 const FilterButton = React.forwardRef((props, ref) => (
   <FilterButtonWrapp ref={ref}>{props.children}</FilterButtonWrapp>
@@ -27,7 +27,7 @@ class Filter extends Component {
     this.state = {
       prevParams: {},
       filterList: []
-    }
+    };
   }
 
   static getDerivedStateFromProps(nextProps, nextState) {
@@ -35,150 +35,136 @@ class Filter extends Component {
       return {
         filterList: [
           {
-            filter: 'publishedAfter',
+            filter: "publishedAfter",
             filterItems: [
               {
-                showName: 'Last hour',
-                name: '',
-                parent: {list: 1, index: 0},
-                isIgnore: false,
-                ignore: [
-                  { list: 1, items: [0,1,1] }
-                ]
-              },
-              {
-                showName: 'Today',
-                name: '',
-                parent: {list: 1, index: 0},
-                isIgnore: false,
-                ignore: [
-                  { list: 1, items: [0,1,1] }
-                ]
-              },
-              {
-                showName: 'This week',
-                name: '',
-                parent: {list: 1, index: 0},
-                isIgnore: false,
-                ignore: [
-                  { list: 1, items: [0,1,1] }
-                ]
-              },
-              {
-                showName: 'This month',
-                name: '',
+                showName: "Last hour",
+                name: "",
                 parent: { list: 1, index: 0 },
                 isIgnore: false,
-                ignore: [
-                  { list: 1, items: [0,1,1] }
-                ]
+                ignore: [{ list: 1, items: [0, 1, 1] }]
               },
               {
-                showName: 'This year',
-                name: '',
+                showName: "Today",
+                name: "",
                 parent: { list: 1, index: 0 },
                 isIgnore: false,
-                ignore: [
-                  { list: 1, items: [0,1,1] }
-                ]
+                ignore: [{ list: 1, items: [0, 1, 1] }]
+              },
+              {
+                showName: "This week",
+                name: "",
+                parent: { list: 1, index: 0 },
+                isIgnore: false,
+                ignore: [{ list: 1, items: [0, 1, 1] }]
+              },
+              {
+                showName: "This month",
+                name: "",
+                parent: { list: 1, index: 0 },
+                isIgnore: false,
+                ignore: [{ list: 1, items: [0, 1, 1] }]
+              },
+              {
+                showName: "This year",
+                name: "",
+                parent: { list: 1, index: 0 },
+                isIgnore: false,
+                ignore: [{ list: 1, items: [0, 1, 1] }]
               }
             ],
-            filterName: 'UPLOAD DATE',
+            filterName: "UPLOAD DATE",
             indexList: 0,
             indexCurrent: -1
           },
           {
-            filter: 'type',
+            filter: "type",
             filterItems: [
               {
-                showName: 'Video',
-                name: 'video',
+                showName: "Video",
+                name: "video",
                 isIgnore: false,
                 children: [
-                  { list: 0, items: [1,1,1,1,1] },
-                  { list: 2, items: [1,1] }
+                  { list: 0, items: [1, 1, 1, 1, 1] },
+                  { list: 2, items: [1, 1] }
                 ]
               },
               {
-                showName: 'Chanel',
-                name: 'channel',
+                showName: "Chanel",
+                name: "channel",
                 isIgnore: false,
                 ignore: [
-                  { list: 0, items: [1,1,1,1,1] },
-                  { list: 2, items: [1,1] }
+                  { list: 0, items: [1, 1, 1, 1, 1] },
+                  { list: 2, items: [1, 1] }
                 ]
               },
               {
-                showName: 'Playlist',
-                name: 'playlist',
+                showName: "Playlist",
+                name: "playlist",
                 isIgnore: false,
                 ignore: [
-                  { list: 0, items: [1,1,1,1,1] },
-                  { list: 2, items: [1,1] }
+                  { list: 0, items: [1, 1, 1, 1, 1] },
+                  { list: 2, items: [1, 1] }
                 ]
               }
             ],
-            filterName: 'TYPE',
+            filterName: "TYPE",
             indexList: 1,
             indexCurrent: 0
           },
           {
-            filter: 'videoDuration',
+            filter: "videoDuration",
             filterItems: [
               {
-                showName: 'Short(< 4 minutes)',
-                name: 'short',
+                showName: "Short(< 4 minutes)",
+                name: "short",
                 isIgnore: false,
                 parent: { list: 1, index: 0 },
-                ignore: [
-                  { list: 1, items: [0,1,1] }
-                ]
+                ignore: [{ list: 1, items: [0, 1, 1] }]
               },
               {
-                showName: 'Long(> 20 minutes)',
-                name: 'long',
+                showName: "Long(> 20 minutes)",
+                name: "long",
                 isIgnore: false,
                 parent: { list: 1, index: 0 },
-                ignore: [
-                  { list: 1, items: [0,1,1] }
-                ]
+                ignore: [{ list: 1, items: [0, 1, 1] }]
               }
             ],
-            filterName: 'DURATION',
+            filterName: "DURATION",
             indexList: 2,
             indexCurrent: -1
           },
           {
-            filter: 'order',
+            filter: "order",
             filterItems: [
               {
-                showName: 'Relevance',
-                name: 'relevance',
+                showName: "Relevance",
+                name: "relevance",
                 isIgnore: false
               },
               {
-                showName: 'Upload date',
-                name: 'date',
+                showName: "Upload date",
+                name: "date",
                 isIgnore: false
               },
               {
-                showName: 'View count',
-                name: 'viewCount',
+                showName: "View count",
+                name: "viewCount",
                 isIgnore: false
               },
               {
-                showName: 'Rating',
-                name: 'rating',
+                showName: "Rating",
+                name: "rating",
                 isIgnore: false
               }
             ],
-            filterName: 'SORT BY',
+            filterName: "SORT BY",
             indexList: 3,
             indexCurrent: -1
           }
-        ],
+        ]
         // params: { type: 'video' }
-      }
+      };
     }
     return null;
   }
@@ -186,24 +172,28 @@ class Filter extends Component {
   componentDidMount() {
     const filterButton = this.filterButton.current;
     const collapseSection = this.collapseSection.current;
-    filterButton.addEventListener('click', () => { h.collapse(collapseSection) });
+    filterButton.addEventListener("click", () => {
+      h.collapse(collapseSection);
+    });
   }
 
   componentWillUnmount() {
     const filterButton = this.filterButton.current;
     const collapseSection = this.collapseSection.current;
     if (filterButton) {
-      filterButton.removeEventListener('click', () => { h.collapse(collapseSection) });
+      filterButton.removeEventListener("click", () => {
+        h.collapse(collapseSection);
+      });
     }
   }
 
-  resetIgnore = (tempFilterList) => {
+  resetIgnore = tempFilterList => {
     for (let i = 0; i < tempFilterList.length; i++) {
       for (let j = 0; j < tempFilterList[i].filterItems.length; j++) {
         tempFilterList[i].filterItems[j].isIgnore = false;
       }
     }
-  }
+  };
 
   switchIgnore = (tempFilterList, filterItem, type) => {
     for (let i = 0; i < filterItem.ignore.length; i++) {
@@ -215,7 +205,7 @@ class Filter extends Component {
         }
       }
     }
-  }
+  };
 
   /* 
     Khi click vào một fillter thì những filter phụ thuộc vào nó (children) nếu có
@@ -226,7 +216,7 @@ class Filter extends Component {
   */
   turnOffIgnoreFillterHasChildren = (tempFilterList, filterItem) => {
     if (filterItem.children && filterItem.children.length > 0) {
-      for (let i = 0; i < filterItem.children.length; i++ ) {
+      for (let i = 0; i < filterItem.children.length; i++) {
         const { list } = filterItem.children[i]; // index of list children
         for (let j = 0; j < filterItem.children[i].items.length; j++) {
           const childItem = filterItem.children[i].items[j];
@@ -236,51 +226,51 @@ class Filter extends Component {
         }
       }
     }
-  }
+  };
 
   clickFilter = async (filterItem, indexList, index) => {
     await this.props.changeResetFilter();
     // check ignore
-    if( filterItem.isIgnore === false ) {
-      const tempFilterList = this.state.filterList.splice('');
+    if (filterItem.isIgnore === false) {
+      const tempFilterList = this.state.filterList.splice("");
 
       // active class
       tempFilterList[indexList].indexCurrent = index;
 
       // filter hour
-      let resultDate = '';
-      if(tempFilterList[indexList].filter === "publishedAfter") {
+      let resultDate = "";
+      if (tempFilterList[indexList].filter === "publishedAfter") {
         const d = new Date();
 
         let date = d.getDate();
         let month = d.getMonth() + 1;
         const year = d.getFullYear();
-        
+
         let hour = d.getHours();
         let minute = d.getMinutes();
         let second = d.getSeconds();
 
-        function zeroStart () {
+        function zeroStart() {
           hour = 0;
           minute = 0;
           second = 0;
         }
 
         switch (filterItem.showName) {
-          case 'Last hour':
+          case "Last hour":
             hour -= 1;
-            if(hour < 0) hour = 23;
+            if (hour < 0) hour = 23;
             break;
-          case 'Today':
+          case "Today":
             zeroStart();
             break;
-          case 'This week': {
+          case "This week": {
             let day = d.getDay() - 1;
             if (day < 0) day = 6;
             let w = date - day;
             if (w <= 0) {
               let prevMonth = month - 1;
-              if(prevMonth === 0) prevMonth = 12;
+              if (prevMonth === 0) prevMonth = 12;
               const lastDay = h.checkLastDate(prevMonth, year);
               w = lastDay + w;
               month = prevMonth;
@@ -289,11 +279,11 @@ class Filter extends Component {
             zeroStart();
             break;
           }
-          case 'This month':
+          case "This month":
             date = 1;
             zeroStart();
             break;
-          case 'This year':
+          case "This year":
             date = 1;
             month = 1;
             zeroStart();
@@ -309,12 +299,12 @@ class Filter extends Component {
       this.turnOffIgnoreFillterHasChildren(tempFilterList, filterItem);
 
       // reset, turn on Ignore if have Ignore
-      if( filterItem.ignore && filterItem.ignore.length > 0 ) {
+      if (filterItem.ignore && filterItem.ignore.length > 0) {
         // reset Ignore
         this.resetIgnore(tempFilterList);
 
         // turn on Ignore
-        this.switchIgnore(tempFilterList,filterItem,true);
+        this.switchIgnore(tempFilterList, filterItem, true);
       }
 
       // get Property + Value
@@ -324,7 +314,7 @@ class Filter extends Component {
       tempParams[paramProperty] = paramValue;
 
       this.setState({
-        filterList: tempFilterList,
+        filterList: tempFilterList
         // params: tempParams
       });
 
@@ -334,22 +324,22 @@ class Filter extends Component {
       this.filterButton.current.click();
       // call API filter videos
       this.props.onFilterVideo(this.props.searchValue, this.props.filterParams);
-      console.log('this.props.filterParams: ', this.props.filterParams);
+      console.log("this.props.filterParams: ", this.props.filterParams);
     } else {
-      console.log('you click disabled filter');
+      console.log("you click disabled filter");
     }
-  }
+  };
 
   removeFilter = async (filterItem, indexList) => {
     await this.props.changeResetFilter();
-    var tempFilterList = this.state.filterList.splice('');
+    var tempFilterList = this.state.filterList.splice("");
 
     // back ignore
     var tempParams = { ...this.props.filterParams };
     var paramProperty = tempFilterList[indexList].filter;
     var paramValue = filterItem.name;
-      
-    if(tempParams[paramProperty] === paramValue) {
+
+    if (tempParams[paramProperty] === paramValue) {
       delete tempParams[paramProperty]; // remove params
     }
 
@@ -367,17 +357,20 @@ class Filter extends Component {
         }
       }
 
-      if(!shouldTurnOffActiveParent) {
+      if (!shouldTurnOffActiveParent) {
         // được phép tắt active khi không có thằng con nào đang active
         tempFilterList[indexList].indexCurrent = -1;
       }
     } else {
       if (filterItem.parent) {
-        var parent = tempFilterList[filterItem.parent.list].filterItems[filterItem.parent.index];
+        var parent =
+          tempFilterList[filterItem.parent.list].filterItems[
+            filterItem.parent.index
+          ];
 
         // đây là thằng con khi tắt nó thì chưa chắc chắn trả lại ignore
         // => Đi đến thằng cha => kiểm tra nếu số thằng con active = 1 (chính nó) => trả ignore
-        
+
         var activeChild = 0;
         for (let i = 0; i < parent.children.length; i++) {
           const list = parent.children[i].list;
@@ -388,29 +381,29 @@ class Filter extends Component {
         }
 
         if (activeChild === 1) {
-          if ( filterItem.ignore && filterItem.ignore.length > 0 ) {
-            this.switchIgnore(tempFilterList,filterItem,false);
+          if (filterItem.ignore && filterItem.ignore.length > 0) {
+            this.switchIgnore(tempFilterList, filterItem, false);
           }
         }
       } else {
-        if( filterItem.ignore && filterItem.ignore.length > 0 ) {
-          this.switchIgnore(tempFilterList,filterItem,false);
+        if (filterItem.ignore && filterItem.ignore.length > 0) {
+          this.switchIgnore(tempFilterList, filterItem, false);
         }
       }
 
       // đây là thằng con. Chắc chắn được tắt active
       tempFilterList[indexList].indexCurrent = -1;
     }
-      
+
     //trường hợp đặc biệt
-    if(paramProperty === 'type') {
+    if (paramProperty === "type") {
       // nếu tắt filter "type" => trả về filter "type" mặc định là "video"
-      tempParams[paramProperty] = 'video';
+      tempParams[paramProperty] = "video";
       tempFilterList[indexList].indexCurrent = 0;
     }
-          
+
     this.setState({
-      filterList: tempFilterList,
+      filterList: tempFilterList
       // params: tempParams
     });
 
@@ -420,13 +413,13 @@ class Filter extends Component {
     this.filterButton.current.click();
     // call API filter videos
     this.props.onFilterVideo(this.props.searchValue, this.props.filterParams);
-    console.log('this.state.params: ', this.props.filterParams);
-  }
+    console.log("this.state.params: ", this.props.filterParams);
+  };
 
   render() {
     const { filterList } = this.state;
     const { theme } = this.context;
-    return(
+    return (
       <FilterWrapper>
         <FilterButton ref={this.filterButton}>
           <IZButton>Filter</IZButton>
@@ -435,44 +428,55 @@ class Filter extends Component {
         <div ref={this.collapseSection} className="collapse">
           <FilterSectInner>
             <Columns>
-              { filterList.length > 0 && filterList.map(filter => (
+              {filterList.length > 0 &&
+                filterList.map(filter => (
                   <Columns.Column key={filter.filter}>
                     <SectWrapp>
-                      <SectTitle>{ filter.filterName }</SectTitle>
-                        <SectBody> 
-                          { filter.filterItems.map((item, index) => {
-                              const isActive = (filter.indexCurrent === index) ? true : false;
-                              const isIgnore = (item.isIgnore === true) ? true : false;
-                              // const SectItemClassName = `${isActive} ${isIgnore}`;
-                              return (
-                                <SectItem
-                                  key={index + 1}
-                                  theme={theme}
-                                  themes={themes}
-                                  isIgnore={isIgnore}
-                                  isActive={isActive}
-                                >
-                                  <span
-                                    className='text'
-                                    onClick={() => this.clickFilter(item, filter.indexList, index)}
-                                  >
-                                    { item.showName }
-                                  </span>
-                                  { isActive &&
-                                      <Button
-                                        remove={true}
-                                        size="small"
-                                        className="close"
-                                        onClick={() => this.removeFilter(item, filter.indexList)}
-                                      ></Button>
+                      <SectTitle>{filter.filterName}</SectTitle>
+                      <SectBody>
+                        {filter.filterItems.map((item, index) => {
+                          const isActive =
+                            filter.indexCurrent === index ? true : false;
+                          const isIgnore =
+                            item.isIgnore === true ? true : false;
+                          // const SectItemClassName = `${isActive} ${isIgnore}`;
+                          return (
+                            <SectItem
+                              key={index + 1}
+                              theme={theme}
+                              themes={themes}
+                              isIgnore={isIgnore}
+                              isActive={isActive}
+                            >
+                              <span
+                                className="text"
+                                onClick={() =>
+                                  this.clickFilter(
+                                    item,
+                                    filter.indexList,
+                                    index
+                                  )
+                                }
+                              >
+                                {item.showName}
+                              </span>
+                              {isActive && (
+                                <Button
+                                  remove={true}
+                                  size="small"
+                                  className="close"
+                                  onClick={() =>
+                                    this.removeFilter(item, filter.indexList)
                                   }
-                                </SectItem>
-                              );
-                          })}
-                        </SectBody>
+                                ></Button>
+                              )}
+                            </SectItem>
+                          );
+                        })}
+                      </SectBody>
                     </SectWrapp>
                   </Columns.Column>
-              ))}
+                ))}
             </Columns>
           </FilterSectInner>
         </div>

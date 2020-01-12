@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const HeaderWrapp = styled.div`
   position: fixed;
@@ -6,7 +6,7 @@ export const HeaderWrapp = styled.div`
   top: 0;
   width: 100%;
   background-color: var(--color-header);
-  box-shadow: 0px 4px 8px -3px rgba(17, 17, 17, .06);
+  box-shadow: 0px 4px 8px -3px rgba(17, 17, 17, 0.06);
   transform: translateY(0);
   transition: transform 0.3s ease;
   z-index: 9999;
@@ -27,8 +27,12 @@ export const HeaderWrappInner = styled.div`
       display: none;
     }
     @media (max-width: 768px) {
-      .text { display: none; }
-      .icons { display: block; }
+      .text {
+        display: none;
+      }
+      .icons {
+        display: block;
+      }
     }
   }
 `;
@@ -46,6 +50,6 @@ export const HeaderWrappThemeSwitch = styled.div`
   margin-left: 1rem;
 
   & > .item:not(:last-child) {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
 `;

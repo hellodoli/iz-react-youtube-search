@@ -1,6 +1,6 @@
-import { SEARCH_VALUE } from '../constants/search';
+import { SEARCH_VALUE } from "../constants/search";
 
 export const changeValueSearch = searchVal => ({
-    type: SEARCH_VALUE,
-    value: searchVal
+  type: SEARCH_VALUE,
+  value: searchVal
 });
