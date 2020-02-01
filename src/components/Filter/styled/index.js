@@ -52,13 +52,12 @@ export const SectItem = styled.div`
   }
 
   /* Ignore */
-  ${({ isIgnore }) =>
+  ${({ isIgnore, theme, themes }) =>
     isIgnore &&
     `
     span {
       font-weight: 300;
-      color: ${({ theme, themes }) =>
-        theme.background === themes.light.background ? `#b5b5b5` : `#171717`}
+      color: ${ theme.background === themes.light.background ? `#b5b5b5` : `#717171` }
     }
   `};
 

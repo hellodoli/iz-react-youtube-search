@@ -12,17 +12,18 @@ import {
   VideoThumbDes
 } from "./styled";
 
-const VideoItem = ({ video, layout, selectVideo, changeLayout }) => {
+const VideoItem = ({ video, rest: { layout, selectVideo, changeLayout }}) => {
   const isPlaylist = video.id.kind === ytIsPlaylist ? true : false;
   const isChanel = video.id.kind === ytIsChanel ? true : false;
   const thumbnail = video.snippet.thumbnails;
   return (
     <VideoThumbWrapp
       layout={layout}
-      onClick={() => {
+      to={`/watch?${selectVideo.id}`}
+      /*onClick={() => {
         selectVideo(video);
         changeLayout(1);
-      }}
+      }}*/
     >
       <VideoThumbImage
         layout={layout}
@@ -46,16 +47,14 @@ const VideoItem = ({ video, layout, selectVideo, changeLayout }) => {
   );
 };
 
-const VideoList = ({ videos, layout, selectVideo, changeLayout }) => {
+const VideoList = ({ videos, ...rest }) => {
   return (
     <div className="iz-video-list-search">
       {videos.map((video, index) => (
         <VideoItem
           key={index + 1}
           video={video}
-          layout={layout}
-          changeLayout={changeLayout}
-          selectVideo={selectVideo}
+          rest={rest} // rest: layout, selectVideo, changeLayout
         />
       ))}
     </div>

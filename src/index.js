@@ -2,6 +2,9 @@ import React from "react";
 import ReacDOM from "react-dom";
 import "bulma/css/bulma.min.css";
 
+import history from "./history";
+import { Router } from "react-router-dom";
+
 import { createStore, applyMiddleware, compose } from "redux";
 import reduxThunk from "redux-thunk";
 import { Provider } from "react-redux";
@@ -17,7 +20,9 @@ const store = createStore(
 console.log(store.getState());
 ReacDOM.render(
   <Provider store={store}>
-    <App />
+    <Router history={history}>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 /* Video List */
 export const VideoThumbImage = styled.div`
@@ -81,7 +82,7 @@ export const VideoThumbContent = styled.div`
   }
 `;
 
-export const VideoThumbWrapp = styled.div`
+export const VideoThumbWrapp = styled(Link)`
   display: flex;
   justify-content: flex-start;
   cursor: pointer;
