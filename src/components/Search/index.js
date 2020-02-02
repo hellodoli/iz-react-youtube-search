@@ -22,13 +22,10 @@ class Search extends Component {
   onSubmit = e => {
     e.preventDefault();
     const { inputValue } = this.state;
-    if (inputValue.trim() === "") {
-      return;
-    } else {
-      this.props.changeValueSearch(inputValue);
-      this.props.onFormSubmit(inputValue);
-      this.props.changeLayout(0);
-    }
+    if (inputValue.trim() === "") return;
+    this.props.changeValueSearch(inputValue);
+    this.props.onFormSubmit(inputValue);
+    this.props.changeLayout(0);
   };
 
   render() {
@@ -50,11 +47,7 @@ class Search extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  searchValue: state.searchReducer.changeValue
-});
-
-export default connect(mapStateToProps, {
+export default connect(null, {
   changeLayout,
   changeValueSearch
 })(Search);

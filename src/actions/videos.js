@@ -33,10 +33,13 @@ export const fecthVideos = search => async dispatch => {
     };
 
     const response = await youtube.get("/search", { params });
-    dispatch({
-      type: FETCH_VIDEOS,
-      payload: response.data.items.length > 0 ? response.data : []
-    });
+    const data = response.data;
+    if (data.items && data.items.length > 0) {
+      dispatch({
+        type: FETCH_VIDEOS,
+        payload: data
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -51,10 +54,13 @@ export const fetchFilterVideos = (search, filterParams) => async dispatch => {
     };
 
     const response = await youtube.get("/search", { params });
-    dispatch({
-      type: FETCH_FILTER_VIDEOS,
-      payload: response.data.items.length > 0 ? response.data : []
-    });
+    const data = response.data;
+    if (data.items && data.items.length > 0) {
+      dispatch({
+        type: FETCH_FILTER_VIDEOS,
+        payload: data
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -81,10 +87,46 @@ export const fetchMoreVideos = (
     }
 
     const response = await youtube.get("/search", { params });
+    const data = response.data;
+    if (data.items && data.items.length > 0) {
+      dispatch({
+        type: FETCH_MORE_VIDEOS,
+        payload: data
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchVideoById = videoId => async dispatch => {
+  try {
+    let video = null;
+    let params = {
+      ...defaultParams,
+      part: "snippet,contentDetails,statistics",
+      id: videoId
+    };
+
+    const response = await youtube.get("/videos", { params });
+    const data = response.data.items;
+    if (data && data.length > 0) {
+      const {
+        id,
+        kind,
+        snippet: { title, channelTitle }
+      } = data[0];
+      video = {
+        id,
+        kind,
+        title,
+        channelTitle
+      };
+    }
 
     dispatch({
-      type: FETCH_MORE_VIDEOS,
-      payload: response.data.items.length > 0 ? response.data : []
+      type: VIDEO_SELECTED,
+      payload: video
     });
   } catch (error) {
     console.log(error);

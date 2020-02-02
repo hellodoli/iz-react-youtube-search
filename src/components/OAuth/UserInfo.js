@@ -16,8 +16,15 @@ const UserBoard = ({ singInOrSignOut }) => (
     {/* Body */}
     <div>
       <UserInfoBoard>
-        <UserInfoItem></UserInfoItem>
-        <UserInfoItem onClick={singInOrSignOut}>Click to Sign out</UserInfoItem>
+        <UserInfoItem onClick={e => e.preventDefault()}></UserInfoItem>
+        <UserInfoItem
+          onClick={e => {
+            e.preventDefault();
+            singInOrSignOut();
+          }}
+        >
+          Click to Sign out
+        </UserInfoItem>
       </UserInfoBoard>
     </div>
   </UserInfoContent>
@@ -29,7 +36,8 @@ const UserInfo = ({ profile, singInOrSignOut }) => {
   return (
     <UserInfoWrapper>
       <ImageUserWrapper
-        onClick={() => {
+        onClick={e => {
+          e.preventDefault();
           setIsOpen(!isOpen);
         }}
       >

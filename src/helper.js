@@ -150,3 +150,10 @@ export function converNumberLike(number) {
   }
   return number;
 }
+
+export function getVideoDetail(video) {
+  return {
+    id: video.id,
+    kind: video.kind
+  };
+}

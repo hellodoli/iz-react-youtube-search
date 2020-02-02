@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 /* Video List */
 export const VideoThumbImage = styled.div`
@@ -79,13 +78,16 @@ export const VideoThumbContent = styled.div`
     font-size: 0.8125rem;
     font-weight: 400;
     line-height: 1.125rem;
+    color: var(--color-text);
   }
 `;
 
-export const VideoThumbWrapp = styled(Link)`
-  display: flex;
-  justify-content: flex-start;
-  cursor: pointer;
+export const VideoThumbWrapp = styled.div`
+  & > a {
+    display: flex;
+    justify-content: flex-start;
+    cursor: pointer;
+  }
   & + & {
     margin-top: ${props => (props.layout === 1 ? ".5rem" : "1rem")};
   }
@@ -96,6 +98,20 @@ export const VideoFrameWrapper = styled.div`
   position: relative;
   width: 100%;
   padding-top: 56.25%;
+
+  ${({ isNull }) =>
+    isNull &&
+    `
+    & > div {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+    }
+  `}
 `;
 
 export const VideoIframe = styled.iframe`

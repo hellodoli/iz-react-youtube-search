@@ -1,19 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+// Theme Context
+import { themes, themesColor, SkinContext } from "./skin-context";
+
+import { Switch, Route } from "react-router-dom";
+
 import { ThemeProvider } from "styled-components";
 import { Container, Columns } from "react-bulma-components";
 
 // Components
 import Header from "./containers/Header";
 import Filter from "./components/Filter";
-import VideoList from "./components/Videos/VideosList";
-import VideoDetail from "./components/Videos/VideoDetail";
+import { VideoList } from "./components/Videos";
 import { SpinnerCircle } from "./components/Loading";
-import Comments from "./components/Comments";
 
-// Theme Context
-import { themes, themesColor, SkinContext } from "./skin-context";
+// Containers
+import VideoShow from "./containers/VideoShow";
+import SearchResultShow from "./containers/SearchResultShow";
 
 /* Some custom CSS */
 import GlobalStyle from "./styled/GlobalStyle";
@@ -127,26 +131,17 @@ class App extends Component {
   };
 
   renderVideoLayoutLeft = () => {
-    const { isLoadingVideo } = this.state;
-    const { layout, videos } = this.props;
-    if (layout === 0) {
-      if (isLoadingVideo) {
-        return <SpinnerCircle size={40} />;
-      }
-      if (videos && videos.length > 0) {
-        return (
-          <div>
-            <VideoList videos={videos} />
-          </div>
-        );
-      }
-      return <div>Pls search and choose one video ^^.</div>; // default or not found video.
+    const { videos } = this.props;
+    if (this.state.isLoadingVideo) {
+      return <SpinnerCircle size={40} />;
     }
+
     return (
-      <React.Fragment>
-        <VideoDetail />
-        <Comments />
-      </React.Fragment>
+      <Switch>
+        <Route exact path="/" render={() => <VideoList videos={videos} />} />
+        <Route path={`/watch`} component={VideoShow} />;
+        <Route path={"/results"} component={SearchResultShow} />
+      </Switch>
     );
   };
 

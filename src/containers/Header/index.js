@@ -1,18 +1,22 @@
 import React from "react";
+
+import { SkinContext, themes } from "../../skin-context";
+
+import PropTypes from "prop-types";
+
 import { Container } from "react-bulma-components";
+// components
+import { IZButton } from "../../components/Buttons";
+import Search from "../../components/Search";
+import DropdownTheme from "../../components/DropdownTheme";
+import OAuth from "../../components/OAuth";
+
 import {
   HeaderWrapp,
   HeaderWrappInner,
   HeaderWrappForSearch,
   HeaderWrappThemeSwitch
 } from "./styled";
-import { IZButton } from "../../components/Buttons";
-import Search from "../../components/Search";
-import DropdownTheme from "../../components/DropdownTheme";
-import OAuth from "../../components/OAuth";
-
-import { SkinContext, themes } from "../../skin-context";
-import PropTypes from "prop-types";
 
 const Header = props => {
   return (

@@ -1,9 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { Link } from "react-router-dom";
+
 import { ytIsChanel, ytIsPlaylist } from "../../helper";
 
-import { selectVideo, changeLayout } from "../../actions/videos";
+import { changeLayout } from "../../actions/videos";
 
 import {
   VideoThumbWrapp,
@@ -12,37 +14,38 @@ import {
   VideoThumbDes
 } from "./styled";
 
-const VideoItem = ({ video, rest: { layout, selectVideo, changeLayout }}) => {
-  const isPlaylist = video.id.kind === ytIsPlaylist ? true : false;
-  const isChanel = video.id.kind === ytIsChanel ? true : false;
+const VideoItem = ({ video, rest: { layout, changeLayout } }) => {
+  const isPlaylist = video.id.kind === ytIsPlaylist;
+  const isChanel = video.id.kind === ytIsChanel;
   const thumbnail = video.snippet.thumbnails;
+
   return (
     <VideoThumbWrapp
       layout={layout}
-      to={`/watch?${selectVideo.id}`}
-      /*onClick={() => {
-        selectVideo(video);
+      onClick={() => {
         changeLayout(1);
-      }}*/
+      }}
     >
-      <VideoThumbImage
-        layout={layout}
-        isChanel={isChanel}
-        isPlaylist={isPlaylist}
-      >
-        <img
-          src={thumbnail && thumbnail.medium.url}
-          alt={video.snippet.title}
-        />
-      </VideoThumbImage>
+      <Link to={`/watch?v=${video.id.videoId}`}>
+        <VideoThumbImage
+          layout={layout}
+          isChanel={isChanel}
+          isPlaylist={isPlaylist}
+        >
+          <img
+            src={thumbnail && thumbnail.medium.url}
+            alt={video.snippet.title}
+          />
+        </VideoThumbImage>
 
-      <VideoThumbContent layout={layout}>
-        <h3 dangerouslySetInnerHTML={{ __html: video.snippet.title }}></h3>
-        <p>{video.snippet.channelTitle}</p>
-        {layout === 0 && (
-          <VideoThumbDes>{video.snippet.description}</VideoThumbDes>
-        )}
-      </VideoThumbContent>
+        <VideoThumbContent layout={layout}>
+          <h3 dangerouslySetInnerHTML={{ __html: video.snippet.title }}></h3>
+          <p>{video.snippet.channelTitle}</p>
+          {layout === 0 && (
+            <VideoThumbDes>{video.snippet.description}</VideoThumbDes>
+          )}
+        </VideoThumbContent>
+      </Link>
     </VideoThumbWrapp>
   );
 };
@@ -50,23 +53,22 @@ const VideoItem = ({ video, rest: { layout, selectVideo, changeLayout }}) => {
 const VideoList = ({ videos, ...rest }) => {
   return (
     <div className="iz-video-list-search">
-      {videos.map((video, index) => (
-        <VideoItem
-          key={index + 1}
-          video={video}
-          rest={rest} // rest: layout, selectVideo, changeLayout
-        />
-      ))}
+      {videos.length > 0 &&
+        videos.map((video, index) => (
+          <VideoItem
+            key={index + 1}
+            video={video}
+            rest={rest} // rest: layout, selectedVideo, changeLayout
+          />
+        ))}
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  selectedVideo: state.videosReducer.selectedVideo,
   layout: state.videosReducer.changeLayout
 });
 
 export default connect(mapStateToProps, {
-  selectVideo,
   changeLayout
 })(VideoList);
