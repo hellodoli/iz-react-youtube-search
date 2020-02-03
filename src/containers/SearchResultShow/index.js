@@ -7,8 +7,8 @@ import { fecthVideos } from "../../actions/videos";
 import { FILTER_PARAM_OB } from "../../constants/search";
 
 // Components
-import Filter from "../../components/Filter";
-import { VideoList } from "../../components/Videos";
+// import Filter from "../../components/Filter";
+// import { VideoList } from "../../components/Videos";
 
 class SearchResultShow extends Component {
   state = {
@@ -45,6 +45,7 @@ class SearchResultShow extends Component {
         } else {
           // start from second param
           for (let i = 1; i < arrKey.length; i++) {
+            // UPLOAD DATE
             if (arrKey[i] === FILTER_PARAM_OB.uploadDate.viewName) {
               if (checkExistKey(arrKey, FILTER_PARAM_OB.type.viewName)) {
               }
@@ -74,7 +75,7 @@ class SearchResultShow extends Component {
 
     if (arrKey.length > 0) {
       if (arrKey[0] === "search_query") {
-        const searchValue = searchParam.get(arrKey[0]);
+        // const searchValue = searchParam.get(arrKey[0]);
         if (arrKey.length === 1) {
           // only search
           //this.fetchData(searchValue);
@@ -91,7 +92,6 @@ class SearchResultShow extends Component {
 
   componentDidMount() {
     //this.searchVideo();
-    console.log(new URLSearchParams(this.props.location.search).get("x"));
   }
 
   render() {

@@ -26,10 +26,11 @@ class CommentWriterMain extends Component {
   postNewComment = async () => {
     const { commentAPI, textInput } = this.state;
     const { selectedVideo, authResponse } = this.props;
-    this.props.startLoading();
+    //this.props.startLoading();
+    console.log(selectedVideo);
     await commentAPI.postNewComment(selectedVideo, textInput, authResponse);
-    await this.props.getCommentsByVideoId(selectedVideo.id.videoId);
-    this.props.endLoading();
+    //await this.props.fetchComments(selectedVideo.id);
+    //this.props.endLoading();
     this.setState({ isOpenButtons: false });
   };
 

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+
+import { compose } from "redux";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 import { changeLayout } from "../../actions/videos";
 import { changeValueSearch } from "../../actions/search";
@@ -22,10 +25,12 @@ class Search extends Component {
   onSubmit = e => {
     e.preventDefault();
     const { inputValue } = this.state;
-    if (inputValue.trim() === "") return;
+    if (inputValue.trim() === "" || inputValue === this.props.searchValue)
+      return;
     this.props.changeValueSearch(inputValue);
     this.props.onFormSubmit(inputValue);
     this.props.changeLayout(0);
+    this.props.history.push("/"); // back to display VideoList
   };
 
   render() {
@@ -47,7 +52,14 @@ class Search extends Component {
   }
 }
 
-export default connect(null, {
-  changeLayout,
-  changeValueSearch
-})(Search);
+const mapStateToProps = state => ({
+  searchValue: state.searchReducer.changeValue
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, {
+    changeLayout,
+    changeValueSearch
+  })
+)(Search);

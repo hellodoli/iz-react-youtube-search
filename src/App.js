@@ -17,7 +17,6 @@ import { SpinnerCircle } from "./components/Loading";
 
 // Containers
 import VideoShow from "./containers/VideoShow";
-import SearchResultShow from "./containers/SearchResultShow";
 
 /* Some custom CSS */
 import GlobalStyle from "./styled/GlobalStyle";
@@ -132,15 +131,12 @@ class App extends Component {
 
   renderVideoLayoutLeft = () => {
     const { videos } = this.props;
-    if (this.state.isLoadingVideo) {
-      return <SpinnerCircle size={40} />;
-    }
+    if (this.state.isLoadingVideo) return <SpinnerCircle size={40} />;
 
     return (
       <Switch>
         <Route exact path="/" render={() => <VideoList videos={videos} />} />
         <Route path={`/watch`} component={VideoShow} />;
-        <Route path={"/results"} component={SearchResultShow} />
       </Switch>
     );
   };
@@ -176,7 +172,7 @@ class App extends Component {
                       {/* render Filter */}
                       {this.renderFilter()}
 
-                      {/* render VideoDetail, Comments, VideoList (left) */}
+                      {/* render VideoShow (VideoDetail, Comments), VideoList (left) */}
                       {this.renderVideoLayoutLeft()}
 
                       {/* render LoadingMoreVideo */}

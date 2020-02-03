@@ -114,13 +114,14 @@ export const fetchVideoById = videoId => async dispatch => {
       const {
         id,
         kind,
-        snippet: { title, channelTitle }
+        snippet: { title, channelTitle, channelId }
       } = data[0];
       video = {
         id,
         kind,
         title,
-        channelTitle
+        channelTitle,
+        channelId
       };
     }
 

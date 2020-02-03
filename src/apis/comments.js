@@ -38,7 +38,7 @@ class Comments {
               textOriginal
             }
           },
-          channelId: video.snippet.channelId
+          channelId: video.channelId
         }
       };
       const response = await youtube.post(
@@ -53,6 +53,7 @@ class Comments {
         }
       );
       this.postComment = response.data;
+      console.log(response);
       console.log(this.postComment);
     } catch (error) {
       console.log(error);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-
 import { connect } from "react-redux";
+
+import CommentsAPI from "../../apis/comments";
 
 import {
   changeLayout,
@@ -9,44 +10,69 @@ import {
 } from "../../actions/videos";
 
 // Components
-import Comments from "../../components/Comments";
+import { SpinnerCircle } from "../../components/Loading";
 import {
   VideoDetail,
   VideoDetailNull,
   VideoNotFound
 } from "../../components/Videos";
+import Comments from "../../components/Comments";
 
 class VideoShow extends Component {
   state = {
     isValidLink: true,
-    isLoading: true
+    isLoadingVideo: true,
+    isLoadingComment: true,
+    commentsAPI: new CommentsAPI(),
+    comments: []
   };
 
-  fetchData = async videoId => {
-    //this.setState({ isLoading: true });
+  fetchVideo = async videoId => {
     await this.props.fetchVideoById(videoId);
-    this.setState({ isLoading: false });
+    this.setState({ isLoadingVideo: false });
   };
 
-  loadVideo = () => {
+  fetchComments = async videoId => {
+    const { commentsAPI } = this.state;
+    await commentsAPI.getCommentsByVideoId(videoId, this.props.authResponse);
+    if (commentsAPI.comments && commentsAPI.comments.items.length > 0) {
+      this.setState({
+        comments: commentsAPI.comments.items,
+        isLoadingComment: false
+      });
+    } else {
+      this.setState({ comments: [], isLoadingComment: false });
+    }
+  };
+
+  loadVideoAndComment = () => {
     const searchParamString = this.props.location.search;
     const searchParam = new URLSearchParams(searchParamString);
 
     if (searchParam.has("v")) {
       const videoId = searchParam.get("v");
       if (videoId.trim() !== "") {
-        this.fetchData(videoId);
+        this.fetchVideo(videoId); // fetch Video
+        this.fetchComments(videoId); // fetch Comment
         this.props.changeLayout(1); // change layout 1 mean is playing detail
       } else {
-        this.setState({ isValidLink: false, isLoading: false });
+        this.setState({
+          isValidLink: false,
+          isLoadingVideo: false,
+          isLoadingComment: false
+        });
       }
     } else {
-      this.setState({ isValidLink: false, isLoading: false });
+      this.setState({
+        isValidLink: false,
+        isLoadingVideo: false,
+        isLoadingComment: false
+      });
     }
   };
 
   componentDidMount() {
-    this.loadVideo();
+    this.loadVideoAndComment();
   }
 
   componentWillUnmount() {
@@ -55,28 +81,58 @@ class VideoShow extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.location.search !== this.props.location.search) {
-      this.setState({ isValidLink: true, isLoading: true });
-      this.loadVideo();
+      // reset state default
+      this.setState({
+        isValidLink: true,
+        isLoadingVideo: true,
+        isLoadingComment: true,
+        comments: []
+      });
+      this.loadVideoAndComment();
     }
   }
 
-  render() {
-    const { isValidLink, isLoading } = this.state;
-    const { selectedVideo } = this.props;
-    if (!isValidLink) return <VideoNotFound />;
-    if (isLoading) {
+  // render
+  renderVideoDetail = () => {
+    if (this.state.isLoadingVideo) {
       return <VideoDetailNull />;
     } else {
-      if (selectedVideo) {
-        return <VideoDetail video={selectedVideo} />;
+      if (this.props.selectedVideo) {
+        return <VideoDetail video={this.props.selectedVideo} />;
       }
       return <VideoNotFound />;
     }
+  };
+
+  renderComments = () => {
+    if (this.state.isLoadingComment) {
+      return null;
+    }
+    return (
+      <Comments
+        comments={this.state.comments}
+        fetchComments={this.fetchComments}
+      />
+    );
+  };
+
+  render() {
+    if (!this.state.isValidLink) return <VideoNotFound />;
+    return (
+      <div>
+        {/* render VideoDetail*/}
+        {this.renderVideoDetail()}
+
+        {/* render Comments */}
+        {this.renderComments()}
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => ({
-  selectedVideo: state.videosReducer.selectedVideo
+  selectedVideo: state.videosReducer.selectedVideo,
+  authResponse: state.oauthReducer.authResponse
 });
 
 export default connect(mapStateToProps, {
