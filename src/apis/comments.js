@@ -32,7 +32,7 @@ class Comments {
     try {
       var params = {
         snippet: {
-          videoId: video.id.videoId,
+          videoId: video.id,
           topLevelComment: {
             snippet: {
               textOriginal
@@ -53,7 +53,6 @@ class Comments {
         }
       );
       this.postComment = response.data;
-      console.log(response);
       console.log(this.postComment);
     } catch (error) {
       console.log(error);
