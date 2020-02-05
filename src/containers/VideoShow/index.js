@@ -10,7 +10,6 @@ import {
 } from "../../actions/videos";
 
 // Components
-import { SpinnerCircle } from "../../components/Loading";
 import {
   VideoDetail,
   VideoDetailNull,
@@ -45,6 +44,23 @@ class VideoShow extends Component {
     }
   };
 
+  setStateInvalidLink = () => {
+    this.setState({
+      isValidLink: false,
+      isLoadingVideo: false,
+      isLoadingComment: false
+    });
+  };
+
+  setStateDefault = () => {
+    this.setState({
+      isValidLink: true,
+      isLoadingVideo: true,
+      isLoadingComment: true,
+      comments: []
+    });
+  };
+
   loadVideoAndComment = () => {
     const searchParamString = this.props.location.search;
     const searchParam = new URLSearchParams(searchParamString);
@@ -56,18 +72,12 @@ class VideoShow extends Component {
         this.fetchComments(videoId); // fetch Comment
         this.props.changeLayout(1); // change layout 1 mean is playing detail
       } else {
-        this.setState({
-          isValidLink: false,
-          isLoadingVideo: false,
-          isLoadingComment: false
-        });
+        // set state when invalid
+        this.setStateInvalidLink();
       }
     } else {
-      this.setState({
-        isValidLink: false,
-        isLoadingVideo: false,
-        isLoadingComment: false
-      });
+      // set state when invalid
+      this.setStateInvalidLink();
     }
   };
 
@@ -82,12 +92,7 @@ class VideoShow extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.location.search !== this.props.location.search) {
       // reset state default
-      this.setState({
-        isValidLink: true,
-        isLoadingVideo: true,
-        isLoadingComment: true,
-        comments: []
-      });
+      this.setStateDefault();
       this.loadVideoAndComment();
     }
   }

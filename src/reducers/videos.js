@@ -5,6 +5,7 @@ import {
   FETCH_VIDEOS,
   FETCH_MORE_VIDEOS,
   FETCH_FILTER_VIDEOS,
+  RESET_FILTER_LIST,
   CHANGE_FILTER_PARAMS
 } from "../constants/videos";
 import { mapKeysYoutubeVideo } from "../helper";
@@ -18,7 +19,7 @@ const selectedVideo = (state = null, action) => {
   }
 };
 
-const changeLayout = (layout = 0, action) => {
+const layout = (layout = 0, action) => {
   switch (action.type) {
     case VIDEO_LAYOUT:
       return action.layout;
@@ -58,10 +59,20 @@ const filterParams = (state = { type: "video" }, action) => {
   }
 };
 
+const isResetFilterList = (state = false, action) => {
+  switch (action.type) {
+    case RESET_FILTER_LIST:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 const videosReducer = combineReducers({
+  layout,
   selectedVideo,
-  changeLayout,
   videos,
+  isResetFilterList,
   filterParams
 });
 

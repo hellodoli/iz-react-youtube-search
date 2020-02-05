@@ -4,6 +4,7 @@ import {
   FETCH_VIDEOS,
   FETCH_MORE_VIDEOS,
   FETCH_FILTER_VIDEOS,
+  RESET_FILTER_LIST,
   CHANGE_FILTER_PARAMS
 } from "../constants/videos";
 
@@ -14,9 +15,14 @@ export const selectVideo = video => ({
   payload: video
 });
 
-export const changeLayout = status => ({
+export const changeLayout = type => ({
   type: VIDEO_LAYOUT,
-  layout: status
+  layout: type
+});
+
+export const resetFilterList = status => ({
+  type: RESET_FILTER_LIST,
+  payload: status
 });
 
 export const changeFilterParams = newFilterParams => ({

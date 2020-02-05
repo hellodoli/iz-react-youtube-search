@@ -86,6 +86,13 @@ export const VideoThumbWrapp = styled.div`
   & > a {
     display: flex;
     justify-content: flex-start;
+    /*padding: 1.5rem;
+    border-radius: 0.25rem;
+    background-image: linear-gradient(
+      147deg,
+      var(--color-primary) 0%,
+      var(--color-secondary) 74%
+    );*/
     cursor: pointer;
   }
   & + & {

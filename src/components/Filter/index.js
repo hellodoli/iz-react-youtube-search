@@ -1,6 +1,18 @@
 import React, { Component } from "react";
+
 import { connect } from "react-redux";
-import { changeFilterParams } from "../../actions/videos";
+
+import { SkinContext, themes } from "../../skin-context";
+
+import * as h from "../../helper";
+
+import {
+  resetFilterList,
+  changeFilterParams,
+  fetchFilterVideos
+} from "../../actions/videos";
+import { changeLoadingVideoStatus } from "../../actions/search";
+
 import { IZButton } from "../Buttons";
 import { Columns, Button } from "react-bulma-components";
 import {
@@ -12,16 +24,14 @@ import {
   SectBody,
   SectItem
 } from "./styled";
-import * as h from "../../helper";
-import { SkinContext, themes } from "../../skin-context";
 
 const FilterButton = React.forwardRef((props, ref) => (
   <FilterButtonWrapp ref={ref}>{props.children}</FilterButtonWrapp>
 ));
 
 class Filter extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.filterButton = React.createRef();
     this.collapseSection = React.createRef();
     this.state = {
@@ -30,8 +40,12 @@ class Filter extends Component {
     };
   }
 
+  turnOffResetFilterList = () => {
+    this.props.resetFilterList(false);
+  };
+
   static getDerivedStateFromProps(nextProps, nextState) {
-    if (nextProps.resetFilter) {
+    if (nextProps.isResetFilterList) {
       return {
         filterList: [
           {
@@ -187,6 +201,12 @@ class Filter extends Component {
     }
   }
 
+  onFilterVideo = async (search, param) => {
+    this.props.changeLoadingVideoStatus(true);
+    await this.props.fetchFilterVideos(search, param);
+    this.props.changeLoadingVideoStatus(false);
+  };
+
   resetIgnore = tempFilterList => {
     for (let i = 0; i < tempFilterList.length; i++) {
       for (let j = 0; j < tempFilterList[i].filterItems.length; j++) {
@@ -229,7 +249,10 @@ class Filter extends Component {
   };
 
   clickFilter = async (filterItem, indexList, index) => {
-    await this.props.changeResetFilter();
+    if (this.props.isResetFilterList) {
+      await this.props.resetFilterList(false);
+    }
+
     // check ignore
     if (filterItem.isIgnore === false) {
       const tempFilterList = this.state.filterList.splice("");
@@ -323,7 +346,7 @@ class Filter extends Component {
       // close Filter
       this.filterButton.current.click();
       // call API filter videos
-      this.props.onFilterVideo(this.props.searchValue, this.props.filterParams);
+      this.onFilterVideo(this.props.searchValue, this.props.filterParams);
       console.log("this.props.filterParams: ", this.props.filterParams);
     } else {
       console.log("you click disabled filter");
@@ -331,7 +354,9 @@ class Filter extends Component {
   };
 
   removeFilter = async (filterItem, indexList) => {
-    await this.props.changeResetFilter();
+    if (this.props.isResetFilterList) {
+      await this.props.resetFilterList(false);
+    }
     var tempFilterList = this.state.filterList.splice("");
 
     // back ignore
@@ -412,7 +437,7 @@ class Filter extends Component {
     // close Filter
     this.filterButton.current.click();
     // call API filter videos
-    this.props.onFilterVideo(this.props.searchValue, this.props.filterParams);
+    this.onFilterVideo(this.props.searchValue, this.props.filterParams);
     console.log("this.state.params: ", this.props.filterParams);
   };
 
@@ -489,7 +514,13 @@ Filter.contextType = SkinContext;
 
 const mapStateToProps = state => ({
   searchValue: state.searchReducer.changeValue,
-  filterParams: state.videosReducer.filterParams
+  filterParams: state.videosReducer.filterParams,
+  isResetFilterList: state.videosReducer.isResetFilterList
 });
 
-export default connect(mapStateToProps, { changeFilterParams })(Filter);
+export default connect(mapStateToProps, {
+  changeFilterParams,
+  fetchFilterVideos,
+  resetFilterList,
+  changeLoadingVideoStatus
+})(Filter);

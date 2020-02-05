@@ -4,8 +4,15 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import { changeLayout } from "../../actions/videos";
-import { changeValueSearch } from "../../actions/search";
+import {
+  changeSearchValue,
+  changeLoadingVideoStatus
+} from "../../actions/search";
+import {
+  changeLayout,
+  fecthVideos,
+  resetFilterList
+} from "../../actions/videos";
 
 import { SearchWrapp, SearchInput, SearchButton } from "./styled";
 
@@ -22,15 +29,26 @@ class Search extends Component {
     this.setState({ inputValue: e.target.value });
   };
 
-  onSubmit = e => {
+  search = async searchValue => {
+    this.props.resetFilterList(true);
+    this.props.changeLoadingVideoStatus(true);
+    await this.props.fecthVideos(searchValue);
+    this.props.changeLoadingVideoStatus(false);
+    // back to display VideoList
+    if (this.props.history.location.path !== "/") {
+      this.props.history.push("/");
+    }
+  };
+
+  onSubmit = async e => {
     e.preventDefault();
     const { inputValue } = this.state;
-    if (inputValue.trim() === "" || inputValue === this.props.searchValue)
-      return;
-    this.props.changeValueSearch(inputValue);
-    this.props.onFormSubmit(inputValue);
-    this.props.changeLayout(0);
-    this.props.history.push("/"); // back to display VideoList
+    const { changeSearchValue, changeLayout } = this.props;
+    if (inputValue.trim() === "") return;
+
+    changeSearchValue(inputValue); // change value search
+    changeLayout(0);
+    this.search(inputValue);
   };
 
   render() {
@@ -52,14 +70,14 @@ class Search extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  searchValue: state.searchReducer.changeValue
-});
-
 export default compose(
   withRouter,
-  connect(mapStateToProps, {
+  connect(null, {
+    changeSearchValue,
+    changeLoadingVideoStatus,
+
     changeLayout,
-    changeValueSearch
+    fecthVideos,
+    resetFilterList
   })
 )(Search);

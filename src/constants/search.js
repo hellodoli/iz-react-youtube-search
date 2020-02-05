@@ -1,4 +1,5 @@
 export const SEARCH_VALUE = "@@search/SEARCH_VALUE";
+export const SEARCH_LOADING = "@@search/SEARCH_LOADING";
 
 /*
   codeName: value use for call API

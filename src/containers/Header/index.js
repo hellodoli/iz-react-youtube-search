@@ -2,8 +2,6 @@ import React from "react";
 
 import { SkinContext, themes } from "../../skin-context";
 
-import PropTypes from "prop-types";
-
 import { Container } from "react-bulma-components";
 // components
 import { IZButton } from "../../components/Buttons";
@@ -18,13 +16,13 @@ import {
   HeaderWrappThemeSwitch
 } from "./styled";
 
-const Header = props => {
+function Header() {
   return (
     <HeaderWrapp>
       <Container>
         <HeaderWrappInner>
           <HeaderWrappForSearch>
-            <Search onFormSubmit={props.onFormSubmit} />
+            <Search />
           </HeaderWrappForSearch>
 
           <SkinContext.Consumer>
@@ -68,10 +66,6 @@ const Header = props => {
       </Container>
     </HeaderWrapp>
   );
-};
-
-Header.propTypes = {
-  onFormSubmit: PropTypes.func.isRequired
-};
+}
 
 export default Header;

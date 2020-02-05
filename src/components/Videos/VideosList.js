@@ -14,7 +14,7 @@ import {
   VideoThumbDes
 } from "./styled";
 
-const VideoItem = ({ video, rest: { layout, changeLayout } }) => {
+const VideoItem = ({ video, layout, changeLayout }) => {
   const isPlaylist = video.id.kind === ytIsPlaylist;
   const isChanel = video.id.kind === ytIsChanel;
   const thumbnail = video.snippet.thumbnails;
@@ -50,7 +50,8 @@ const VideoItem = ({ video, rest: { layout, changeLayout } }) => {
   );
 };
 
-const VideoList = ({ videos, ...rest }) => {
+const VideoList = props => {
+  const { videos, ...rest } = props;
   return (
     <div className="iz-video-list-search">
       {videos.length > 0 &&
@@ -58,7 +59,7 @@ const VideoList = ({ videos, ...rest }) => {
           <VideoItem
             key={index + 1}
             video={video}
-            rest={rest} // rest: layout, selectedVideo, changeLayout
+            {...rest} // { layout, changeLayout }
           />
         ))}
     </div>
@@ -66,7 +67,8 @@ const VideoList = ({ videos, ...rest }) => {
 };
 
 const mapStateToProps = state => ({
-  layout: state.videosReducer.changeLayout
+  layout: state.videosReducer.layout,
+  videos: Object.values(state.videosReducer.videos[1])
 });
 
 export default connect(mapStateToProps, {
