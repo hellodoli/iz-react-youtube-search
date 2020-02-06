@@ -17,7 +17,7 @@ function VideoSearchResult(props) {
 
   function renderVideoList() {
     if (isLoading) return <SpinnerCircle size={40} />;
-    if (videos.length > 0) return <VideoList />;
+    if (videos.length > 0) return <VideoList layout={0} />;
     return null;
   }
 

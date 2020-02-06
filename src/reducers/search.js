@@ -14,7 +14,6 @@ const searchValue = (value = "", action) => {
 const isLoadingStatus = (state = false, action) => {
   switch (action.type) {
     case SEARCH_LOADING:
-      console.log("yes change");
       return action.payload;
     default:
       return state;

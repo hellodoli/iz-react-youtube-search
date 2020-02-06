@@ -3,6 +3,7 @@ import React from "react";
 import { SkinContext, themes } from "../../skin-context";
 
 import { Container } from "react-bulma-components";
+
 // components
 import { IZButton } from "../../components/Buttons";
 import Search from "../../components/Search";

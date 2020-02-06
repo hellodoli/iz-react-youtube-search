@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { ytIsChanel, ytIsPlaylist } from "../../helper";
 
 import { changeLoadingVideoStatus } from "../../actions/search";
-import { changeLayout, fetchMoreVideos } from "../../actions/videos";
+import { fetchMoreVideos } from "../../actions/videos";
 
 import { SpinnerCircle } from "../../components/Loading";
 
@@ -18,18 +18,13 @@ import {
   VideoThumbDes
 } from "./styled";
 
-function VideoItem({ video, layout, changeLayout }) {
+function VideoItem({ video, layout }) {
   const isPlaylist = video.id.kind === ytIsPlaylist;
   const isChanel = video.id.kind === ytIsChanel;
   const thumbnail = video.snippet.thumbnails;
 
   return (
-    <VideoThumbWrapp
-      layout={layout}
-      onClick={() => {
-        changeLayout(1);
-      }}
-    >
+    <VideoThumbWrapp layout={layout}>
       <Link to={`/watch?v=${video.id.videoId}`}>
         <VideoThumbImage
           layout={layout}
@@ -75,7 +70,6 @@ class VideoList extends Component {
     const windowScrollTop = window.pageYOffset;
     const set = windowHeight + windowScrollTop;
     if (set >= windowScrollHeight) {
-      console.log("yes, load more please");
       this.loadMoreVideo();
     }
   };
@@ -94,15 +88,11 @@ class VideoList extends Component {
   };
 
   render() {
-    const { videos, ...rest } = this.props;
+    const { videos, layout } = this.props;
     return (
       <div className="iz-video-list-search">
         {videos.map((video, index) => (
-          <VideoItem
-            key={index + 1}
-            video={video}
-            {...rest} // { layout, changeLayout }
-          />
+          <VideoItem key={index + 1} video={video} layout={layout} />
         ))}
         {/* render Loading More */}
         {this.renderLoadingMore()}
@@ -112,7 +102,6 @@ class VideoList extends Component {
 }
 
 const mapStateToProps = state => ({
-  layout: state.videosReducer.layout,
   videos: Object.values(state.videosReducer.videos[1]),
   search: state.searchReducer.searchValue,
   nextPageToken: state.videosReducer.videos[0],
@@ -120,7 +109,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  changeLayout,
   changeLoadingVideoStatus,
   fetchMoreVideos
 })(VideoList);

@@ -2,17 +2,14 @@ import React, { Component } from "react";
 
 import { compose } from "redux";
 import { connect } from "react-redux";
+
 import { withRouter } from "react-router-dom";
 
 import {
   changeSearchValue,
   changeLoadingVideoStatus
 } from "../../actions/search";
-import {
-  changeLayout,
-  fecthVideos,
-  resetFilterList
-} from "../../actions/videos";
+import { fecthVideos, resetFilterList } from "../../actions/videos";
 
 import { SearchWrapp, SearchInput, SearchButton } from "./styled";
 
@@ -43,11 +40,9 @@ class Search extends Component {
   onSubmit = async e => {
     e.preventDefault();
     const { inputValue } = this.state;
-    const { changeSearchValue, changeLayout } = this.props;
     if (inputValue.trim() === "") return;
 
-    changeSearchValue(inputValue); // change value search
-    changeLayout(0);
+    this.props.changeSearchValue(inputValue); // change value search
     this.search(inputValue);
   };
 
@@ -76,7 +71,6 @@ export default compose(
     changeSearchValue,
     changeLoadingVideoStatus,
 
-    changeLayout,
     fecthVideos,
     resetFilterList
   })

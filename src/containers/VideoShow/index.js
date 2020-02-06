@@ -1,13 +1,10 @@
 import React, { Component } from "react";
+
 import { connect } from "react-redux";
 
 import CommentsAPI from "../../apis/comments";
 
-import {
-  changeLayout,
-  selectVideo,
-  fetchVideoById
-} from "../../actions/videos";
+import { selectVideo, fetchVideoById } from "../../actions/videos";
 
 // Components
 import {
@@ -77,7 +74,6 @@ class VideoShow extends Component {
         this.videoId = videoId; // save video Id
         this.fetchVideo(videoId); // fetch Video
         this.fetchComments(videoId); // fetch Comment
-        this.props.changeLayout(1); // change layout 1 mean is playing detail
       } else {
         // set state when invalid
         this.setStateInvalidLink();
@@ -98,8 +94,7 @@ class VideoShow extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.location.search !== this.props.location.search) {
-      // reset state default
-      this.setStateDefault();
+      this.setStateDefault(); // reset state default
       this.loadVideoAndComment();
     }
 
@@ -155,7 +150,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  changeLayout,
   selectVideo,
   fetchVideoById
 })(VideoShow);
