@@ -94,6 +94,7 @@ export const fetchMoreVideos = (
 
     const response = await youtube.get("/search", { params });
     const data = response.data;
+    console.log("data comments: ", data);
     if (data.items && data.items.length > 0) {
       dispatch({
         type: FETCH_MORE_VIDEOS,

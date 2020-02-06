@@ -43,7 +43,6 @@ class App extends Component {
 
   render() {
     const { theme, themeColor } = this.state;
-    console.log(this.state);
     return (
       <SkinContext.Provider value={this.state}>
         <ThemeProvider theme={theme} themeColor={themeColor}>

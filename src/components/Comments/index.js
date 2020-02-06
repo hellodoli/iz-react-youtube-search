@@ -15,7 +15,7 @@ const Comments = props => {
     comments,
     fetchComments
   } = props;
-
+  console.log("comments: ", comments);
   return (
     <div className="iz-video-comments" style={{ marginTop: "2rem" }}>
       {isSignedIn && selectedVideo.kind === ytIsVideo ? (
