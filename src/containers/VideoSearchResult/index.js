@@ -17,7 +17,8 @@ function VideoSearchResult(props) {
 
   function renderVideoList() {
     if (isLoading) return <SpinnerCircle size={40} />;
-    return <VideoList />;
+    if (videos.length > 0) return <VideoList />;
+    return null;
   }
 
   return (
@@ -31,7 +32,7 @@ function VideoSearchResult(props) {
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.searchReducer.changeLoadingStatus,
+  isLoading: state.searchReducer.isLoadingStatus,
   videos: Object.values(state.videosReducer.videos[1])
 });
 

@@ -21,7 +21,10 @@ class VideoShow extends Component {
   state = {
     isValidLink: true,
     isLoadingVideo: true,
+
     isLoadingComment: true,
+    isLoadedComments: false,
+
     commentsAPI: new CommentsAPI(),
     comments: []
   };
@@ -32,15 +35,18 @@ class VideoShow extends Component {
   };
 
   fetchComments = async videoId => {
-    const { commentsAPI } = this.state;
-    await commentsAPI.getCommentsByVideoId(videoId, this.props.authResponse);
-    if (commentsAPI.comments && commentsAPI.comments.items.length > 0) {
-      this.setState({
-        comments: commentsAPI.comments.items,
-        isLoadingComment: false
-      });
-    } else {
-      this.setState({ comments: [], isLoadingComment: false });
+    if (this.props.isSignedIn !== null) {
+      this.setState({ isLoadedComments: true });
+      const { commentsAPI } = this.state;
+      await commentsAPI.getCommentsByVideoId(videoId, this.props.authResponse);
+      if (commentsAPI.comments && commentsAPI.comments.items.length > 0) {
+        this.setState({
+          comments: commentsAPI.comments.items,
+          isLoadingComment: false
+        });
+      } else {
+        this.setState({ comments: [], isLoadingComment: false });
+      }
     }
   };
 
@@ -68,6 +74,7 @@ class VideoShow extends Component {
     if (searchParam.has("v")) {
       const videoId = searchParam.get("v");
       if (videoId.trim() !== "") {
+        this.videoId = videoId; // save video Id
         this.fetchVideo(videoId); // fetch Video
         this.fetchComments(videoId); // fetch Comment
         this.props.changeLayout(1); // change layout 1 mean is playing detail
@@ -95,6 +102,11 @@ class VideoShow extends Component {
       this.setStateDefault();
       this.loadVideoAndComment();
     }
+
+    // after define user login or not, fetch comments
+    if (!this.state.isLoadedComments) {
+      this.fetchComments(this.videoId);
+    }
   }
 
   // render
@@ -110,15 +122,16 @@ class VideoShow extends Component {
   };
 
   renderComments = () => {
-    if (this.state.isLoadingComment) {
-      return null;
+    if (this.state.isLoadingComment) return null; // return loading is better
+    if (this.props.selectedVideo) {
+      return (
+        <Comments
+          comments={this.state.comments}
+          fetchComments={this.fetchComments}
+        />
+      );
     }
-    return (
-      <Comments
-        comments={this.state.comments}
-        fetchComments={this.fetchComments}
-      />
-    );
+    return null; // return when videoId dont match
   };
 
   render() {
@@ -137,7 +150,8 @@ class VideoShow extends Component {
 
 const mapStateToProps = state => ({
   selectedVideo: state.videosReducer.selectedVideo,
-  authResponse: state.oauthReducer.authResponse
+  authResponse: state.oauthReducer.authResponse,
+  isSignedIn: state.oauthReducer.isSignedIn
 });
 
 export default connect(mapStateToProps, {

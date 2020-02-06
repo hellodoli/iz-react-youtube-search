@@ -70,11 +70,11 @@ class App extends Component {
   };
 
   componentDidMount() {
-    window.addEventListener("scroll", this.scrollLoadMoreVideoList);
+    //window.addEventListener("scroll", this.scrollLoadMoreVideoList);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.scrollLoadMoreVideoList);
+    //window.removeEventListener("scroll", this.scrollLoadMoreVideoList);
   }
 
   render() {

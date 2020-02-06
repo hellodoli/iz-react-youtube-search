@@ -130,7 +130,6 @@ export const fetchVideoById = videoId => async dispatch => {
         channelId
       };
     }
-
     dispatch({
       type: VIDEO_SELECTED,
       payload: video

@@ -77,9 +77,7 @@ class OAuth extends Component {
         />
       );
     } else {
-      if (isSignedIn === null) {
-        return null;
-      }
+      if (isSignedIn === null) return null;
       return (
         <IZButton color="secondary" onClick={this.singInOrSignOut}>
           Login
