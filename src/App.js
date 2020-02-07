@@ -8,12 +8,11 @@ import { Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { Container, Columns } from "react-bulma-components";
 
-// Components
-import Header from "./containers/Header";
-import { VideoList } from "./components/Videos";
-
 // Containers
-import VideoSearchResult from "./containers/VideoSearchResult";
+import { IZButton } from "./components/Buttons";
+import Header from "./containers/Header";
+import VideoListLeft from "./containers/VideoListLeft";
+import VideoListRight from "./containers/VideoListRight";
 import VideoShow from "./containers/VideoShow";
 
 /* Some custom CSS */
@@ -62,7 +61,7 @@ class App extends Component {
                     >
                       {/* render VideoList with Filter (left), VideoDetail with Comments */}
                       <Switch>
-                        <Route exact path="/" component={VideoSearchResult} />
+                        <Route exact path="/" component={VideoListLeft} />
                         <Route path={`/watch`} component={VideoShow} />
                       </Switch>
                     </Columns.Column>
@@ -73,10 +72,7 @@ class App extends Component {
                       desktop={{ size: 4 }}
                     >
                       {/* render VideoList (right) */}
-                      <Route
-                        path={`/watch`}
-                        render={() => <VideoList layout={1} />}
-                      />
+                      <Route path={`/watch`} component={VideoListRight} />
                     </Columns.Column>
                   </Columns>
                 </Container>

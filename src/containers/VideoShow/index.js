@@ -17,33 +17,76 @@ import Comments from "../../components/Comments";
 class VideoShow extends Component {
   state = {
     isValidLink: true,
-    isLoadingVideo: true,
 
-    isLoadingComment: true,
+    isLoadingVideo: false,
+
+    isLoadingComment: false,
+    isLoadingMoreComment: false,
     isLoadedComments: false,
 
     commentsAPI: new CommentsAPI(),
-    comments: []
+    comments: [],
+    order: "relevance",
+    nextPageToken: null
   };
 
   fetchVideo = async videoId => {
+    this.setState({ isLoadingVideo: true });
     await this.props.fetchVideoById(videoId);
     this.setState({ isLoadingVideo: false });
   };
 
   fetchComments = async videoId => {
     if (this.props.isSignedIn !== null) {
-      this.setState({ isLoadedComments: true });
-      const { commentsAPI } = this.state;
-      await commentsAPI.getCommentsByVideoId(videoId, this.props.authResponse);
-      if (commentsAPI.comments && commentsAPI.comments.items.length > 0) {
+      const { commentsAPI, isLoadedComments } = this.state;
+
+      if (!isLoadedComments) this.setState({ isLoadedComments: true });
+
+      this.setState({ isLoadingComment: true });
+      await commentsAPI.getCommentsByVideoId(
+        videoId,
+        this.props.authResponse,
+        this.state.order
+      );
+      if (commentsAPI.comments.length > 0) {
         this.setState({
-          comments: commentsAPI.comments.items,
+          comments: commentsAPI.comments,
+          nextPageToken: commentsAPI.nextPageToken,
           isLoadingComment: false
         });
       } else {
-        this.setState({ comments: [], isLoadingComment: false });
+        this.setState({
+          comments: [],
+          nextPageToken: null,
+          isLoadingComment: false
+        });
       }
+    }
+  };
+
+  fetchMoreComment = async () => {
+    const commentsOld = this.state.comments.splice("");
+    const { commentsAPI, order, nextPageToken } = this.state;
+    this.setState({ isLoadingMoreComment: true });
+    await commentsAPI.getCommentsByVideoId(
+      this.videoId,
+      this.props.authResponse,
+      order,
+      nextPageToken
+    );
+
+    if (commentsAPI.comments.length > 0) {
+      this.setState({
+        comments: [...commentsOld, ...commentsAPI.comments],
+        nextPageToken: commentsAPI.nextPageToken,
+        isLoadingMoreComment: false
+      });
+    } else {
+      this.setState({
+        comments: [],
+        nextPageToken: null,
+        isLoadingMoreComment: false
+      });
     }
   };
 
@@ -58,9 +101,7 @@ class VideoShow extends Component {
   setStateDefault = () => {
     this.setState({
       isValidLink: true,
-      isLoadingVideo: true,
-      isLoadingComment: true,
-      comments: []
+      order: "relevance"
     });
   };
 
@@ -71,7 +112,7 @@ class VideoShow extends Component {
     if (searchParam.has("v")) {
       const videoId = searchParam.get("v");
       if (videoId.trim() !== "") {
-        this.videoId = videoId; // save video Id
+        this.videoId = videoId; // save video Id use for next time
         this.fetchVideo(videoId); // fetch Video
         this.fetchComments(videoId); // fetch Comment
       } else {
@@ -94,11 +135,11 @@ class VideoShow extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.location.search !== this.props.location.search) {
-      this.setStateDefault(); // reset state default
+      this.setStateDefault();
       this.loadVideoAndComment();
     }
 
-    // after define user login or not, fetch comments
+    // after first time when define user login or not, fetch comments
     if (!this.state.isLoadedComments) {
       this.fetchComments(this.videoId);
     }
@@ -123,6 +164,7 @@ class VideoShow extends Component {
         <Comments
           comments={this.state.comments}
           fetchComments={this.fetchComments}
+          fetchMoreComment={this.fetchMoreComment}
         />
       );
     }

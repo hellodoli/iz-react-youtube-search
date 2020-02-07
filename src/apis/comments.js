@@ -1,14 +1,28 @@
 import youtube, { defaultParams } from "./youtube";
 
 class Comments {
-  async getCommentsByVideoId(videoId, authResponse) {
+  constructor() {
+    this.comments = [];
+    this.nextPageToken = [];
+  }
+
+  async getCommentsByVideoId(
+    videoId,
+    authResponse,
+    order = "relevance",
+    nextPageToken = null
+  ) {
     try {
-      var params = {
+      let params = {
         ...defaultParams,
         part: "snippet,replies",
-        order: "relevance",
+        order,
         videoId
       };
+
+      if (nextPageToken !== null) {
+        params = { ...params, pageToken: nextPageToken };
+      }
 
       let headers = {};
       if (Object.values(authResponse).length > 0) {
@@ -22,7 +36,12 @@ class Comments {
         params,
         headers
       });
-      this.comments = response.data;
+
+      const data = response.data;
+      if (data && data.items.length > 0) {
+        this.comments = data.items;
+        this.nextPageToken = data.nextPageToken;
+      }
     } catch (error) {
       console.log(error);
     }

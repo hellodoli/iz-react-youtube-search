@@ -11,7 +11,7 @@ function VideoSearchResult(props) {
   const { videos, isLoading } = props;
 
   function renderFilter() {
-    if (videos.length > 0) return <Filter />;
+    if (videos.length) return <Filter />;
     return null;
   }
 

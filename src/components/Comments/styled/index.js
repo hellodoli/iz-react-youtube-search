@@ -1,6 +1,19 @@
 import styled from "styled-components";
 import { Media } from "react-bulma-components";
 
+/* Comment General Wrapper */
+export const CommentParentWrapper = styled.div`
+  margin-top: 2rem;
+  & > div:not(:last-child) {
+    margin-bottom: 3rem;
+  }
+`;
+
+export const CommentWrapper = styled.div`
+  position: relative;
+`;
+
+/* Comment Item */
 export const CommentAuthorName = styled.strong`
   font-size: 0.8125rem;
   color: var(--color-main-title);
@@ -14,7 +27,7 @@ export const CommentText = styled.p`
   font-size: 0.875rem;
 `;
 
-export const CommentMediaWrapper = styled(Media)`
+export const CommentMediaWrapper = styled(Media).attrs(props => ({}))`
   & &,
   & + & {
     border-top: none;
@@ -58,7 +71,4 @@ export const RepliesButton = styled.div`
   > i {
     ${({ isOpen }) => (isOpen ? `transform: rotate(-180deg)` : ``)}
   }
-`;
-export const CommentWriterWrapper = styled.div`
-  margin-bottom: 3rem;
 `;

@@ -347,6 +347,7 @@ class Filter extends Component {
       this.filterButton.current.click();
       // call API filter videos
       this.onFilterVideo(this.props.searchValue, this.props.filterParams);
+      console.log("this.props.searchValue: ", this.props.searchValue);
       console.log("this.props.filterParams: ", this.props.filterParams);
     } else {
       console.log("you click disabled filter");
@@ -513,7 +514,7 @@ class Filter extends Component {
 Filter.contextType = SkinContext;
 
 const mapStateToProps = state => ({
-  searchValue: state.searchReducer.changeValue,
+  searchValue: state.searchReducer.searchValue,
   filterParams: state.videosReducer.filterParams,
   isResetFilterList: state.videosReducer.isResetFilterList
 });

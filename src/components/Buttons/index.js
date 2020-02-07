@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 // style from button.button
-export const IZButton = styled.button.attrs(({ isDisabled }) => ({
-  className: "button",
+export const IZButton = styled.button.attrs(({ isDisabled, isLoading }) => ({
+  className: `button${isLoading ? " is-loading" : ""}`,
   disabled: isDisabled && true
 }))`
   ${({ color = "primary", isOutlined = false }) => `

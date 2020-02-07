@@ -69,12 +69,13 @@ class VideoList extends Component {
     const windowScrollHeight = document.documentElement.scrollHeight; // height when append Video List
     const windowScrollTop = window.pageYOffset;
     const set = windowHeight + windowScrollTop;
-    if (set >= windowScrollHeight) {
+    if (set >= windowScrollHeight - 5) {
       this.loadMoreVideo();
     }
   };
 
   componentDidMount() {
+    console.log("done");
     window.addEventListener("scroll", this.scrollLoadMore);
   }
 

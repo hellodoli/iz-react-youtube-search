@@ -169,7 +169,7 @@ class CommentWriter extends Component {
 
   render() {
     return (
-      <CommentWriterWrapper>
+      <div>
         {this.state.isLoading ? (
           <SpinnerCircle size={30} />
         ) : (
@@ -179,7 +179,7 @@ class CommentWriter extends Component {
             {...this.props}
           />
         )}
-      </CommentWriterWrapper>
+      </div>
     );
   }
 }
