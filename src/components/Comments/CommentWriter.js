@@ -4,7 +4,7 @@ import commentAPI from "../../apis/comments";
 import { Media, Form, Level } from "react-bulma-components";
 
 // Components
-import { IZButton } from "../Buttons";
+import IZButton from "../Buttons";
 import { SpinnerCircle } from "../Loading";
 
 import { CommentMediaWrapper, CommentWriterTextArea } from "./styled";

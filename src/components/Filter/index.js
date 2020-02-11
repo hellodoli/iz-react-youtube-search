@@ -13,8 +13,8 @@ import {
 } from "../../actions/videos";
 import { changeLoadingVideoStatus } from "../../actions/search";
 
-import { IZButton } from "../Buttons";
 import { Columns, Button } from "react-bulma-components";
+import IZButton from "../Buttons";
 import {
   FilterWrapper,
   FilterButtonWrapp,

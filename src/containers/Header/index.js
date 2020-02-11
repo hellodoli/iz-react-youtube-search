@@ -5,7 +5,7 @@ import { SkinContext, themes } from "../../skin-context";
 import { Container } from "react-bulma-components";
 
 // components
-import { IZButton } from "../../components/Buttons";
+import IZButton from "../../components/Buttons";
 import Search from "../../components/Search";
 import DropdownTheme from "../../components/DropdownTheme";
 import OAuth from "../../components/OAuth";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { IZButton } from "../Buttons";
+import IZButton from "../Buttons";
 
 function LoadMoreCommentButton({
   comments,

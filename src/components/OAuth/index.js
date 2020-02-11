@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { signIn, signOut } from "../../actions/oauth";
 import { defaultParams } from "../../apis/youtube";
 import { connect } from "react-redux";
-import { IZButton } from "../Buttons";
+import IZButton from "../Buttons";
 import UserInfo from "./UserInfo";
 
 class OAuth extends Component {

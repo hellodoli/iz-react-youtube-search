@@ -15,12 +15,10 @@ export const CommentWrapper = styled.div`
 
 /* Comment Writer */
 export const CommentWriterTextArea = styled(Form.Textarea)`
-  min-height: 120px;
+  min-height: 80px;
   overflow: hidden;
   padding-bottom: 1.75rem;
   resize: none;
-  &[rows] {
-  }
 `;
 
 /* Comment Item */

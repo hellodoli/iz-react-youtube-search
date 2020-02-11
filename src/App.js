@@ -14,6 +14,8 @@ import VideoListLeft from "./containers/VideoListLeft";
 import VideoListRight from "./containers/VideoListRight";
 import VideoShow from "./containers/VideoShow";
 
+import IZButton from "./components/Buttons";
+
 /* Some custom CSS */
 import GlobalStyle from "./styled/GlobalStyle";
 import { MainWrapp, MainWrappContainer } from "./styled";

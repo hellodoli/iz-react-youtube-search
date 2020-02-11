@@ -57,7 +57,9 @@ export const SectItem = styled.div`
     `
     span {
       font-weight: 300;
-      color: ${ theme.background === themes.light.background ? `#b5b5b5` : `#717171` }
+      color: ${
+        theme.background === themes.light.background ? `#b5b5b5` : `#717171`
+      }
     }
   `};
 

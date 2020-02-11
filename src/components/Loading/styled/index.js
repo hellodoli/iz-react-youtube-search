@@ -1,14 +1,13 @@
-import styled from "styled-components";
-import { keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const spinnerClip = keyframes`
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(180deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(180deg); }
 `;
 
 const spinnerCircle = keyframes`
-    0% { transform: rotate(-180deg); }
-    100% { transform: rotate(180deg); }
+  0% { transform: rotate(-180deg); }
+  100% { transform: rotate(180deg); }
 `;
 
 export const Spinner = styled.div`

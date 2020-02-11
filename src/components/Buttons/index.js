@@ -1,56 +1,45 @@
-import styled from "styled-components";
+import React, { useRef } from "react";
 
-// style from button.button
-export const IZButton = styled.button.attrs(({ isDisabled, isLoading }) => ({
-  className: `button${isLoading ? " is-loading" : ""}`,
-  disabled: isDisabled && true
-}))`
-  ${({ color = "primary", isOutlined = false }) => `
-    border-color: ${isOutlined ? `var(--color-${color})` : "transparent"};
-    background-color:
-      ${
-        isOutlined
-          ? "transparent"
-          : color === "transparent"
-          ? "transparent"
-          : `var(--color-${color})`
-      };
-    color:
-      ${
-        isOutlined
-          ? `var(--color-${color})`
-          : color === "transparent"
-          ? "currentColor"
-          : "#fff" // default color text as button normal - đa số trường hợp màu là đúng
-      };
-  `}
+import { Button, Ink } from "./styled";
 
-  &[disabled] {
-    color: currentColor;
-  }
+const ButtonRipple = ({ children, ...rest }) => {
+  const btn = useRef(null);
+  const ink = useRef(null);
 
-  &[disabled]:hover {
-    color: currentColor;
-    background-color: #fff;
-    border-color: #dbdbdb;
-    box-shadow: none;
-    opacity: 0.5;
-  }
+  const rippleEffect = e => {
+    const inkEle = ink.current;
+    const btnEle = btn.current;
 
-  &:hover,
-  &:focus {
-    ${({ color = "primary", isOutlined = false }) => `
-      border-color: ${isOutlined ? `var(--color-${color})` : "transparent"};
-      background-color: ${
-        isOutlined
-          ? `var(--color-${color})`
-          : color === "primary"
-          ? "var(--color-primary-dark)" // primary color hover is darker color
-          : color === "secondary"
-          ? "var(--color-primary)" // secondary color hover is primary color
-          : "transparent" // transparent color hover is transparent
-      };
-      color: ${color === "transparent" ? "currentColor" : "#fff"};
-    `}
-  }
-`;
+    inkEle.classList.remove("animate"); // remove animate first
+    const d = Math.max(btnEle.offsetHeight, btnEle.offsetWidth);
+    const boxInk = inkEle.getBoundingClientRect();
+    const boxBtn = btnEle.getBoundingClientRect();
+    if (typeof boxInk === "object" && boxInk.height <= 0 && boxInk.width <= 0) {
+      inkEle.style.width = `${d}px`;
+      inkEle.style.height = `${d}px`;
+    }
+
+    if (typeof boxBtn === "object") {
+      const x = e.pageX - (boxBtn.left + window.pageXOffset) - d / 2;
+      const y = e.pageY - (boxBtn.top + window.pageYOffset) - d / 2;
+
+      inkEle.style.left = `${x}px`;
+      inkEle.style.top = `${y}px`;
+      inkEle.classList.add("animate"); // add animate
+    }
+  };
+
+  return (
+    <Button {...rest} ref={btn} onMouseDown={rippleEffect}>
+      {children}
+      <Ink ref={ink} />
+    </Button>
+  );
+};
+
+const IZButton = props => {
+  if (props.isRipple) return <ButtonRipple {...props} />;
+  return <Button {...props}>{props.children}</Button>;
+};
+
+export default IZButton;

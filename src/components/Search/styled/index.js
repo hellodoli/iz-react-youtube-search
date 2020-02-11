@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { IZButton } from "../../Buttons";
 import { Form } from "react-bulma-components";
+import IZButton from "../../Buttons";
 
 export const SearchInput = styled(Form.Input)`
   border-top-right-radius: 0 !important;
