@@ -75,7 +75,6 @@ class VideoList extends Component {
   };
 
   componentDidMount() {
-    console.log("done");
     window.addEventListener("scroll", this.scrollLoadMore);
   }
 

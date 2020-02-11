@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Media } from "react-bulma-components";
+import { Media, Form } from "react-bulma-components";
 
 /* Comment General Wrapper */
 export const CommentParentWrapper = styled.div`
@@ -11,6 +11,16 @@ export const CommentParentWrapper = styled.div`
 
 export const CommentWrapper = styled.div`
   position: relative;
+`;
+
+/* Comment Writer */
+export const CommentWriterTextArea = styled(Form.Textarea)`
+  min-height: 120px;
+  overflow: hidden;
+  padding-bottom: 1.75rem;
+  resize: none;
+  &[rows] {
+  }
 `;
 
 /* Comment Item */
@@ -27,7 +37,7 @@ export const CommentText = styled.p`
   font-size: 0.875rem;
 `;
 
-export const CommentMediaWrapper = styled(Media).attrs(props => ({}))`
+export const CommentMediaWrapper = styled(Media)`
   & &,
   & + & {
     border-top: none;

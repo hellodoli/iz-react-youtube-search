@@ -9,7 +9,6 @@ import { ThemeProvider } from "styled-components";
 import { Container, Columns } from "react-bulma-components";
 
 // Containers
-import { IZButton } from "./components/Buttons";
 import Header from "./containers/Header";
 import VideoListLeft from "./containers/VideoListLeft";
 import VideoListRight from "./containers/VideoListRight";

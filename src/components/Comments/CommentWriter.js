@@ -3,10 +3,11 @@ import commentAPI from "../../apis/comments";
 
 import { Media, Form, Level } from "react-bulma-components";
 
+// Components
 import { IZButton } from "../Buttons";
 import { SpinnerCircle } from "../Loading";
 
-import { CommentWriterWrapper, CommentMediaWrapper } from "./styled";
+import { CommentMediaWrapper, CommentWriterTextArea } from "./styled";
 
 class CommentWriterMain extends Component {
   constructor() {
@@ -14,13 +15,16 @@ class CommentWriterMain extends Component {
     this.state = {
       textInput: "",
       commentAPI: new commentAPI(),
-      postComment: null,
       isOpenButtons: false
     };
   }
 
   changeTextInput = e => {
-    this.setState({ textInput: e.target.value });
+    const ele = e.target;
+    this.setState({ textInput: ele.value });
+
+    ele.style.height = "5px";
+    ele.style.height = ele.scrollHeight + "px";
   };
 
   postNewComment = async () => {
@@ -31,34 +35,6 @@ class CommentWriterMain extends Component {
     await this.props.fetchComments(selectedVideo.id);
     this.props.endLoading();
     this.setState({ isOpenButtons: false });
-  };
-
-  // just test post Comment
-  testPostComment = () => {
-    return window.gapi.client.youtube.commentThreads
-      .insert({
-        part: "snippet",
-        resource: {
-          snippet: {
-            channelId: "UCQnw0PycCRlSsT8fQlTDyBA",
-            videoId: "v1iiCTN1cCM",
-            topLevelComment: {
-              snippet: {
-                textOriginal: "good song ^^"
-              }
-            }
-          }
-        }
-      })
-      .then(
-        function(response) {
-          // Handle the results here (response.result has the parsed body).
-          console.log("Response", response);
-        },
-        function(err) {
-          console.error("Execute error", err);
-        }
-      );
   };
 
   submitComment = e => {
@@ -82,7 +58,6 @@ class CommentWriterMain extends Component {
       userProfile: { Paa: imageAvataSrc }
     } = this.props;
     const { textInput, isOpenButtons } = this.state;
-
     return (
       <CommentMediaWrapper>
         <Media.Item position="left">
@@ -99,9 +74,9 @@ class CommentWriterMain extends Component {
           <form onSubmit={this.submitComment}>
             <Form.Field>
               <Form.Control>
-                <Form.Textarea
+                <CommentWriterTextArea
+                  rows={1}
                   placeholder="Add a public comment..."
-                  rows={2}
                   value={textInput}
                   onChange={this.changeTextInput}
                   onFocus={this.showButtonsComment}
@@ -142,12 +117,9 @@ class CommentWriterMain extends Component {
 class CommentWriter extends Component {
   _isMounted = false;
 
-  constructor() {
-    super();
-    this.state = {
-      isLoading: false
-    };
-  }
+  state = {
+    isLoading: false
+  };
 
   startLoading = () => {
     this._isMounted = true;

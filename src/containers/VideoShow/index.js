@@ -12,7 +12,7 @@ import {
   VideoDetailNull,
   VideoNotFound
 } from "../../components/Videos";
-import Comments from "../../components/Comments";
+import { Comments, LoadMoreComment } from "../../components/Comments";
 
 class VideoShow extends Component {
   state = {
@@ -65,7 +65,6 @@ class VideoShow extends Component {
   };
 
   fetchMoreComment = async () => {
-    const commentsOld = this.state.comments.splice("");
     const { commentsAPI, order, nextPageToken } = this.state;
     this.setState({ isLoadingMoreComment: true });
     await commentsAPI.getCommentsByVideoId(
@@ -76,6 +75,7 @@ class VideoShow extends Component {
     );
 
     if (commentsAPI.comments.length > 0) {
+      const commentsOld = this.state.comments.splice("");
       this.setState({
         comments: [...commentsOld, ...commentsAPI.comments],
         nextPageToken: commentsAPI.nextPageToken,
@@ -160,12 +160,20 @@ class VideoShow extends Component {
   renderComments = () => {
     if (this.state.isLoadingComment) return null; // return loading is better
     if (this.props.selectedVideo) {
+      //const isShowComments = this.state.comments.length > 0 ? true : false;
       return (
-        <Comments
-          comments={this.state.comments}
-          fetchComments={this.fetchComments}
-          fetchMoreComment={this.fetchMoreComment}
-        />
+        <div className="iz-video-comments">
+          <Comments
+            comments={this.state.comments}
+            fetchComments={this.fetchComments}
+          />
+          {/* Load More Comment Button */}
+          <LoadMoreComment
+            comments={this.state.comments}
+            fetchMoreComment={this.fetchMoreComment}
+            isLoadingMoreComment={this.state.isLoadingMoreComment}
+          />
+        </div>
       );
     }
     return null; // return when videoId dont match
