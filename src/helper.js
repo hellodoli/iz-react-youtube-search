@@ -157,3 +157,18 @@ export function getVideoDetail(video) {
     kind: video.kind
   };
 }
+
+export function getTimeZoneType() {
+  const d = new Date();
+  const n = d.getTimezoneOffset();
+  let timeZoneType = "";
+
+  if (n < 0) {
+    timeZoneType = `+0${-(n / 60)}:00`;
+  } else if (n > 0) {
+    timeZoneType = `-0${n / 60}:00`;
+  } else {
+    timeZoneType = "+00:00";
+  }
+  return timeZoneType;
+}

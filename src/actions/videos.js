@@ -5,7 +5,8 @@ import {
   FETCH_MORE_VIDEOS,
   FETCH_FILTER_VIDEOS,
   RESET_FILTER_LIST,
-  CHANGE_FILTER_PARAMS
+  CHANGE_FILTER_PARAMS,
+  PREV_FILTER_LIST
 } from "../constants/videos";
 
 import youtube, { defaultParams } from "../apis/youtube";
@@ -23,6 +24,11 @@ export const changeLayout = type => ({
 export const resetFilterList = status => ({
   type: RESET_FILTER_LIST,
   payload: status
+});
+
+export const saveFilterList = currentFilterList => ({
+  type: PREV_FILTER_LIST,
+  payload: currentFilterList
 });
 
 export const changeFilterParams = newFilterParams => ({
@@ -94,7 +100,6 @@ export const fetchMoreVideos = (
 
     const response = await youtube.get("/search", { params });
     const data = response.data;
-    console.log("data comments: ", data);
     if (data.items && data.items.length > 0) {
       dispatch({
         type: FETCH_MORE_VIDEOS,

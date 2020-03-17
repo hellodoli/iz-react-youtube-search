@@ -8,6 +8,7 @@ import * as h from "../../helper";
 
 import {
   resetFilterList,
+  saveFilterList,
   changeFilterParams,
   fetchFilterVideos
 } from "../../actions/videos";
@@ -35,8 +36,8 @@ class Filter extends Component {
     this.filterButton = React.createRef();
     this.collapseSection = React.createRef();
     this.state = {
-      prevParams: {},
-      filterList: []
+      filterList: [],
+      isSaveFilterList: false
     };
   }
 
@@ -46,6 +47,8 @@ class Filter extends Component {
 
   static getDerivedStateFromProps(nextProps, nextState) {
     if (nextProps.isResetFilterList) {
+      // khi người dùng vừa search ra video thì vào đây
+      // để reset lại FilterList
       return {
         filterList: [
           {
@@ -177,8 +180,13 @@ class Filter extends Component {
             indexCurrent: -1
           }
         ]
-        // params: { type: 'video' }
       };
+    } else {
+      if (!nextState.isSaveFilterList) {
+        return {
+          filterList: nextProps.prevFilterList
+        };
+      }
     }
     return null;
   }
@@ -192,6 +200,7 @@ class Filter extends Component {
   }
 
   componentWillUnmount() {
+    console.log("unmount");
     const filterButton = this.filterButton.current;
     const collapseSection = this.collapseSection.current;
     if (filterButton) {
@@ -250,6 +259,7 @@ class Filter extends Component {
 
   clickFilter = async (filterItem, indexList, index) => {
     if (this.props.isResetFilterList) {
+      await this.setState({ isSaveFilterList: true });
       await this.props.resetFilterList(false);
     }
 
@@ -314,7 +324,7 @@ class Filter extends Component {
           default:
             break;
         }
-        resultDate = `${year}-${month}-${date}T${hour}:${minute}:${second}Z`;
+        resultDate = `${year}-${month}-${date}T${hour}:${minute}:${second}${h.getTimeZoneType()}`;
         filterItem.name = resultDate;
       }
 
@@ -338,13 +348,14 @@ class Filter extends Component {
 
       this.setState({
         filterList: tempFilterList
-        // params: tempParams
       });
 
       // change filter params
       await this.props.changeFilterParams(tempParams);
       // close Filter
       this.filterButton.current.click();
+      // save filterList
+      this.props.saveFilterList(tempFilterList);
       // call API filter videos
       this.onFilterVideo(this.props.searchValue, this.props.filterParams);
       console.log("this.props.searchValue: ", this.props.searchValue);
@@ -356,6 +367,7 @@ class Filter extends Component {
 
   removeFilter = async (filterItem, indexList) => {
     if (this.props.isResetFilterList) {
+      await this.setState({ isSaveFilterList: true });
       await this.props.resetFilterList(false);
     }
     var tempFilterList = this.state.filterList.splice("");
@@ -430,13 +442,14 @@ class Filter extends Component {
 
     this.setState({
       filterList: tempFilterList
-      // params: tempParams
     });
 
     // change filter params
     await this.props.changeFilterParams(tempParams);
     // close Filter
     this.filterButton.current.click();
+    // save filterList
+    this.props.saveFilterList(tempFilterList);
     // call API filter videos
     this.onFilterVideo(this.props.searchValue, this.props.filterParams);
     console.log("this.state.params: ", this.props.filterParams);
@@ -516,12 +529,14 @@ Filter.contextType = SkinContext;
 const mapStateToProps = state => ({
   searchValue: state.searchReducer.searchValue,
   filterParams: state.videosReducer.filterParams,
-  isResetFilterList: state.videosReducer.isResetFilterList
+  isResetFilterList: state.videosReducer.isResetFilterList,
+  prevFilterList: state.videosReducer.prevFilterList
 });
 
 export default connect(mapStateToProps, {
   changeFilterParams,
   fetchFilterVideos,
   resetFilterList,
+  saveFilterList,
   changeLoadingVideoStatus
 })(Filter);
