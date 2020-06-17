@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // List key API
-const KEY = "AIzaSyAwtSNiIjUatQWWEWF9_snoC--ZpHFBGg4";
+const KEY = "AIzaSyAi4g7JzxB7F8o-o5SYwULYd0fHGdHEa4A";
 export const defaultParams = {
   part: "snippet",
   maxResults: 10,

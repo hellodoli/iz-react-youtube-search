@@ -11,7 +11,7 @@ class OAuth extends Component {
       window.gapi.auth2
         .init({
           client_id:
-            "163346330764-0re4btj7qoclfdap2t3r7qfptbr16p49.apps.googleusercontent.com",
+            "114398778040-u39tml5gbnc41d0e9b07tgmrl2295vnl.apps.googleusercontent.com",
           scope: "email https://www.googleapis.com/auth/youtube.force-ssl"
         })
         .then(() => {
