@@ -1,10 +1,10 @@
-import { SIGN_IN, SIGN_OUT } from "../constants/oauth";
+import { SIGN_IN, SIGN_OUT } from '../constants/oauth'
 
-export const signIn = userInfo => ({
+export const signIn = (userInfo) => ({
   type: SIGN_IN,
-  payload: userInfo
-});
+  payload: userInfo,
+})
 
 export const signOut = () => ({
-  type: SIGN_OUT
-});
+  type: SIGN_OUT,
+})

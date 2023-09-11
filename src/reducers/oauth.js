@@ -1,11 +1,11 @@
-import { SIGN_IN, SIGN_OUT } from "../constants/oauth";
+import { SIGN_IN, SIGN_OUT } from '../constants/oauth'
 
 const INTIAL_STATE = {
   isSignedIn: null,
   userId: null,
   profile: {},
-  authResponse: {}
-};
+  authResponse: {},
+}
 
 const oauthReducer = (state = INTIAL_STATE, action) => {
   switch (action.type) {
@@ -15,19 +15,19 @@ const oauthReducer = (state = INTIAL_STATE, action) => {
         isSignedIn: true,
         userId: action.payload.id,
         profile: action.payload.profile,
-        authResponse: action.payload.authResponse
-      };
+        authResponse: action.payload.authResponse,
+      }
     case SIGN_OUT:
       return {
         ...state,
         isSignedIn: false,
         userId: null,
         profile: {},
-        authResponse: {}
-      };
+        authResponse: {},
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default oauthReducer;
+export default oauthReducer

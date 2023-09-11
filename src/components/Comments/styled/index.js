@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Media, Form } from "react-bulma-components";
+import styled from 'styled-components'
+import { Media, Form } from 'react-bulma-components'
 
 /* Comment General Wrapper */
 export const CommentParentWrapper = styled.div`
@@ -7,11 +7,11 @@ export const CommentParentWrapper = styled.div`
   & > div:not(:last-child) {
     margin-bottom: 3rem;
   }
-`;
+`
 
 export const CommentWrapper = styled.div`
   position: relative;
-`;
+`
 
 /* Comment Writer */
 export const CommentWriterTextArea = styled(Form.Textarea)`
@@ -19,28 +19,28 @@ export const CommentWriterTextArea = styled(Form.Textarea)`
   overflow: hidden;
   padding-bottom: 1.75rem;
   resize: none;
-`;
+`
 
 /* Comment Item */
 export const CommentAuthorName = styled.strong`
   font-size: 0.8125rem;
   color: var(--color-main-title);
-`;
+`
 
 export const CommentPublish = styled.span`
   font-size: 0.8125rem;
-`;
+`
 
 export const CommentText = styled.p`
   font-size: 0.875rem;
-`;
+`
 
 export const CommentMediaWrapper = styled(Media)`
   & &,
   & + & {
     border-top: none;
   }
-`;
+`
 
 export const CommentMetaWrapper = styled.div`
   font-size: 0.8125rem;
@@ -62,7 +62,7 @@ export const CommentMetaWrapper = styled.div`
       color: var(--color-main-title);
     }
   }
-`;
+`
 
 export const RepliesButton = styled.div`
   font-size: 0.875rem;
@@ -79,4 +79,4 @@ export const RepliesButton = styled.div`
   > i {
     ${({ isOpen }) => (isOpen ? `transform: rotate(-180deg)` : ``)}
   }
-`;
+`

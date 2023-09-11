@@ -1,27 +1,27 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
-import { themesColor } from "../../skin-context";
+import { themesColor } from '../../skin-context'
 
-import { Dropdown } from "react-bulma-components";
+import { Dropdown } from 'react-bulma-components'
 
-import { DropdownThemeWrapp } from "./styled";
+import { DropdownThemeWrapp } from './styled'
 
 class DropdownTheme extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      dropdownList: Object.values(themesColor)
-    };
+      dropdownList: Object.values(themesColor),
+    }
   }
 
-  onChange = selected => {
-    const { dropdownList } = this.state;
+  onChange = (selected) => {
+    const { dropdownList } = this.state
     for (let i = 0; i < dropdownList.length; i++) {
       if (dropdownList[i].primaryLight === selected) {
-        this.props.changeThemeColor(dropdownList[i]);
+        this.props.changeThemeColor(dropdownList[i])
       }
     }
-  };
+  }
 
   render() {
     return (
@@ -29,7 +29,7 @@ class DropdownTheme extends Component {
         value={this.props.themeColor.primaryLight}
         onChange={this.onChange}
       >
-        {this.state.dropdownList.map(theme => (
+        {this.state.dropdownList.map((theme) => (
           <Dropdown.Item
             key={theme.primaryLight}
             value={theme.primaryLight}
@@ -37,8 +37,8 @@ class DropdownTheme extends Component {
           />
         ))}
       </DropdownThemeWrapp>
-    );
+    )
   }
 }
 
-export default DropdownTheme;
+export default DropdownTheme

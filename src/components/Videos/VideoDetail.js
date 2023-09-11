@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react'
 
-import { ytIsChanel, ytIsPlaylist } from "../../helper";
+import { ytIsChanel, ytIsPlaylist } from '../../helper'
 
-import { SpinnerCircle } from "../Loading";
+import { SpinnerCircle } from '../Loading'
 
 import {
   VideoFrameWrapper,
   VideoIframe,
   VideoInfoWrapper,
-  VideoDes
-} from "./styled";
+  VideoDes,
+} from './styled'
 
 export const VideoDetailNull = () => (
   <div className="iz-video-show">
@@ -17,17 +17,17 @@ export const VideoDetailNull = () => (
       <SpinnerCircle size={40} />
     </VideoFrameWrapper>
   </div>
-);
+)
 
-export const VideoNotFound = () => <div>Rất tiếc, không tìm thấy video.</div>;
+export const VideoNotFound = () => <div>Rất tiếc, không tìm thấy video.</div>
 
 export const VideoDetail = ({ video: { id, kind, title, channelTitle } }) => {
   if (kind === ytIsChanel) {
-    return <div>Chanel: {channelTitle}</div>;
+    return <div>Chanel: {channelTitle}</div>
   }
 
   if (kind === ytIsPlaylist) {
-    return <div>Playlist: Chưa làm playlist ^^!!</div>;
+    return <div>Playlist: Chưa làm playlist ^^!!</div>
   }
 
   return (
@@ -40,5 +40,5 @@ export const VideoDetail = ({ video: { id, kind, title, channelTitle } }) => {
         <VideoDes dangerouslySetInnerHTML={{ __html: title }}></VideoDes>
       </VideoInfoWrapper>
     </div>
-  );
-};
+  )
+}

@@ -1,28 +1,28 @@
-import { SEARCH_VALUE, SEARCH_LOADING } from "../constants/search";
+import { SEARCH_VALUE, SEARCH_LOADING } from '../constants/search'
 
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux'
 
-const searchValue = (value = "", action) => {
+const searchValue = (value = '', action) => {
   switch (action.type) {
     case SEARCH_VALUE:
-      return action.value;
+      return action.value
     default:
-      return value;
+      return value
   }
-};
+}
 
 const isLoadingStatus = (state = false, action) => {
   switch (action.type) {
     case SEARCH_LOADING:
-      return action.payload;
+      return action.payload
     default:
-      return state;
+      return state
   }
-};
+}
 
 const searchReducer = combineReducers({
   searchValue,
-  isLoadingStatus
-});
+  isLoadingStatus,
+})
 
-export default searchReducer;
+export default searchReducer

@@ -1,27 +1,27 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux'
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
-import { ytIsChanel, ytIsPlaylist } from "../../helper";
+import { ytIsChanel, ytIsPlaylist } from '../../helper'
 
-import { changeLoadingVideoStatus } from "../../actions/search";
-import { fetchMoreVideos } from "../../actions/videos";
+import { changeLoadingVideoStatus } from '../../actions/search'
+import { fetchMoreVideos } from '../../actions/videos'
 
-import { SpinnerCircle } from "../../components/Loading";
+import { SpinnerCircle } from '../../components/Loading'
 
 import {
   VideoThumbWrapp,
   VideoThumbImage,
   VideoThumbContent,
-  VideoThumbDes
-} from "./styled";
+  VideoThumbDes,
+} from './styled'
 
 function VideoItem({ video, layout }) {
-  const isPlaylist = video.id.kind === ytIsPlaylist;
-  const isChanel = video.id.kind === ytIsChanel;
-  const thumbnail = video.snippet.thumbnails;
+  const isPlaylist = video.id.kind === ytIsPlaylist
+  const isChanel = video.id.kind === ytIsChanel
+  const thumbnail = video.snippet.thumbnails
 
   return (
     <VideoThumbWrapp layout={layout}>
@@ -46,49 +46,49 @@ function VideoItem({ video, layout }) {
         </VideoThumbContent>
       </Link>
     </VideoThumbWrapp>
-  );
+  )
 }
 
 class VideoList extends Component {
   state = {
-    isLoadingMore: false
-  };
+    isLoadingMore: false,
+  }
 
   loadMoreVideo = async () => {
-    this.setState({ isLoadingMore: true });
+    this.setState({ isLoadingMore: true })
     await this.props.fetchMoreVideos(
       this.props.search,
       this.props.nextPageToken,
-      this.props.filterParams
-    );
-    this.setState({ isLoadingMore: false });
-  };
+      this.props.filterParams,
+    )
+    this.setState({ isLoadingMore: false })
+  }
 
   scrollLoadMore = () => {
-    const windowHeight = window.innerHeight;
-    const windowScrollHeight = document.documentElement.scrollHeight; // height when append Video List
-    const windowScrollTop = window.pageYOffset;
-    const set = windowHeight + windowScrollTop;
+    const windowHeight = window.innerHeight
+    const windowScrollHeight = document.documentElement.scrollHeight // height when append Video List
+    const windowScrollTop = window.pageYOffset
+    const set = windowHeight + windowScrollTop
     if (set >= windowScrollHeight - 5) {
-      this.loadMoreVideo();
+      this.loadMoreVideo()
     }
-  };
+  }
 
   componentDidMount() {
-    window.addEventListener("scroll", this.scrollLoadMore);
+    window.addEventListener('scroll', this.scrollLoadMore)
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.scrollLoadMore);
+    window.removeEventListener('scroll', this.scrollLoadMore)
   }
 
   renderLoadingMore = () => {
-    if (this.state.isLoadingMore) return <SpinnerCircle size={30} />;
-    return null;
-  };
+    if (this.state.isLoadingMore) return <SpinnerCircle size={30} />
+    return null
+  }
 
   render() {
-    const { videos, layout } = this.props;
+    const { videos, layout } = this.props
     return (
       <div className="iz-video-list-search">
         {videos.map((video, index) => (
@@ -97,18 +97,18 @@ class VideoList extends Component {
         {/* render Loading More */}
         {this.renderLoadingMore()}
       </div>
-    );
+    )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   videos: Object.values(state.videosReducer.videos[1]),
   search: state.searchReducer.searchValue,
   nextPageToken: state.videosReducer.videos[0],
-  filterParams: state.videosReducer.filterParams
-});
+  filterParams: state.videosReducer.filterParams,
+})
 
 export default connect(mapStateToProps, {
   changeLoadingVideoStatus,
-  fetchMoreVideos
-})(VideoList);
+  fetchMoreVideos,
+})(VideoList)

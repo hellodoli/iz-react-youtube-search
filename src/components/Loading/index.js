@@ -1,5 +1,5 @@
-import React from "react";
-import { Spinner, SpinnerIRotate, SpinnerContainer } from "./styled";
+import React from 'react'
+import { Spinner, SpinnerIRotate, SpinnerContainer } from './styled'
 
 export const SpinnerCircle = ({ size, colorParent, colorChild }) => {
   return (
@@ -8,5 +8,5 @@ export const SpinnerCircle = ({ size, colorParent, colorChild }) => {
         <SpinnerIRotate></SpinnerIRotate>
       </Spinner>
     </SpinnerContainer>
-  );
-};
+  )
+}

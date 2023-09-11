@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const HeaderWrapp = styled.div`
   position: fixed;
@@ -14,7 +14,7 @@ export const HeaderWrapp = styled.div`
   & > .container {
     height: 100%;
   }
-`;
+`
 
 export const HeaderWrappInner = styled.div`
   display: flex;
@@ -35,14 +35,14 @@ export const HeaderWrappInner = styled.div`
       }
     }
   }
-`;
+`
 
 export const HeaderWrappForSearch = styled.div`
   width: 100%;
   @media (min-width: 1024px) {
     width: 60%;
   }
-`;
+`
 
 export const HeaderWrappThemeSwitch = styled.div`
   display: flex;
@@ -52,4 +52,4 @@ export const HeaderWrappThemeSwitch = styled.div`
   & > .item:not(:last-child) {
     margin-right: 0.5rem;
   }
-`;
+`

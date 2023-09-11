@@ -1,5 +1,5 @@
-export const SEARCH_VALUE = "@@search/SEARCH_VALUE";
-export const SEARCH_LOADING = "@@search/SEARCH_LOADING";
+export const SEARCH_VALUE = '@@search/SEARCH_VALUE'
+export const SEARCH_LOADING = '@@search/SEARCH_LOADING'
 
 /*
   codeName: value use for call API
@@ -12,39 +12,39 @@ export const SEARCH_LOADING = "@@search/SEARCH_LOADING";
 */
 export const FILTER_PARAM_OB = {
   searchQuery: {
-    name: "SEARCH QUERY",
-    codeName: "q",
-    viewName: "search_query"
+    name: 'SEARCH QUERY',
+    codeName: 'q',
+    viewName: 'search_query',
   },
   uploadDate: {
-    name: "UPLOAD DATE",
-    codeName: "publishedAfter",
-    viewName: "upload_date",
+    name: 'UPLOAD DATE',
+    codeName: 'publishedAfter',
+    viewName: 'upload_date',
     items: [
       {
-        codeName: ""
-      }
+        codeName: '',
+      },
     ],
     isgnore: [
       {
-        codeName: "type",
-        items: [0, 1, 1]
-      }
-    ]
+        codeName: 'type',
+        items: [0, 1, 1],
+      },
+    ],
   },
   type: {
-    name: "TYPE",
-    codeName: "type",
-    viewName: "type"
+    name: 'TYPE',
+    codeName: 'type',
+    viewName: 'type',
   },
   duration: {
-    name: "DURATION",
-    codeName: "videoDuration",
-    viewName: "duration"
+    name: 'DURATION',
+    codeName: 'videoDuration',
+    viewName: 'duration',
   },
   sortBy: {
-    name: "SORT BY",
-    codeName: "order",
-    viewName: "sort_by"
-  }
-};
+    name: 'SORT BY',
+    codeName: 'order',
+    viewName: 'sort_by',
+  },
+}

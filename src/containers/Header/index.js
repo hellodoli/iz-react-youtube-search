@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react'
 
-import { SkinContext, themes } from "../../skin-context";
+import { SkinContext, themes } from '../../skin-context'
 
-import { Container } from "react-bulma-components";
+import { Container } from 'react-bulma-components'
 
 // components
-import IZButton from "../../components/Buttons";
-import Search from "../../components/Search";
-import DropdownTheme from "../../components/DropdownTheme";
-import OAuth from "../../components/OAuth";
+import IZButton from '../../components/Buttons'
+import Search from '../../components/Search'
+import DropdownTheme from '../../components/DropdownTheme'
+import OAuth from '../../components/OAuth'
 
 import {
   HeaderWrapp,
   HeaderWrappInner,
   HeaderWrappForSearch,
-  HeaderWrappThemeSwitch
-} from "./styled";
+  HeaderWrappThemeSwitch,
+} from './styled'
 
 function Header() {
   return (
@@ -37,10 +37,10 @@ function Header() {
                     onClick={toggleTheme}
                   >
                     <span className="text">
-                      Dark theme:{" "}
+                      Dark theme:{' '}
                       {theme.background === themes.light.background
-                        ? "OFF"
-                        : "ON"}
+                        ? 'OFF'
+                        : 'ON'}
                     </span>
                     <span className="icons">
                       {theme.background === themes.light.background ? (
@@ -66,7 +66,7 @@ function Header() {
         </HeaderWrappInner>
       </Container>
     </HeaderWrapp>
-  );
+  )
 }
 
-export default Header;
+export default Header

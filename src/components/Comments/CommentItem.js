@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { Media, Content } from "react-bulma-components";
+import React, { useState } from 'react'
+import { Media, Content } from 'react-bulma-components'
 import {
   CommentMediaWrapper,
   CommentText,
   CommentAuthorName,
   CommentPublish,
   CommentMetaWrapper,
-  RepliesButton
-} from "./styled";
-import { convertTime, converNumberLike } from "../../helper";
+  RepliesButton,
+} from './styled'
+import { convertTime, converNumberLike } from '../../helper'
 
 const CommentItem = React.forwardRef(
   ({ comment, replyCount = null, children }, ref) => {
@@ -17,14 +17,14 @@ const CommentItem = React.forwardRef(
       authorDisplayName,
       publishedAt,
       textDisplay,
-      likeCount
-    } = comment; // main comment
-    const [isOpen, setIsOpen] = useState(false);
+      likeCount,
+    } = comment // main comment
+    const [isOpen, setIsOpen] = useState(false)
 
     // toggle Collapse
     const collapseRepliesSection = () => {
-      setIsOpen(!isOpen);
-    };
+      setIsOpen(!isOpen)
+    }
 
     return (
       <CommentMediaWrapper>
@@ -36,7 +36,7 @@ const CommentItem = React.forwardRef(
         <Media.Item position="center">
           <Content>
             <div>
-              <CommentAuthorName>{authorDisplayName}</CommentAuthorName>{" "}
+              <CommentAuthorName>{authorDisplayName}</CommentAuthorName>{' '}
               <CommentPublish>{convertTime(publishedAt)}</CommentPublish>
             </div>
             <CommentText
@@ -68,8 +68,8 @@ const CommentItem = React.forwardRef(
           ) : null}
         </Media.Item>
       </CommentMediaWrapper>
-    );
-  }
-);
+    )
+  },
+)
 
-export default CommentItem;
+export default CommentItem

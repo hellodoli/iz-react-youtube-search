@@ -1,46 +1,47 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
 // Theme Context
-import { themes, themesColor, SkinContext } from "./skin-context";
+import { themes, themesColor, SkinContext } from './skin-context'
 
-import { Switch, Route } from "react-router-dom";
+import { Route, Switch } from 'react-router-dom'
 
-import { ThemeProvider } from "styled-components";
-import { Container, Columns } from "react-bulma-components";
+import { ThemeProvider } from 'styled-components'
+import { Container, Columns } from 'react-bulma-components'
 
 // Containers
-import Header from "./containers/Header";
-import VideoListLeft from "./containers/VideoListLeft";
-import VideoListRight from "./containers/VideoListRight";
-import VideoShow from "./containers/VideoShow";
+import Header from './containers/Header'
+import VideoListLeft from './containers/VideoListLeft'
+import VideoListRight from './containers/VideoListRight'
+import VideoShow from './containers/VideoShow'
 
 /* Some custom CSS */
-import GlobalStyle from "./styled/GlobalStyle";
-import { MainWrapp, MainWrappContainer } from "./styled";
+import GlobalStyle from './styled/GlobalStyle'
+import { MainWrapp, MainWrappContainer } from './styled'
 
 class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       theme: themes.dark,
       themeColor: themesColor.default,
       toggleTheme: this.toggleTheme,
-      changeThemeColor: this.changeThemeColor
-    };
+      changeThemeColor: this.changeThemeColor,
+    }
   }
 
   toggleTheme = () => {
-    this.setState(prevState => ({
-      theme: prevState.theme === themes.light ? themes.dark : themes.light
-    }));
-  };
+    this.setState((prevState) => ({
+      theme: prevState.theme === themes.light ? themes.dark : themes.light,
+    }))
+  }
 
-  changeThemeColor = themeColor => {
-    this.setState({ themeColor });
-  };
+  changeThemeColor = (themeColor) => {
+    this.setState({ themeColor })
+  }
 
   render() {
-    const { theme, themeColor } = this.state;
+    const { theme, themeColor } = this.state
+    console.log('App: ', this.props)
     return (
       <SkinContext.Provider value={this.state}>
         <ThemeProvider theme={theme} themeColor={themeColor}>
@@ -71,6 +72,7 @@ class App extends Component {
                       desktop={{ size: 4 }}
                     >
                       {/* render VideoList (right) */}
+
                       <Route path={`/watch`} component={VideoListRight} />
                     </Columns.Column>
                   </Columns>
@@ -80,8 +82,8 @@ class App extends Component {
           </React.Fragment>
         </ThemeProvider>
       </SkinContext.Provider>
-    );
+    )
   }
 }
 
-export default App;
+export default App

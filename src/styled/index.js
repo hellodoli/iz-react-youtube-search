@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const MainWrapp = styled.main`
   min-height: calc(100vh - 56px);
@@ -8,7 +8,7 @@ export const MainWrapp = styled.main`
   @media (max-width: 768px) {
     padding: 1.25rem 0;
   }
-`;
+`
 
 export const MainWrappContainer = styled.div`
   .container {
@@ -23,5 +23,5 @@ export const MainWrappContainer = styled.div`
       max-width: 960px;
     }
   }
-`;
+`
 /* Some custom CSS */

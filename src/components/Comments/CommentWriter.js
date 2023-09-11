@@ -1,63 +1,63 @@
-import React, { Component } from "react";
-import commentAPI from "../../apis/comments";
+import React, { Component } from 'react'
+import commentAPI from '../../apis/comments'
 
-import { Media, Form, Level } from "react-bulma-components";
+import { Media, Form, Level } from 'react-bulma-components'
 
 // Components
-import IZButton from "../Buttons";
-import { SpinnerCircle } from "../Loading";
+import IZButton from '../Buttons'
+import { SpinnerCircle } from '../Loading'
 
-import { CommentMediaWrapper, CommentWriterTextArea } from "./styled";
+import { CommentMediaWrapper, CommentWriterTextArea } from './styled'
 
 class CommentWriterMain extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      textInput: "",
+      textInput: '',
       commentAPI: new commentAPI(),
-      isOpenButtons: false
-    };
+      isOpenButtons: false,
+    }
   }
 
-  changeTextInput = e => {
-    const ele = e.target;
-    this.setState({ textInput: ele.value });
+  changeTextInput = (e) => {
+    const ele = e.target
+    this.setState({ textInput: ele.value })
 
-    ele.style.height = "5px";
-    ele.style.height = ele.scrollHeight + "px";
-  };
+    ele.style.height = '5px'
+    ele.style.height = ele.scrollHeight + 'px'
+  }
 
   postNewComment = async () => {
-    const { commentAPI, textInput } = this.state;
-    const { selectedVideo, authResponse } = this.props;
-    this.props.startLoading();
-    await commentAPI.postNewComment(selectedVideo, textInput, authResponse);
-    await this.props.fetchComments(selectedVideo.id);
-    this.props.endLoading();
-    this.setState({ isOpenButtons: false });
-  };
+    const { commentAPI, textInput } = this.state
+    const { selectedVideo, authResponse } = this.props
+    this.props.startLoading()
+    await commentAPI.postNewComment(selectedVideo, textInput, authResponse)
+    await this.props.fetchComments(selectedVideo.id)
+    this.props.endLoading()
+    this.setState({ isOpenButtons: false })
+  }
 
-  submitComment = e => {
-    e.preventDefault();
-    console.log("your comment start submit");
-    this.postNewComment();
-  };
+  submitComment = (e) => {
+    e.preventDefault()
+    console.log('your comment start submit')
+    this.postNewComment()
+  }
 
   showButtonsComment = () => {
     if (!this.state.isOpenButtons) {
-      this.setState({ isOpenButtons: true });
+      this.setState({ isOpenButtons: true })
     }
-  };
+  }
 
   hideButtonsComment = () => {
-    this.setState({ isOpenButtons: false });
-  };
+    this.setState({ isOpenButtons: false })
+  }
 
   render() {
     const {
-      userProfile: { Paa: imageAvataSrc }
-    } = this.props;
-    const { textInput, isOpenButtons } = this.state;
+      userProfile: { Paa: imageAvataSrc },
+    } = this.props
+    const { textInput, isOpenButtons } = this.state
     return (
       <CommentMediaWrapper>
         <Media.Item position="left">
@@ -99,7 +99,7 @@ class CommentWriterMain extends Component {
                   <Level.Item>
                     <IZButton
                       color="primary"
-                      isDisabled={textInput.trim() === "" ? true : false}
+                      isDisabled={textInput.trim() === '' ? true : false}
                     >
                       Submit
                     </IZButton>
@@ -110,33 +110,33 @@ class CommentWriterMain extends Component {
           </form>
         </Media.Item>
       </CommentMediaWrapper>
-    );
+    )
   }
 }
 
 class CommentWriter extends Component {
-  _isMounted = false;
+  _isMounted = false
 
   state = {
-    isLoading: false
-  };
+    isLoading: false,
+  }
 
   startLoading = () => {
-    this._isMounted = true;
+    this._isMounted = true
     if (this._isMounted) {
-      this.setState({ isLoading: true });
+      this.setState({ isLoading: true })
     }
-  };
+  }
 
   endLoading = () => {
-    this._isMounted = true;
+    this._isMounted = true
     if (this._isMounted) {
-      this.setState({ isLoading: false });
+      this.setState({ isLoading: false })
     }
-  };
+  }
 
   componentWillUnmount() {
-    this._isMounted = false;
+    this._isMounted = false
   }
 
   render() {
@@ -152,8 +152,8 @@ class CommentWriter extends Component {
           />
         )}
       </div>
-    );
+    )
   }
 }
 
-export default CommentWriter;
+export default CommentWriter

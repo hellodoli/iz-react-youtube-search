@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 /* Video List */
 export const VideoThumbImage = styled.div`
@@ -40,7 +40,7 @@ export const VideoThumbImage = styled.div`
       border-radius: 50%;
     }
   `}
-`;
+`
 
 export const VideoThumbDes = styled.p`
   display: block;
@@ -49,7 +49,7 @@ export const VideoThumbDes = styled.p`
   max-height: 4.875rem;
   overflow: hidden;
   text-transform: none;
-`;
+`
 
 export const VideoThumbContent = styled.div`
   display: flex;
@@ -67,9 +67,9 @@ export const VideoThumbContent = styled.div`
     white-space: normal;
     max-height: 3.2rem;
 
-    font-size: ${({ layout }) => (layout === 0 ? "1.125rem" : "0.875rem")};
+    font-size: ${({ layout }) => (layout === 0 ? '1.125rem' : '0.875rem')};
     font-weight: 500;
-    line-height: ${({ layout }) => (layout === 0 ? "1.5rem" : "1rem")};
+    line-height: ${({ layout }) => (layout === 0 ? '1.5rem' : '1rem')};
     margin-bottom: 0.25rem;
     color: var(--color-main-title);
   }
@@ -80,7 +80,7 @@ export const VideoThumbContent = styled.div`
     line-height: 1.125rem;
     color: var(--color-text);
   }
-`;
+`
 
 export const VideoThumbWrapp = styled.div`
   & > a {
@@ -96,9 +96,9 @@ export const VideoThumbWrapp = styled.div`
     cursor: pointer;
   }
   & + & {
-    margin-top: ${props => (props.layout === 1 ? ".5rem" : "1rem")};
+    margin-top: ${(props) => (props.layout === 1 ? '.5rem' : '1rem')};
   }
-`;
+`
 
 /* Video Detail */
 export const VideoFrameWrapper = styled.div`
@@ -119,7 +119,7 @@ export const VideoFrameWrapper = styled.div`
       height: 100%;
     }
   `}
-`;
+`
 
 export const VideoIframe = styled.iframe`
   position: absolute;
@@ -129,11 +129,11 @@ export const VideoIframe = styled.iframe`
   right: 0;
   width: 100%;
   height: 100%;
-`;
+`
 
 export const VideoInfoWrapper = styled.div`
   margin-top: 1.25rem;
-`;
+`
 
 export const VideoDes = styled.h2`
   font-size: 1.125rem;
@@ -143,4 +143,4 @@ export const VideoDes = styled.h2`
   @media (max-width: 768px) {
     font-size: 1.25rem;
   }
-`;
+`

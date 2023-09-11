@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux'
 import {
   VIDEO_SELECTED,
   VIDEO_LAYOUT,
@@ -7,76 +7,76 @@ import {
   FETCH_FILTER_VIDEOS,
   RESET_FILTER_LIST,
   CHANGE_FILTER_PARAMS,
-  PREV_FILTER_LIST
-} from "../constants/videos";
-import { mapKeysYoutubeVideo } from "../helper";
+  PREV_FILTER_LIST,
+} from '../constants/videos'
+import { mapKeysYoutubeVideo } from '../helper'
 
 const selectedVideo = (state = null, action) => {
   switch (action.type) {
     case VIDEO_SELECTED:
-      return action.payload;
+      return action.payload
     default:
-      return state;
+      return state
   }
-};
+}
 
 const layout = (layout = 0, action) => {
   switch (action.type) {
     case VIDEO_LAYOUT:
-      return action.layout;
+      return action.layout
     default:
-      return layout;
+      return layout
   }
-};
+}
 
 const videos = (state = [null, {}], action) => {
   switch (action.type) {
     case FETCH_VIDEOS:
       return [
         action.payload.nextPageToken,
-        { ...mapKeysYoutubeVideo(action.payload.items) }
-      ];
+        { ...mapKeysYoutubeVideo(action.payload.items) },
+      ]
     case FETCH_MORE_VIDEOS:
       return [
         action.payload.nextPageToken,
-        { ...state[1], ...mapKeysYoutubeVideo(action.payload.items) }
-      ];
+        { ...state[1], ...mapKeysYoutubeVideo(action.payload.items) },
+      ]
     case FETCH_FILTER_VIDEOS:
       return [
         action.payload.nextPageToken,
-        { ...mapKeysYoutubeVideo(action.payload.items) }
-      ];
+        { ...mapKeysYoutubeVideo(action.payload.items) },
+      ]
     default:
-      return state;
+      return state
   }
-};
+}
 
-const filterParams = (state = { type: "video" }, action) => {
+const filterParams = (state = { type: 'video' }, action) => {
   switch (action.type) {
     case CHANGE_FILTER_PARAMS:
-      return action.payload;
+      return action.payload
     default:
-      return state;
+      return state
   }
-};
+}
 
 const isResetFilterList = (state = false, action) => {
   switch (action.type) {
     case RESET_FILTER_LIST:
-      return action.payload;
+      return action.payload
     default:
-      return state;
+      return state
   }
-};
+}
 
 const prevFilterList = (state = [], action) => {
   switch (action.type) {
     case PREV_FILTER_LIST:
-      return action.payload;
+      return action.payload
     default:
-      return state;
+      return state
   }
-};
+}
 
 const videosReducer = combineReducers({
   layout,
@@ -84,7 +84,7 @@ const videosReducer = combineReducers({
   videos,
   isResetFilterList,
   prevFilterList,
-  filterParams
-});
+  filterParams,
+})
 
-export default videosReducer;
+export default videosReducer

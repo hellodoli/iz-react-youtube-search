@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 
-import IZButton from "../Buttons";
+import IZButton from '../Buttons'
 
 function LoadMoreCommentButton({
   comments,
   fetchMoreComment,
-  isLoadingMoreComment
+  isLoadingMoreComment,
 }) {
   return (
     <div className="has-text-centered">
@@ -19,7 +19,7 @@ function LoadMoreCommentButton({
         </IZButton>
       ) : null}
     </div>
-  );
+  )
 }
 
-export default LoadMoreCommentButton;
+export default LoadMoreCommentButton
